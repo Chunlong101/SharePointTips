@@ -1,3 +1,7 @@
+#
+# Considering the performance, adding the account to site collection admin should be better workaround. 
+#
+
 $tenantName = "xia053"
 
 $userName = "chunlonl@microsoft.com"
