@@ -4,7 +4,7 @@ $userName = "chunlonl@microsoft.com"
 
 $ErrorActionPreference = "Stop"
 
-#$cred = Get-Credential
+$cred = Get-Credential
 
 Function GetUniquePermissionsLists ($Web)  
 {  
