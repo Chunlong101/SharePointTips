@@ -32,12 +32,34 @@ Function GetUniquePermissionsLists ($Web)
   
 Function GetRootWeb()  
 {  
-    return Get-PnPWeb 
+    $web = $null 
+
+    try 
+    {
+        $web = Get-PnPWeb 
+    } 
+    catch 
+    {
+        Write-Host $_ -ForegroundColor Red
+    } 
+
+    return $web
 }  
   
 Function GetSubWebs()  
 {  
-    return Get-PnPSubWebs -Recurse 
+    $webs = $null 
+
+    try 
+    {
+        $webs = Get-PnPSubWebs -Recurse 
+    } 
+    catch 
+    {
+        Write-Host $_ -ForegroundColor Red
+    } 
+
+    return $webs
 }  
  
  Function CheckIfWebHasUniquePermission ($Web) 
@@ -221,4 +243,5 @@ Function AddUserReadPermissionForAllSitesLists ($userName, $tenantName, $cred)
 }
 
 #RemoveUserReadPermissionFromAllSitesLists $userName $tenantName $cred
+
 AddUserReadPermissionForAllSitesLists $userName $tenantName $cred
