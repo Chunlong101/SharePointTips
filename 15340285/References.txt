@@ -1,0 +1,3 @@
+https://docs.microsoft.com/en-us/powershell/module/sharepoint-pnp/add-pnpfile?view=sharepoint-ps
+https://gallery.technet.microsoft.com/office/Upload-Multiple-Documents-4c4aa989
+https://techcommunity.microsoft.com/t5/SharePoint-Developer/PnP-Powershell-to-upload-files-into-Document-Sets/td-p/56854
