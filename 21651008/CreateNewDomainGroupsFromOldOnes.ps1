@@ -1,3 +1,6 @@
+#
+# This script requires the farm account running on a sharepoint server, pls just replace below 4 variables to meet your environment 
+#
 $workSpace = "C:\Users\Chunlong.CHINA\Desktop\21651008" # Where this script is stored
 $siteUrl = "http://wfe"
 $oldDomainName = "Dev"
