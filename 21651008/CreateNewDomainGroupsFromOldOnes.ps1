@@ -111,8 +111,8 @@ try {
                         #
                         $entry = $groupInfo | ? { $_.displayName -eq $oldDomainGroup.DisplayName }
                         try {
-                            if ($entry.Count -gt 1) {
-                                $log.Error("More than one same groups were found in group info csv file")
+                            if ($null -eq $entry -or $entry.Count -gt 1) {
+                                $log.Error("Zero or more than one same groups were found in group info csv file")
                                 exit
                             }
                         }
