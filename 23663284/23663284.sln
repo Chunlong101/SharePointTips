@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28809.33
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphApiDownloadFileFromSharePoint", "23663284\GraphApiDownloadFileFromSharePoint.csproj", "{5357FB32-3CBD-457B-A5D5-C68895A82A1B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5357FB32-3CBD-457B-A5D5-C68895A82A1B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5357FB32-3CBD-457B-A5D5-C68895A82A1B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5357FB32-3CBD-457B-A5D5-C68895A82A1B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5357FB32-3CBD-457B-A5D5-C68895A82A1B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A55637BE-504A-4C07-89C9-3CA827E20E84}
+	EndGlobalSection
+EndGlobal
