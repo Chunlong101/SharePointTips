@@ -1,5 +1,6 @@
 # -----
 # This scirpt aims to automatically update the passwords of a service account used in sharepoint, iis as well as windows services. Pls note, Microsoft doesn't provide production ready scripts, customers need to test/verify/extend this script by themselves. And this script is out of the support scope. 
+# How to use: Change the passwords in AD Users and Computers, then just run this script on every sharepoint server, it will automatically take care of all steps to reset passwords for sharepoint/iis application pool/windows service. 
 # -----
 
 Set-Executionpolicy -Scope CurrentUser -ExecutionPolicy UnRestricted -Force
