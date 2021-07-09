@@ -141,14 +141,15 @@ Function JoinHubSite() {
         [Parameter(Mandatory = $False)]
         [String]$Cookie
     )  
-    $Url = $WebUrl + "/_api/JoinHubSite('$SiteId')"
+    $Url = $WebUrl + "/_api/site/JoinHubSite(@v1)?@v1='$SiteId'"
     $ContectInfo = Get-SPOContextInfo -WebUrl $WebUrl -Cookie $Cookie
     $Digest = $ContectInfo.GetContextWebInformation.FormDigestValue
-    Invoke-RestSPO -Url $Url -Method "Post" -Credentials $Credentials -Cookie $Cookie -RequestDigest $Digest
+    Invoke-RestSPO -Url $Url -Method "Post" -Cookie $Cookie -RequestDigest $Digest
 }
 
 $WebUrl = "https://a830edad9050849jpmwss1eur.sharepoint.com/sites/Chunlong"
-$Cookie = "rtFa=xxx; CCSInfo=xxx; FedAuth=xxx; ScaleCompatibilityDeviceId=xxx"
 $SiteId = "70d1fbae-ba31-4ba9-bd04-4391c26990df"
 
+Import-Module .\HttpRequest.psm1
+$Cookie = Get-AuthCookie -Url $WebUrl
 JoinHubSite -WebUrl $WebUrl -Cookie $Cookie -SiteId $SiteId
