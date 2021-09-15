@@ -5,7 +5,7 @@
 ## Date        : 09-9-2021
 ## Input       : 
 ## Output      : 
-## Usage       : .\Get-SPFarmInfo.ps1
+## Usage       : .\Get-SPSearchFarmInfo.ps1
 ## Notes       : Scroll to bottom for change notes...
 ## Tag         : Search, Sharepoint, Powershell
 ## =====================================================================
