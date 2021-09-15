@@ -23,7 +23,7 @@ Write-Host ""
 
 $timestamp = $(Get-Date -format "MM-dd-yyyy")
 $output = Read-Host "Enter a location for the output file (For Example: C:\Temp)" 
-$outputfilePrefix = $output + "\SPFarmInfo_"
+$outputfilePrefix = $output + "\SPSearchFarmInfo_"
 
 $global:farm = Get-SPFarm
 $global:servers = Get-SPServer | Sort-Object -Property DisplayName, Role
@@ -2454,7 +2454,7 @@ GetSPVersion
 ##             :   - added SSI check to ensure that search components have both SSI and HostController instances online
 ##             :   -  added Administrative Service Instance Check.. 
 ## Change log  : 1.8 [acasilla| jeremywa][joroar]
-##             :   - changing the name of the output file and script name to "Get-SPFarmInfo.ps1"
+##             :   - changing the name of the output file and script name to "Get-SPSearchFarmInfo.ps1"
 ## Change log  : 1.9 [acasilla]
 ##             :   - altered GetSSA function to force an interger value for input ( if they have multiple SSAs)"
 ## Change log  : 1.10 [acasilla]
