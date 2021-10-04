@@ -25,7 +25,7 @@ try {
     
     foreach ($url in $urls) {
         $log.Info("Connecting the site: $url")
-        Connect-PnPOnline -Url $url -Credentials $cred
+        Connect-PnPOnline -Url $url -Credentials $cred # Pls try -UseWebLogin if your tenant has MFA enabled
         $target = Get-PnPUser | ? { $_.Title -eq $groupName }
         if ($target -ne $null) 
         {
