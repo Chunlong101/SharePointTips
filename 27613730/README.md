@@ -12,7 +12,7 @@ This script is intended to remove the specified user or group from a batch of sh
 
 4. Unzip the contents of the zip file to a working directory e.g. C:\scripts
 
-5. Edit the file "Sites.csv" to meet your requirement by entering a single site collection URL per line of the file. The script will go through all the Urls (sites) in that csv file and remove the specified user or group from the sites. You may also wish to add extra columns into that csv file for your reference, but the “Url” column is mandatory. All other columns will be ignored. 
+5. Edit the file "Sites.csv" to meet your requirement by entering a single site collection URL per line of the file. The script will go through all the Urls (sites) in that csv file and remove the specified user or group from the sites. You may also wish to add extra columns into that csv file for your reference, but the “Url” column is mandatory. All other columns will be ignored. You can get all sites against your tenant by Get-PnPTenantSite: https://docs.microsoft.com/en-us/powershell/module/sharepoint-pnp/get-pnptenantsite?view=sharepoint-ps
 
 6. Inside "RemoveUserOrGroupFromMultiUserInfoList.ps1", pls change the "$workSpace" variable to the path where you unzip "27613730.zip" to, e.g. c:\scripts\27613730". 
 
