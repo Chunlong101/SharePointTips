@@ -31,9 +31,9 @@ Add-PSSnapin Microsoft.SharePoint.PowerShell
 $managedAccount = Get-SPManagedAccount | where { $_.UserName -eq $serviceAccount }
 Set-SPManagedAccount -Identity $managedAccount -ExistingPassword $securePass –UseExistingPassword:$True -Confirm:$False
 
-if((Get-SPFarm).DefaultServiceAccount.Name -eq $serviceAccount)
-{
-   stsadm.exe –o updatefarmcredentials –userlogin $serviceAccount –password $plainTextPass
-}
+# if((Get-SPFarm).DefaultServiceAccount.Name -eq $serviceAccount)
+# {
+#    stsadm.exe –o updatefarmcredentials –userlogin $serviceAccount –password $plainTextPass # This line actually does the same as Line #32 Set-SPManagedAccount 
+# }
 
 iisreset /noforce
