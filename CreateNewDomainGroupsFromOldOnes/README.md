@@ -44,4 +44,4 @@ Get-SPUser -Web http://wfe | ? {$_.DisplayName -match "chunlongshanghaigroup"} |
 
 Microsoft doesn't provide production ready scripts, customers need to test/verify/extend this script by themselves. And this script is out of the support scope. 
 
-## Additionally, move-spuser can also help migrate users from domainA to domainB. 
+## Additionally, move-spuser can also help migrate users/groups from domainA to domainB. 
