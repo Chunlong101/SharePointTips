@@ -22,6 +22,8 @@ This script is intended to remove the specified user or group from a batch of sh
 
 9. Logs can be found from "\Common\Logging\Logs". 
 
+This script can run with sharepoint add-in so that you can have tenant level permissions (you need to register a tenant level sharepoint add-in) see more details: https://docs.microsoft.com/en-us/sharepoint/dev/solution-guidance/security-apponly-azureacs, or can also use azure ad registered app with different parameters of connect-pnponline, or grant site admin permissions to each site collection 
+
 # Pls note 
 
 1. This script does the same as manually removing the specified user or group from "_layouts/15/people.aspx?MembershipGroupId=0", it's one way trip and cannot be rolled back. If the specified user or group is added back to a site collection, this will be inherited by sub-site/documents/etc under the collection and any unique permissions added earlier will not take effect. If needed, unique permissions will need to be re-added manually to the sub-site/documents/etc". 
