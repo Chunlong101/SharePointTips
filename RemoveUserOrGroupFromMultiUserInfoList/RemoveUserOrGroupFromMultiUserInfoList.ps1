@@ -1,7 +1,7 @@
 #
 # Variables that need to be changed to meet your environment
 #
-$workSpace = "C:\Users\chunlonl\source\repos\Scripts\27613730" # Where this ps1 file is located
+$workSpace = "C:\Users\chunlonl\source\repos\SharePointScripts\RemoveUserOrGroupFromMultiUserInfoList" # Where this ps1 file is located
 $groupName = "Everyone except external users" # Specify which user or group you'd like to remove from site(s)
 $csv = Import-Csv "$workspace\sites.csv" # Where the csv file located, by default it's under the workspace, that csv file at least needs a header "Url"
 
@@ -17,15 +17,13 @@ $ErrorActionPreference = "Stop"
 try {
     $log.Info("Getting credential running this script, pls make sure this one has permissions to perform this task, better to be a global admin")
 
-    $cred = Get-Credential
-
     $log.Info($cred.UserName + " now is running this script, loading the csv file")
 
     $urls = $csv.Url
     
     foreach ($url in $urls) {
         $log.Info("Connecting the site: $url")
-        Connect-PnPOnline -Url $url -Credentials $cred # Pls try -UseWebLogin if your tenant has MFA enabled
+        Connect-PnPOnline -Url $url -UseWebLogin # This should use your IE cookies so that you don't need to input credentials everytime time 
         $target = Get-PnPUser | ? { $_.Title -eq $groupName }
         if ($target -ne $null) 
         {
