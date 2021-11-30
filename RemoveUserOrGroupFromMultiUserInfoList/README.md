@@ -6,7 +6,7 @@ This script is intended to remove the specified user or group from a batch of sh
 
 1. Pls install "PnP PowerShell for SharePoint Online" first before running this script, https://github.com/SharePoint/PnP-PowerShell/releases/download/3.11.1907.0/SharePointPnPPowerShellOnline.msi (or follow instruction here to install it) 
 
-2. Download "27613730.zip" 
+2. Download "RemoveUserOrGroupFromMultiUserInfoList.zip" 
 
 3. Note: As this file was downloaded from the internet you may need to unblock the file. To do this right click the file 27613730.zip and select properties. Now click on "unblock" to unblock the zip file. 
 
