@@ -4,17 +4,17 @@ This script is intended to remove the specified user or group from a batch of sh
 
 # How to use? 
 
-1. Pls install "PnP PowerShell for SharePoint Online" first before running this script, https://github.com/SharePoint/PnP-PowerShell/releases/download/3.11.1907.0/SharePointPnPPowerShellOnline.msi (or follow instruction here to install it) 
+1. Pls install "PnP PowerShell" first before running this script: https://pnp.github.io/powershell/articles/installation.html
 
 2. Download "RemoveUserOrGroupFromMultiUserInfoList.zip" 
 
-3. Note: As this file was downloaded from the internet you may need to unblock the file. To do this right click the file 27613730.zip and select properties. Now click on "unblock" to unblock the zip file. 
+3. Note: As this file is downloadeded from the internet you may need to unblock the file. To do this right click the file RemoveUserOrGroupFromMultiUserInfoList.zip and select properties. Now click on "unblock" to unblock the zip file. 
 
 4. Unzip the contents of the zip file to a working directory e.g. C:\scripts
 
-5. Edit the file "Sites.csv" to meet your requirement by entering a single site collection URL per line of the file. The script will go through all the Urls (sites) in that csv file and remove the specified user or group from the sites. You may also wish to add extra columns into that csv file for your reference, but the “Url” column is mandatory. All other columns will be ignored. You can get all sites against your tenant by Get-PnPTenantSite: https://docs.microsoft.com/en-us/powershell/module/sharepoint-pnp/get-pnptenantsite?view=sharepoint-ps
+5. Edit the file "Sites.csv" to meet your requirement by entering a single site collection URL per line of the file. The script will go through all the Urls (sites) in that csv file and remove the specified user or group from the sites. You may also wish to add extra columns into that csv file for your reference, but the “Url” column is mandatory, all other columns will be ignored. You can get all sites against your tenant by Get-PnPTenantSite: https://docs.microsoft.com/en-us/powershell/module/sharepoint-pnp/get-pnptenantsite?view=sharepoint-ps
 
-6. Inside "RemoveUserOrGroupFromMultiUserInfoList.ps1", pls change the "$workSpace" variable to the path where you unzip "27613730.zip" to, e.g. c:\scripts\27613730". 
+6. Inside "RemoveUserOrGroupFromMultiUserInfoList.ps1", pls change the "$workSpace" variable to the path where you unzip "RemoveUserOrGroupFromMultiUserInfoList.zip" to, e.g. c:\scripts\RemoveUserOrGroupFromMultiUserInfoList". 
 
 7. To target a specific user update the line $groupName = "Everyone except external users", replacing "Everyone except external users" with the name of the user to be removed from the site(s).
 
