@@ -15,10 +15,6 @@ $log = [NLog.LogManager]::GetCurrentClassLogger()
 $ErrorActionPreference = "Stop"
 
 try {
-    $log.Info("Getting credential running this script, pls make sure this one has permissions to perform this task, better to be a global admin")
-
-    $log.Info($cred.UserName + " now is running this script, loading the csv file")
-
     $urls = $csv.Url
     
     foreach ($url in $urls) {
