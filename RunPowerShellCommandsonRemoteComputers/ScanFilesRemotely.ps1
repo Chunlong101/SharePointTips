@@ -11,11 +11,11 @@ cd $workSpace
 Import-Module $workSpace\Common\Logging\NLog.dll
 [NLog.LogManager]::LoadConfiguration("$workSpace\Common\Logging\NLog.config")
 $log = [NLog.LogManager]::GetCurrentClassLogger()
-# $ErrorActionPreference = "Stop"
+$ErrorActionPreference = "Stop"
 
-try {
-    $severs = $csv.SeverName
-    foreach ($sever in $severs) {
+$severs = $csv.SeverName
+foreach ($sever in $severs) {
+    try {
         $log.Info("Connecting the sever: $sever")
         $target = Invoke-Command -ComputerName $sever -ScriptBlock {
             $array = @()
@@ -32,8 +32,8 @@ try {
             $log.Info("Files have been detected on $sever, file name is : $t.Name, size is : $($t.Length) byte, path is : $($t.PSParentPath)");
         }
     }
-}
-catch {
-    $log.Error($_)
-    $log.Error($_.ScriptStackTrace)
+    catch {
+        $log.Error($_)
+        $log.Error($_.ScriptStackTrace)
+    }
 }
