@@ -1,5 +1,5 @@
-$workSpace = "C:\Users\Chunlong\Desktop\MonitorAppFabricMemoryUsage" # Where this script is stored 
-$processName = "DistributedCacheService" 
+$workSpace = "C:\Users\chunlonl\source\repos\SharePointScripts\MonitorAppFabricMemoryUsage" # Where this script is stored 
+$processName = "chrome" 
 $threshold = 90 # 0 - 100 
 $serviceName = "AppFabricCachingService" # Which service you'd like to restart once $processName consumes $threshold% memory 
 
@@ -23,6 +23,12 @@ try {
 
     $processMemoryUsage = Get-WmiObject WIN32_PROCESS -ComputerName $CompName | ? { $_.Name -match $processName } | Sort-Object -Property ws -Descending | Select-Object -first 1 ProcessID, ProcessName, @{Name = "Memory Usage(MB)"; Expression = { [math]::round($_.ws / 1mb) } }
     
+    if (!$processMemoryUsage) 
+    {
+        $log.Error("Pls check configuration/parameters, didn't find your process maybe")
+        return 
+    }
+
     $log.Info("How mamy memory $processName is comusing now: {0} MB", $processMemoryUsage.'Memory Usage(MB)')
 
     $processMemoryUsagePercentage = $processMemoryUsage.'Memory Usage(MB)' / ($CompObject.TotalVisibleMemorySize / 1kb)
