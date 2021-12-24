@@ -6,7 +6,7 @@ This script is intended to delete all files/folders in a user's onedrive.
 
 1. Pls install "PnP PowerShell" first before running this script: https://pnp.github.io/powershell/articles/installation.html
 
-2. Copy that script to your powershell console and run (make sure $onedriveUrl is your own onedrive). 
+2. Copy that script "PurgeOneDrive.ps1" to your powershell console and run (make sure $onedriveUrl is your own onedrive). 
 
 # Pls note 
 
