@@ -12,7 +12,7 @@ Dump file indicated that most memory consuming .NET objects are:
 
 # How to use? 
 
-1. Download the zip file (MonitorAppFabricMemoryUsage.ps1). 
+1. Download the zip file (MonitorAppFabricMemoryUsage.zip). 
 
 2. Note: As this zip file is downloadeded from the internet you may need to unblock the file. To do this just right click the zip file and select properties. Now click on "unblock" to unblock the zip file. 
 
