@@ -99,3 +99,23 @@ foreach ($item in $TargetItems) {
 }
  
 $TargetUrl | ogv
+
+#
+# If you're using sharepoint onprem server object model
+#
+
+Add-PSSnapin Microsoft.SharePoint.PowerShell
+$web = Get-SPWeb http://xxx
+$list = $web.Lists | ? { $_.title -match "Documents" }
+$items = $list.Items
+$item = $items | ? { $_.name -match "xxx.docx" }
+$item.Versions | select * | ogv
+
+#
+# If you're using pnp powershell
+#
+
+Connect-PnPOnline -Url http://xxx 
+$list = get-pnplist -Identity "Documents" -Includes EnableVersioning
+$item = Get-PnPListItem -List $list -Id 1
+$versions = Get-PnPProperty -ClientObject $item.File -Property Versions
