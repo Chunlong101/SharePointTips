@@ -10,148 +10,118 @@ $ErrorActionPreference = "Stop"
 
 $cred = Get-Credential
 
-Function GetUniquePermissionsLists ($Web)  
-{  
+Function GetUniquePermissionsLists ($Web) {  
     $lists = @() 
 
-    try 
-    {
+    try {
         $listColl = Get-PnPList -Web $web -Includes HasUniqueRoleAssignments  
        
-        foreach($list in $listColl)  
-        {    
-            if($list.HasUniqueRoleAssignments)  
-            {  
+        foreach ($list in $listColl) {    
+            if ($list.HasUniqueRoleAssignments) {  
                 $lists += $list
             }        
         } 
     }
-    catch 
-    {
+    catch {
         Write-Host $_ -ForegroundColor Red 
     }
 
     return $lists
 }  
   
-Function GetRootWeb()  
-{  
+Function GetRootWeb() {  
     $web = $null 
 
-    try 
-    {
+    try {
         $web = Get-PnPWeb 
     } 
-    catch 
-    {
+    catch {
         Write-Host $_ -ForegroundColor Red
     } 
 
     return $web
 }  
   
-Function GetSubWebs()  
-{  
+Function GetSubWebs() {  
     $webs = $null 
 
-    try 
-    {
+    try {
         $webs = Get-PnPSubWebs -Recurse 
     } 
-    catch 
-    {
+    catch {
         Write-Host $_ -ForegroundColor Red
     } 
 
     return $webs
 }  
  
- Function CheckIfWebHasUniquePermission ($Web) 
- {
+Function CheckIfWebHasUniquePermission ($Web) {
     $result = $false
 
-    try 
-    {
+    try {
         $result = Get-PnPProperty -ClientObject $Web -Property HasUniqueRoleAssignments
     }
-    catch 
-    {
+    catch {
         Write-Host $_ -ForegroundColor Red
     }
 
     return $result
- } 
+} 
 
- Function RemoveUserReadPermissionFromWeb ($Web, $userName) 
- {
-    try 
-    {
+Function RemoveUserReadPermissionFromWeb ($Web, $userName) {
+    try {
         "Removing read only permission for $($userName) on $($web.Url)" 
                     
         Set-PnPWebPermission -Web $Web.Id -User $userName -RemoveRole "Read" 
     }
-    catch 
-    {
+    catch {
         Write-Host $_ -ForegroundColor Red
     }
- } 
+} 
 
- Function RemoveUserReadPermissionFromList ($Web, $List, $userName) 
- {
-    try 
-    {
+Function RemoveUserReadPermissionFromList ($Web, $List, $userName) {
+    try {
         "Removing read only permission for $($userName) on $($web.Url)$($list.DefaultViewUrl)"
 
         Set-PnPListPermission -Identity $list.Title -User $userName -RemoveRole 'Read' 
     } 
-    catch 
-    {
+    catch {
         Write-Host $_ -ForegroundColor Red        
     } 
- } 
+} 
 
-  Function AddUserReadPermissionFromWeb ($Web, $userName) 
- {
-    try 
-    {
+Function AddUserReadPermissionFromWeb ($Web, $userName) {
+    try {
         "Setting read only permission for $($userName) on $($web.Url)"
     
         Set-PnPWebPermission -Web $web.Id -User $userName -AddRole "Read"
     }
-    catch 
-    {
+    catch {
         Write-Host $_ -ForegroundColor Red
     }
- } 
+} 
 
-  Function AddUserReadPermissionFromList ($Web, $List, $userName) 
- {
-    try 
-    {
+Function AddUserReadPermissionFromList ($Web, $List, $userName) {
+    try {
         "Setting read only permission for $($userName) on $($web.Url)$($list.DefaultViewUrl)"
 
         Set-PnPListPermission -Identity $list.Title -User $userName -AddRole 'Read'
     } 
-    catch 
-    {
+    catch {
         Write-Host $_ -ForegroundColor Red        
     } 
- } 
+} 
 
- Function RemoveUserReadPermissionFromAllSitesLists ($userName, $tenantName, $cred) 
- {
+Function RemoveUserReadPermissionFromAllSitesLists ($userName, $tenantName, $cred) {
     Connect-PnPOnline -Url https://$tenantName.sharepoint.com -Credentials $cred
 
     $sites = Get-PnPTenantSite
 
-    foreach ($site in $sites)
-    {
-        try 
-        {
+    foreach ($site in $sites) {
+        try {
             Connect-PnPOnline -Url $site.Url -Credentials $cred
         }
-        catch 
-        {
+        catch {
             Write-Host $_ -ForegroundColor Red
             continue
         }
@@ -160,52 +130,42 @@ Function GetSubWebs()
 
         $rootWeb = GetRootWeb
 
-        if ($rootWeb) 
-        {
+        if ($rootWeb) {
             $webs += $rootWeb
         }
 
         $subWebs = GetSubWebs
 
-        if ($subWebs) 
-        {
+        if ($subWebs) {
             $webs += $subWebs
         }
 
-        foreach ($web in $webs) 
-        {
-            if (CheckIfWebHasUniquePermission $web) 
-            {
+        foreach ($web in $webs) {
+            if (CheckIfWebHasUniquePermission $web) {
                 RemoveUserReadPermissionFromWeb $web $userName
             }
 
             $lists = GetUniquePermissionsLists $web
 
-            foreach ($list in $lists) 
-            {
-                if (!$list.Hidden) 
-                {
+            foreach ($list in $lists) {
+                if (!$list.Hidden) {
                     RemoveUserReadPermissionFromList $web $list $userName
                 }
             }
         }
     }
- }
+}
 
-Function AddUserReadPermissionForAllSitesLists ($userName, $tenantName, $cred) 
-{
+Function AddUserReadPermissionForAllSitesLists ($userName, $tenantName, $cred) {
     Connect-PnPOnline -Url https://$tenantName.sharepoint.com -Credentials $cred
 
     $sites = Get-PnPTenantSite
 
-    foreach ($site in $sites)
-    {
-        try 
-        {
+    foreach ($site in $sites) {
+        try {
             Connect-PnPOnline -Url $site.Url -Credentials $cred
         }
-        catch 
-        {
+        catch {
             Write-Host $_ -ForegroundColor Red
             continue
         }
@@ -214,31 +174,25 @@ Function AddUserReadPermissionForAllSitesLists ($userName, $tenantName, $cred)
 
         $rootWeb = GetRootWeb
 
-        if ($rootWeb) 
-        {
+        if ($rootWeb) {
             $webs += $rootWeb
         }
 
         $subWebs = GetSubWebs
 
-        if ($subWebs) 
-        {
+        if ($subWebs) {
             $webs += $subWebs
         }
 
-        foreach ($web in $webs) 
-        {
-            if (CheckIfWebHasUniquePermission $web) 
-            {
+        foreach ($web in $webs) {
+            if (CheckIfWebHasUniquePermission $web) {
                 AddUserReadPermissionFromWeb $web $userName
             }
 
             $lists = GetUniquePermissionsLists $web
 
-            foreach ($list in $lists) 
-            {
-                if (!$list.Hidden) 
-                {
+            foreach ($list in $lists) {
+                if (!$list.Hidden) {
                     AddUserReadPermissionFromList $web $list $userName
                 }
             }
