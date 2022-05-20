@@ -10,7 +10,7 @@ In sharepoint, users can only check permissions in user.aspx page like below, an
 
 ![image](https://user-images.githubusercontent.com/9314578/169375785-e2bf22c0-65e8-4d8c-a22f-b5f64b3e5f3c.png)
 
-### This script can generate data like below: 
+This script can generate data like below: 
 
 Csv file permission report: 
 
