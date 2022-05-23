@@ -10,15 +10,15 @@ In sharepoint, users can only check permissions in user.aspx page like below, an
 
 ![image](https://user-images.githubusercontent.com/9314578/169375785-e2bf22c0-65e8-4d8c-a22f-b5f64b3e5f3c.png)
 
-### This script can generate data like below: 
-
-Csv file permission report: 
+This script can generate data like, Csv file permission report: 
 
 ![image](https://user-images.githubusercontent.com/9314578/169374805-2aa79e7c-3f30-4c78-a57b-913dc2480d49.png)
 
 Or you can customize the data: 
 
 ![image](https://user-images.githubusercontent.com/9314578/169374580-d078f050-0821-4170-949e-a19f6cba053d.png)
+
+Check permission data: 
 
 ![image](https://user-images.githubusercontent.com/9314578/169375115-30729fae-d99e-49be-a611-265d73f069e2.png)
 
@@ -29,3 +29,5 @@ This script requires pnp powershell, see https://github.com/Chunlong101/SharePoi
 ### How to use 
 
 This script itself contains some examples: https://github.com/Chunlong101/SharePointScripts/blob/37e1e4e619e573fc84aaee9b60fa705c67a70e56/PermissionReport/PermissionReport.ps1#L220
+
+### Pls note, Microsoft doesn't provide production ready scripts, customers need to test/verify/develop this script by themselves. And this script is out of the support scope.
