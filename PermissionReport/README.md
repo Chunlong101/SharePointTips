@@ -29,3 +29,5 @@ This script requires pnp powershell, see https://github.com/Chunlong101/SharePoi
 ### How to use 
 
 This script itself contains some examples: https://github.com/Chunlong101/SharePointScripts/blob/37e1e4e619e573fc84aaee9b60fa705c67a70e56/PermissionReport/PermissionReport.ps1#L220
+
+### Pls note, Microsoft doesn't provide production ready scripts, customers need to test/verify/develop this script by themselves. And this script is out of the support scope.
