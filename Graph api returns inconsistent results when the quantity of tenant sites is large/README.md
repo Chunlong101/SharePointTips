@@ -1,5 +1,5 @@
 ## Symptom 
-https://graph.microsoft.com/v1.0/sites?search=* returns inconsistent results
+https://graph.microsoft.com/v1.0/sites?search=* returns inconsistent results when the quantity of tenant sites is large
  
 ## Assessments 
 1.	We have 4 fiddler logs in total, everyone of them is just a simple repro of https://graph.microsoft.com/v1.0/sites?search=*, I compared each one of them by following steps below, and confirmed that there is an issue inside that api when the quantity of tenant sites is large. 
