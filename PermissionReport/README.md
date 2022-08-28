@@ -4,7 +4,8 @@ This script helps generate the permission report of any web/list/library/item(fo
 
 ### Why this script is helpful? 
 
-In sharepoint, users can only check permissions in user.aspx page like below, and there's no option to export all permissions data for web/list/library/item(folder or file): 
+1. In sharepoint, users can only check permissions in user.aspx page like below, and there's no option to export them all or even export more from multiple web/list/library/item (folder or file) objects. 
+2. Permission data are stored along with sharepoint objects such as site/list/library/item (folder or file), so when we check permissions, sharepoint actually gives us information from those objects, it's easy to know how many users are having acces to an sharepoint object, but not easy to understand how many accesses a user has. 
 
 ![image](https://user-images.githubusercontent.com/9314578/169375648-26088d49-3868-465a-bee0-084dc1de8be0.png)
 
