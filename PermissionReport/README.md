@@ -6,7 +6,7 @@ This script helps generate permission report for in sharepoint 2013/2016/2019/SE
 
 In sharepoint, users can only check permissions in user.aspx page (like screenshot below), and there's no option to export them all or even export more data from multiple web/list/library/item/folder/file objects. 
 
-Permission data is stored along with sharepoint objects such as site/list/library/item/folder/file, so when we check permissions, sharepoint actually gives us information from those objects, and that's the reason why it's easy to know how many users are having acces to a sharepoint object, but not easy to understand how many accesses a user has against multiple sharepoint objects (to do this we need to loop multiple sites/lists/libraries/items/fodlers/files). 
+Permission data is stored along with sharepoint objects such as site/list/library/item/folder/file, so when we check permissions, sharepoint actually gives us information from those objects, and that's the reason why it's easy to know how many users are having acces to a sharepoint object, but not easy to understand how many accesses a user has against multiple sharepoint objects (to do this we need to loop multiple sites/lists/libraries/items/folder/files, pls note, when you have big site(s) then it's nearly impossible to loop every each item-level objects which is super time-consuming). 
 
 ![image](https://user-images.githubusercontent.com/9314578/169375648-26088d49-3868-465a-bee0-084dc1de8be0.png)
 
