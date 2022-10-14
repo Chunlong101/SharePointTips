@@ -2,21 +2,11 @@
 
 This script is intended to list item count of each library/list under a site, below is the output for example: 
 
-ItemCount Title
---------- -----
-    18710 Workflow History
-     9733 Big List
-     4821 5002
-     3846 Files
-     3608 5001
-     1915 Theme Gallery
-     1008 Master Page Gallery
-      633 Style Library
-      322 Lib0929
+![image](https://user-images.githubusercontent.com/9314578/195763091-47a23435-0f04-4cb1-bd99-0852a4b7d549.png)
 
-It's the same as you can see in site content page <SiteUrl>/_layouts/15/viewlsts.aspx: 
+It's the same as you can see in site content page [SiteUrl]/_layouts/15/viewlsts.aspx: 
 
-...
+![image](https://user-images.githubusercontent.com/9314578/195763214-b9396c69-de8d-4ab4-9070-e9320c56d417.png)
 
 # How to use? 
 
@@ -24,7 +14,9 @@ It's the same as you can see in site content page <SiteUrl>/_layouts/15/viewlsts
 
 2. Copy below to your powershell console:  
 
+```powershell
 $Cred = Get-Credential
 $SiteURL = "https://xxx.sharepoint.com/sites/xxx"
 Connect-PnPOnline -Url $SiteURL -Credentials $Cred
 Get-PnPList | sort ItemCount -Descending | ft ItemCount, Title
+```
