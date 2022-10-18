@@ -1,5 +1,5 @@
 ﻿#####################################################################
-# New-SelfSignedCertificateEx.ps1
+# NewSelfSignedCertificateEx.ps1
 # Version 1.2
 #
 # Creates self-signed certificate. This tool is a base replacement
@@ -10,7 +10,7 @@
 #####################################################################
 #requires -Version 2.0
 
-function New-SelfSignedCertificateEx {
+function NewSelfSignedCertificateEx {
 <#
 .Synopsis
 	This cmdlet generates a self-signed certificate.

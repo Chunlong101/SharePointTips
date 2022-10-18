@@ -1,11 +1,11 @@
 <# =====================================================================
-## Title       : Get-IISLogs
+## Title       : GetIISLogs
 ## Description : This script will collect Individual IIS logs from specified servers or all servers in the farm. It will compress them into <servername>.zip files
 ## Authors      :  Anthony Casillas | Mike Lee | Lenny Vaznis
 ## Date        : 11-03-2021
 ## Input       : 
 ## Output      : 
-## Usage       : .\Get-IISLogs.ps1 -startDate "10/31/2021" -endDate "11/01/2021" -Url http://v7.ajcns.com
+## Usage       : .\GetIISLogs.ps1 -startDate "10/31/2021" -endDate "11/01/2021" -Url http://v7.ajcns.com
 ## Notes       :  If no '-Servers' switch is passed, it will grab IIS from all SP servers in the farm that have an Online SharePoint Web App Service Instance
 ## Tag         :  IIS, Logging, Sharepoint, Powershell
 ## 
