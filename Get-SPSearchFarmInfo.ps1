@@ -5,7 +5,7 @@
 ## Date        : 09-9-2021
 ## Input       : 
 ## Output      : 
-## Usage       : .\Get-SPSearchFarmInfo.ps1
+## Usage       : .\Get-SPSearchFarmInfo.ps1 (or just copy the entire script to your sharepoint server powershell console then input "C:\FarmReport.txt")
 ## Notes       : Scroll to bottom for change notes...
 ## Tag         : Search, Sharepoint, Powershell
 ## =====================================================================
