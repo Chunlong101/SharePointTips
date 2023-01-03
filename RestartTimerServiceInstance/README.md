@@ -48,3 +48,15 @@ foreach ($server in $servers)
     }
 }
 ```
+
+If issue persists then pls run the following on impacted sharepoint server(s): 
+
+$farm=Get-SPFarm
+$farm.TimerService.Instances
+ 
+We can see a list in the output, there will be 4 entries while there might be 1 entry in Disabled status, get the ID and use the ID to run the following: 
+ 
+$si = Get-SPServiceInstance ID
+$si.Provision()
+ 
+After that, wait for some mins, then run the 1st group again, to make sure no entry is in Disabled. 
