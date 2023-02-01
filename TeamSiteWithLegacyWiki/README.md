@@ -2,6 +2,8 @@ Microsoft is announcing that Wiki (see below screenshots) will be retired from T
 
 You can use the script "ShowAllLegacyWikiSites.ps1" to list down all sharepoint sites that have the legacy wiki. (that script requires pnp powershell to be installed: https://github.com/Chunlong101/SharePointScripts#sharepointscripts)
 
+<img width="1199" alt="image" src="https://user-images.githubusercontent.com/9314578/215967391-56b5a779-63ea-4aad-8959-40da247ec7a2.png">
+
 ![image](https://user-images.githubusercontent.com/9314578/215964818-6a6db825-f81d-4284-8477-0979d193d533.png)
 
 ![image](https://user-images.githubusercontent.com/9314578/215964826-e4d84a26-391f-4cad-a69b-618029ba3eee.png)
