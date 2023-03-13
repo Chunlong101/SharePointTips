@@ -9,7 +9,7 @@ function CalculateSiteLibrarySize {
     
     try {
         # There's gonna be an error if target library doesn't exist in current site 
-        $files = Get-PnPListItem -List $libraryName -Fields "FileLeafRef", "FileSize"
+        $files = Get-PnPListItem -List $libraryName -Fields "FileLeafRef", "FileSize" -PageSize 1000
     }
     catch {
         return
