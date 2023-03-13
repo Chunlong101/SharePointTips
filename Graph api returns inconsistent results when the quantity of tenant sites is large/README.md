@@ -13,7 +13,7 @@ https://graph.microsoft.com/v1.0/sites?search=* returns inconsistent results whe
 4.	Above script converts all json files into csv, then from there in excel we can easily see the duplicated ones: 
 
 <img alt="image" src="https://user-images.githubusercontent.com/9314578/222315613-2018e5fc-fe8c-415b-9a53-a0d7293c68a4.png">
-![image](https://user-images.githubusercontent.com/9314578/174351824-9f9682b8-c3d0-4e8e-bd21-6f70f12797cd.png)
+<img width="561" alt="image" src="https://user-images.githubusercontent.com/9314578/224589943-39a0cf84-2f79-4daa-a785-8366e1f35915.png">
 
 5.	Above script also generates reports like how many duplicated/unique ones there are in each one of fiddler repros, for example below shows https://cloudnativebackup.sharepoint.com/sites/grp_scale_sxDgL_1_36is repeated 8 times (numbers of unique sites are inconsistent as well): 
 
