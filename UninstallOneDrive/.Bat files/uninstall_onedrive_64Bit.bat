@@ -1,0 +1,134 @@
+@ECHO OFF
+SETLOCAL ENABLEDELAYEDEXPANSION
+SET PERMACHINE_X=TRUE
+SET PERUSER_X=TRUE
+SET INSTALLED=TRUE
+SET SETUPFILE=OneDriveSetup.exe
+SET APPFILE=OneDrive.exe
+SET PERMACHINE="C:\Program Files\Microsoft OneDrive\"
+SET PERUSER="%localappdata%\Microsoft\OneDrive\"
+
+ECHO Welcome to OneDrive uninstall wizard^^!
+ECHO.
+ECHO Checking default installation paths:
+
+IF EXIST %PERMACHINE% ( 
+	ECHO ... PERMACHINE install path exists! 
+) ELSE ( 
+	ECHO ... PERMACHINE install path doesn't exist!
+	SET PERMACHINE_X=FALSE
+)
+
+IF EXIST %PERUSER% ( 
+	ECHO ... PERUSER install path exists! 
+	
+) ELSE ( 
+	ECHO ... PERUSER install path doesn't exist!
+	SET PERUSER_X=FALSE
+)
+
+ECHO.
+
+IF %PERMACHINE_x% == TRUE (	
+	GOTO :TESTPERMACHINE
+) 
+IF %PERUSER_x% == TRUE (	
+	GOTO :TESTPERUSER
+)
+
+ECHO Unable to find installation paths
+PAUSE
+EXIT
+
+:PROMPTPERMACHINE
+IF %PERMACHINE_x% == TRUE (
+	SET "TRYPERMACHINE=Y"
+	SET /P "TRYPERMACHINE=Try PERMACHINE uninstall? [Y/N]: "
+	ECHO.
+	IF /I "!TRYPERMACHINE!" == "Y"  (
+		GOTO :TESTPERMACHINE
+	) ELSE (
+		ECHO OK. BYE.
+	)
+)
+PAUSE
+EXIT
+
+:TESTPERMACHINE
+ECHO Starting PERMACHINE uninstall script
+SET "PMFOUND="
+FOR /F "tokens=1,2 delims=," %%i in ('DIR /b /s %PERMACHINE%%SETUPFILE% 2^>NUL') do (
+	IF DEFINED PMFOUND (
+		ECHO !PMFOUND!
+	) ELSE (
+		SET PM_UNINSTALL=%%i
+		SET PMFOUND=TRUE
+		GOTO :UNINSTALLPERMACHINE
+	)
+)
+ECHO ... %SETUPFILE% not found in %PERMACHINE% 
+ECHO.
+GOTO :PROMPTPERUSER
+PAUSE
+EXIT
+
+:UNINSTALLPERMACHINE
+IF DEFINED PM_UNINSTALL (
+	ECHO ... Setup file found in: !PM_UNINSTALL!
+	ECHO ... Executing PERMACHINE uninstall command
+	START "" "!PM_UNINSTALL!" /allusers /uninstall
+	ECHO ... "!PM_UNINSTALL!" /allusers /uninstall
+	TIMEOUT 10
+	ECHO.
+	GOTO :PROMPTPERUSER
+)
+PAUSE
+EXIT
+
+:PROMPTPERUSER
+IF %PERUSER_x% == TRUE (
+	SET "TRYPERUSER=Y"
+	SET /P "TRYPERUSER=Try PERUSER uninstall? [Y/N]: "
+	ECHO.
+	IF /I "!TRYPERUSER!" == "Y"  (
+		GOTO :TESTPERUSER 
+	) ELSE (
+		ECHO OK. BYE.
+	)
+) 
+PAUSE
+EXIT
+
+
+:TESTPERUSER
+ECHO Starting PERUSER uninstall script
+SET "PUFOUND="
+FOR /F "tokens=1,2 delims=," %%i in ('DIR /b /s %PERUSER%%SETUPFILE% 2^>NUL') do (
+	IF DEFINED PUFOUND (
+		ECHO !PUFOUND!
+	) ELSE (
+		SET PU_UNINSTALL=%%i
+		SET PUFOUND=TRUE
+		GOTO :UNINSTALLPERUSER
+	)
+)
+ECHO ... %SETUPFILE% not found in %PERUSER% 
+ECHO.
+GOTO :PROMPTPERMACHINE
+PAUSE
+EXIT
+
+:UNINSTALLPERUSER
+IF DEFINED PU_UNINSTALL (
+	ECHO ... Setup file found in: !PU_UNINSTALL!
+	ECHO ... Executing PERUSER uninstall command
+	START "" "!PU_UNINSTALL!" /uninstall
+	ECHO ... "!PU_UNINSTALL!" /uninstall
+	TIMEOUT 10
+	ECHO.
+	ECHO Completed
+	ECHO.
+	REM GOTO :PROMPTPERMACHINE
+)
+PAUSE
+EXIT
