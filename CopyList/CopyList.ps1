@@ -8,7 +8,7 @@ $List = Get-PnPList -Identity $ListName
 Copy-PnPList -Identity $List -Title $TargetListName -DestinationWebUrl $TargetSiteUrl
 $Items = Get-PnPListItem -List $ListName -PageSize 1000 
 
-$Items.FieldValues[0]
+Write-Host $Items.FieldValues[0]
 
 #
 # 此刻，让ChatGpt帮忙补全代码，Prompt可以这样写：
