@@ -13,7 +13,7 @@ $Items.FieldValues[0]
 #
 # 此刻，让ChatGpt帮忙补全代码，Prompt可以这样写：
 # ```
-# Write-Host打印出来的东西
+# 上文打印出来的东西
 # ```
 # 根据以上信息（包含如ContentTypeId等字段），完成以下命令，补全所有字段：
 # ```
