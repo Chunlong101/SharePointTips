@@ -91,7 +91,7 @@ Attachments               Attachments              Attachments
 `
 Based on the above information, complete the following powershell command by filling in all the fields using the mentioned InternalName. Please note, ignore those columns with the following TypeDisplayName: Person or Group, Hyperlink or Picture, Currency, Thumbnail, Managed Metadata, Lookup, Attachments. This is the PowerShell script that needs your completion: 
 `
-Add-PnPListItem -List $TargetListName -Values @{"Modified" = $item["Modified"]; "Title" = $item["Title"]; }
+Add-PnPListItem -List $TargetListName -Values @{ "Title" = $item["Title"]; "Text" = $item["Text"]; }
 `
 ```
 
@@ -100,7 +100,6 @@ Add-PnPListItem -List $TargetListName -Values @{"Modified" = $item["Modified"]; 
 Certainly! Based on the provided information, we can complete the PowerShell command by including only the columns with relevant `TypeDisplayName`. Here's the completed command:
 
 Add-PnPListItem -List $TargetListName -Values @{
-    "Modified" = $item["Modified"];
     "Title" = $item["Title"];
     "Text" = $item["Text"];
     "Choice" = $item["Choice"];
