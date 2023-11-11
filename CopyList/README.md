@@ -1,5 +1,5 @@
 # What can this script do?
-Copying existing list to another one
+Copying existing list to another one. (We can easily use gpt or github copilot to change this script to meet your scenario)
 
 # Quick start
 Assuming I have a sharepoint list with multiple different columns: 
@@ -114,3 +114,7 @@ Add-PnPListItem -List $TargetListName -Values @{
 4. Replace "Add-PnPListItem" with gpt code in this script.
 
 5. Modify those code to handle special fields like people picker according to your list columns: https://github.com/Chunlong101/SharePointScripts/blob/6ae80d50e44d0e5cc6788a9b87a4395f2de6ee11/CopyList/CopyList.ps1#L48
+Below prompt to gpt will help:
+```
+In the column information I provided to you earlier, please help me list which ones are Person or Group, which ones are Hyperlink or Picture, which ones are Currency, which ones are Thumbnail, which ones are Managed Metadata, which ones are Lookup, and which ones are Attachments. I want a table for a clear overview.
+```
