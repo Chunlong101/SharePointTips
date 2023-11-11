@@ -2,7 +2,7 @@
 # Description: This script copies all data from a list to another list.
 # How to use: Pls just change the variables in the first section of the script and execute it.
 # ----- 
-$SiteUrl = "https://xxx.sharepoint.com/sites/xxx"
+$SiteUrl = "https://xxx.sharepoint.com/sites/Test"
 $ListName = "xxx"
 $TargetSiteUrl = "https://xxx.sharepoint.com/sites/xxx"
 $TargetListName = "a copy of xxx"
@@ -70,13 +70,8 @@ foreach ($item in $Items) {
     $jsonString = $item.FieldValues["Image"] 
     # The value of the Thumbnail field is a JSON string, which needs to be converted to a JSON object first
     $jsonObject = ConvertFrom-Json -InputObject $jsonString
-    $type = $jsonObject.type
     $fileName = $jsonObject.fileName
-    $fieldName = $jsonObject.fieldName
-    $serverUrl = $jsonObject.serverUrl
-    $fieldId = $jsonObject.fieldId
     $serverRelativeUrl = $jsonObject.serverRelativeUrl
-    $id = $jsonObject.id
     # Download the image locally
     Get-PnPFile -Url $serverRelativeUrl -AsFile -Path $env:USERPROFILE\downloads -Filename $fileName -Force
     # Upload the image to the target list
@@ -88,20 +83,22 @@ foreach ($item in $Items) {
     Set-PnPListItem -List $TargetListName -Identity $t.Id -Values @{"ManagedMetadata" = $term.TermGuid } | Out-Null
     
     # Lookup
-    # Write-Host "Handling Lookup field for item $($t.Id)"
-    # $lookup = $item["Lookup"]
-    # Set-PnPListItem -List $TargetListName -Identity $t.Id -Values @{"Lookup" = $lookup.LookupId } | Out-Null
+    Write-Host "Handling Lookup field for item $($t.Id)"
+    $lookup = $item["Lookup"]
+    Set-PnPListItem -List $TargetListName -Identity $t.Id -Values @{"Lookup" = $lookup.LookupId } | Out-Null
 
     # Attachments
     Write-Host "Handling attachments for item $($t.Id)"
     $attachments = $item["Attachments"]
     if ($attachments -eq $true) {
         # Download Attachments
-        Get-PnPListItemAttachment -List $ListName -Identity $item.Id -Path $env:USERPROFILE\downloads -Force
+        Get-PnPListItemAttachment -List $ListName -Identity $item.Id -Path $env:USERPROFILE\downloads -Force | Out-Null
         # Get Attachments Properties
         $filesProperties = Get-PnPProperty -ClientObject $item -Property "AttachmentFiles"
-        $fileName = $filesProperties.FileName
-        Add-PnPListItemAttachment -List $TargetListName -Identity $t.Id -Path $env:USERPROFILE\downloads\$fileName | Out-Null
+        $filesProperties | % {
+            $fileName = $_.FileName
+            Add-PnPListItemAttachment -List $TargetListName -Identity $t.Id -Path $env:USERPROFILE\downloads\$fileName | Out-Null
+        }
     }
 
     # Editor, Modified By
