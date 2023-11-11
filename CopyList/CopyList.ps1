@@ -27,7 +27,6 @@ $Items | select -first 1 | % { $_.FieldValues } | ft -a
 Write-Host "Start copying data"
 foreach ($item in $Items) {
     $t = Add-PnPListItem -List $TargetListName -Values @{
-        "Modified"  = $item["Modified"];
         "Title"     = $item["Title"];
         "Text"      = $item["Text"];
         "Choice"    = $item["Choice"];
@@ -101,9 +100,9 @@ foreach ($item in $Items) {
         }
     }
 
-    # Editor, Modified By
+    # Editor, Modified By, Modified
     Write-Host "Handling Editor and Modified By fields for item $($t.Id)"
     $user = $item["Editor"].Email
-    Set-PnPListItem -List $TargetListName -Identity $t.Id -Values @{"Editor" = $user } | Out-Null
+    Set-PnPListItem -List $TargetListName -Identity $t.Id -Values @{"Editor" = $user; "Modified" = $item["Modified"] } | Out-Null
 }
 Write-Host "Data copying completed"
