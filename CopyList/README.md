@@ -63,9 +63,10 @@ AppAuthor                 App Created By           Lookup
 AppEditor                 App Modified By          Lookup
 ```
 
-2. Remove those system columns from #1 and use below prompt in Gpt: 
-The following is the column information for a SharePoint list, including the InternalName, Title, and TypeDisplayName for each column:
+2. Remove those system columns from #1 and use below prompt in Gpt:
 ```
+The following is the column information for a SharePoint list, including the InternalName, Title, and TypeDisplayName for each column:
+`
 InternalName              Title                    TypeDisplayName
 ------------              -----                    ---------------
 Title                     Title                    Single line of text
@@ -87,10 +88,11 @@ Created                   Created                  Date and Time
 Author                    Created By               Person or Group
 Editor                    Modified By              Person or Group
 Attachments               Attachments              Attachments
-```
+`
 Based on the above information, complete the following powershell command by filling in all the fields using the mentioned InternalName. Please note, ignore those columns with the following TypeDisplayName: Person or Group, Hyperlink or Picture, Currency, Thumbnail, Managed Metadata, Lookup, Attachments. This is the PowerShell script that needs your completion: 
-```
+`
 Add-PnPListItem -List $TargetListName -Values @{"Modified" = $item["Modified"]; "Title" = $item["Title"]; }
+`
 ```
 
 3. Gpt will respond with code like below, don't forget to verify:
