@@ -1,57 +1,112 @@
-$SiteUrl = "https://5xxsz0.sharepoint.com/sites/Test"
-$ListName = "Copy of 2308310010000489"
-$TargetSiteUrl = "https://5xxsz0.sharepoint.com/sites/test"
-$TargetListName = "Copy of 2308310010000489 V2"
+# ----- 
+# Description: This script copies all data from a list to another list.
+# How to use: Pls just change the variables in the first section of the script and execute it.
+# ----- 
+$SiteUrl = "https://xxx.sharepoint.com/sites/xxx"
+$ListName = "xxx"
+$TargetSiteUrl = "https://xxx.sharepoint.com/sites/xxx"
+$TargetListName = "a copy of xxx"
 
 Connect-PnPOnline $SiteUrl -Interactive
 $List = Get-PnPList -Identity $ListName
-Copy-PnPList -Identity $List -Title $TargetListName -DestinationWebUrl $TargetSiteUrl
+
+Write-Host "Creating an identical list: $ListName vs $TargetListName"
+Copy-PnPList -Identity $List -Title $TargetListName -DestinationWebUrl $TargetSiteUrl | Out-Null # There is a bug in PnP.PowerShell 2.2.0's Copy-PnPList command. Sometimes, if the source list has Lookup fields, Copy-PnPList actually creates another list for the Lookup fields.
+Write-Host "List creation completed: $ListName vs $TargetListName"
+
+Write-Host "Getting all data from $ListName"
 $Items = Get-PnPListItem -List $ListName -PageSize 1000 
+Write-Host "Total $($Items.Count) items to copy"
 
-$Items.FieldValues[0]
+Write-Host "Filtering out user-created fields in the list and displaying corresponding internal field names"
+Get-PnPField -List $ListName | ? { $_.Hidden -eq $False } | select InternalName, Title, TypeDisplayName | ft -a
 
-#
-# 此刻，让ChatGpt帮忙补全代码，Prompt可以这样写：
-# ```
-# 上文打印出来的东西
-# ```
-# 根据以上信息（包含如ContentTypeId等字段），完成以下命令，补全所有字段：
-# ```
-# Add-PnPListItem -List $TargetListName -Values @{"ContentTypeId" = $item["ContentTypeId"]; "Title" = $item["Title"]; }
-# ```
-# 可以用Get-PnPField -List $ListName | ? {$_.Hidden -eq $True} |  select * | ogv来筛选出属于用户自己创建的字段
+Write-Host "Printing all fields and values for the first item as a reference"
+$Items | select -first 1 | % { $_.FieldValues } | ft -a
 
+Write-Host "Start copying data"
 foreach ($item in $Items) {
-    Add-PnPListItem -List $TargetListName -Values @{
-        "ContentTypeId" = $item.FieldValues["ContentTypeId"];
-        "Title"         = $item.FieldValues["Title"];
-        "field_0"       = $item.FieldValues["field_0"];
-        "field_1"       = $item.FieldValues["field_1"];
-        "field_2"       = $item.FieldValues["field_2"];
-        "field_3"       = $item.FieldValues["field_3"];
-        "field_4"       = $item.FieldValues["field_4"];
-        "field_5"       = $item.FieldValues["field_5"];
-        "field_9"       = $item.FieldValues["field_9"];
-        "field_10"      = $item.FieldValues["field_10"];
-        "field_11"      = $item.FieldValues["field_11"];
-        "field_13"      = $item.FieldValues["field_13"];
-        "field_14"      = $item.FieldValues["field_14"];
-        "field_15"      = $item.FieldValues["field_15"];
-        "field_16"      = $item.FieldValues["field_16"];
-        "field_17"      = $item.FieldValues["field_17"];
-        "field_18"      = $item.FieldValues["field_18"];
-        "field_19"      = $item.FieldValues["field_19"];
-        "field_20"      = $item.FieldValues["field_20"];
-        "field_27"      = $item.FieldValues["field_27"];
-        "field_28"      = $item.FieldValues["field_28"];
-        "field_29"      = $item.FieldValues["field_29"];
-        "field_30"      = $item.FieldValues["field_30"];
-        "field_31"      = $item.FieldValues["field_31"];
-        "field_32"      = $item.FieldValues["field_32"];
-        "HotWorkPermit" = $item.FieldValues["HotWorkPermit"];
-        "Modified"      = $item.FieldValues["Modified"];
-        "Created"       = $item.FieldValues["Created"];
-        "Author"        = $item.FieldValues["Author"].Email;
-        "Editor"        = $item.FieldValues["Editor"].Email
+    $t = Add-PnPListItem -List $TargetListName -Values @{
+        "Modified"  = $item["Modified"];
+        "Title"     = $item["Title"];
+        "Text"      = $item["Text"];
+        "Choice"    = $item["Choice"];
+        "DateTime"  = $item["DateTime"];
+        "MultiLine" = $item["MultiLine"];
+        "Number"    = $item["Number"];
+        "YesNo"     = $item["YesNo"];
+        "Location"  = $item["Location"];
+        "Created"   = $item["Created"];
+    }    
+
+    Write-Host "Copying data for item $($t.Id)"
+
+    # ----- 
+    # After the above code is executed, you can see that all the data has been copied to the target list. However, there are still some issues, such as some special fields: People, Lookup, Managed Metadata, Thumbnile/Image, Created By, Modified By, Attachments, etc.
+    # ----- 
+
+    # Author, Created By
+    Write-Host "Handling Author and Created By fields for item $($t.Id)"
+    $user = $item["Author"].Email
+    Set-PnPListItem -List $TargetListName -Identity $t.Id -Values @{"Author" = $user } | Out-Null
+
+    # People Picker
+    Write-Host "Handling People Picker field for item $($t.Id)"
+    $user = $item["People"].Email
+    Set-PnPListItem -List $TargetListName -Identity $t.Id -Values @{"People" = $user } | Out-Null
+
+    # Hyperlink
+    Write-Host "Handling Hyperlink field for item $($t.Id)"
+    $url = $item["Hyperlink"].Url
+    Set-PnPListItem -List $TargetListName -Identity $t.Id -Values @{"Hyperlink" = $url } | Out-Null
+
+    # Currency
+    Write-Host "Handling Currency field for item $($t.Id)"
+    $currency = $item["Currency"]
+    Set-PnPListItem -List $TargetListName -Identity $t.Id -Values @{"Currency" = $currency } | Out-Null
+
+    # Thumbnail Image field
+    Write-Host "Handling Image field for item $($t.Id)"
+    $jsonString = $item.FieldValues["Image"] 
+    # The value of the Thumbnail field is a JSON string, which needs to be converted to a JSON object first
+    $jsonObject = ConvertFrom-Json -InputObject $jsonString
+    $type = $jsonObject.type
+    $fileName = $jsonObject.fileName
+    $fieldName = $jsonObject.fieldName
+    $serverUrl = $jsonObject.serverUrl
+    $fieldId = $jsonObject.fieldId
+    $serverRelativeUrl = $jsonObject.serverRelativeUrl
+    $id = $jsonObject.id
+    # Download the image locally
+    Get-PnPFile -Url $serverRelativeUrl -AsFile -Path $env:USERPROFILE\downloads -Filename $fileName -Force
+    # Upload the image to the target list
+    Set-PnPImageListItemColumn -List $TargetListName -Identity $t.Id -Field "Image" -Path $env:USERPROFILE\downloads\$fileName | Out-Null
+    
+    # Managed Metadata
+    Write-Host "Handling Managed Metadata field for item $($t.Id)"
+    $term = $item["ManagedMetadata"]
+    Set-PnPListItem -List $TargetListName -Identity $t.Id -Values @{"ManagedMetadata" = $term.TermGuid } | Out-Null
+    
+    # Lookup
+    # Write-Host "Handling Lookup field for item $($t.Id)"
+    # $lookup = $item["Lookup"]
+    # Set-PnPListItem -List $TargetListName -Identity $t.Id -Values @{"Lookup" = $lookup.LookupId } | Out-Null
+
+    # Attachments
+    Write-Host "Handling attachments for item $($t.Id)"
+    $attachments = $item["Attachments"]
+    if ($attachments -eq $true) {
+        # Download Attachments
+        Get-PnPListItemAttachment -List $ListName -Identity $item.Id -Path $env:USERPROFILE\downloads -Force
+        # Get Attachments Properties
+        $filesProperties = Get-PnPProperty -ClientObject $item -Property "AttachmentFiles"
+        $fileName = $filesProperties.FileName
+        Add-PnPListItemAttachment -List $TargetListName -Identity $t.Id -Path $env:USERPROFILE\downloads\$fileName | Out-Null
     }
+
+    # Editor, Modified By
+    Write-Host "Handling Editor and Modified By fields for item $($t.Id)"
+    $user = $item["Editor"].Email
+    Set-PnPListItem -List $TargetListName -Identity $t.Id -Values @{"Editor" = $user } | Out-Null
 }
+Write-Host "Data copying completed"
