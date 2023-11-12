@@ -251,7 +251,7 @@ if ($attachments -eq $true) {
 }
 ```
 
-### 4. Replace those code in script, and don't forget:
+### 4. Replace those code in script, do a code review, and don't forget to change Author and Editor, Created and Modified (datetime):
 ```powershell
     # Author, Created By, Created
     Write-Host "Handling Author and Created By fields for item $($t.Id)"
