@@ -44,11 +44,6 @@ foreach ($item in $Items) {
     # After the above code is executed, you can see that all the data has been copied to the target list. However, there are still some issues, such as some special fields: People, Lookup, Managed Metadata, Thumbnile/Image, Created By, Modified By, Attachments, etc.
     # ----- 
 
-    # Author, Created By
-    Write-Host "Handling Author and Created By fields for item $($t.Id)"
-    $user = $item["Author"].Email
-    Set-PnPListItem -List $TargetListName -Identity $t.Id -Values @{"Author" = $user } | Out-Null
-
     # People Picker
     Write-Host "Handling People Picker field for item $($t.Id)"
     $user = $item["People"].Email
@@ -100,9 +95,14 @@ foreach ($item in $Items) {
         }
     }
 
+    # Author, Created By, Created
+    Write-Host "Handling Author and Created By fields for item $($t.Id)"
+    $user = $item["Author"].Email
+    Set-PnPListItem -List $TargetListName -Identity $t.Id -Values @{"Author" = $user; "Created" = $item["Created"] } | Out-Null    
+
     # Editor, Modified By, Modified
     Write-Host "Handling Editor and Modified By fields for item $($t.Id)"
     $user = $item["Editor"].Email
-    Set-PnPListItem -List $TargetListName -Identity $t.Id -Values @{"Editor" = $user; "Modified" = $item["Modified"] } | Out-Null
+    Set-PnPListItem -List $TargetListName -Identity $t.Id -Values @{"Editor" = $user; "Modified" = $item["Modified"] } | Out-Null    
 }
 Write-Host "Data copying completed"
