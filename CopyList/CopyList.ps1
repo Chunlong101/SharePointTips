@@ -2,7 +2,7 @@
 # Description: This script copies all data from a list to another list.
 # How to use: Pls just change the variables in the first section of the script and execute it.
 # ----- 
-$SiteUrl = "https://xxx.sharepoint.com/sites/Test"
+$SiteUrl = "https://xxx.sharepoint.com/sites/xxx"
 $ListName = "xxx"
 $TargetSiteUrl = "https://xxx.sharepoint.com/sites/xxx"
 $TargetListName = "a copy of xxx"
