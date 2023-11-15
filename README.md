@@ -31,3 +31,5 @@ B. If your machine doesn't have internet connection, pls just follow below steps
 
 See more: 
 ![image](https://user-images.githubusercontent.com/9314578/167997685-7d0a4dab-ecb5-46c2-a651-f4f615630bf2.png)
+
+Pls note, Microsoft doesn't provide production ready scripts, customers need to test/verify/develop this script by themselves. And these scripts are out of the Microsoft support scope. 
