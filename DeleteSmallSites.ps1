@@ -15,10 +15,10 @@ foreach ($site in $sites) {
     # If we use "Get-PnPProperty -ClientObject $site -Property Owner" then we will get an error, so we use Get-PnPSite instead
     Connect-PnPOnline -Url $site.Url -UseWebLogin
     $s = Get-PnPSite -Includes Owner 
-    $membersGroup = Get-PnPGroup -AssociatedMemberGroup
-    $members = Get-PnPGroupMember -Group $membersGroup
-    $ownersGroup = Get-PnPGroup -AssociatedOwnerGroup
-    $owners = Get-PnPGroupMember -Group $ownersGroup    
+    # $membersGroup = Get-PnPGroup -AssociatedMemberGroup
+    # $members = Get-PnPGroupMember -Group $membersGroup
+    # $ownersGroup = Get-PnPGroup -AssociatedOwnerGroup
+    # $owners = Get-PnPGroupMember -Group $ownersGroup    
     $storageUsed = $site.StorageUsageCurrent
     if ($storageUsed -lt $storageThreshold * 1024) {
         if ($site.Status -eq "Active") {
