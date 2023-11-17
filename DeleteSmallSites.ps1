@@ -1,6 +1,7 @@
-#
-# Delete sites that are below a certain storage threshold
-#
+# ----- 
+# Delete sites that are below a certain storage threshold, uncomment Remove-PnPTenantSite to actually delete the sites, otherwise it will just generate a report on them. 
+# ----- 
+
 $tenantName = "xxx"
 $storageThreshold = 1 # GB
 $reportPath = ".\DeleteSites.csv"

@@ -1,6 +1,7 @@
-#
-# Description: This script will delete all files older than 3 years from all document libraries in a SharePoint Online site.
-#
+# ----- 
+# Description: This script will delete all files older than 3 years from all document libraries in a SharePoint Online site, uncomment Remove-PnPListItem to actually delete the files, otherwise it will just generate a report on them. 
+# ----- 
+
 $siteUrl = "https://xxx.sharepoint.com/sites/xxx"
 $reportPath = ".\OldFiles.csv"
 Connect-PnPOnline -Url $siteUrl -Interactive
