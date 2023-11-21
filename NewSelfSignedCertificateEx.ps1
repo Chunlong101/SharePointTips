@@ -546,3 +546,29 @@ function NewSelfSignedCertificateEx {
 # krCJqqlTJrihEOvqs/NiDKyq1lBh3Es/o6LaNxYDeHr/8ntIqfMpbI6ZB+7RW0XC
 # B6o+Cw==
 # SIG # End signature block
+
+# ----- 
+# 我要生成一张证书，pfx格式，放在桌面上，应该如何操作？（使用powershell脚本完成此任务）
+# ChatGPT
+# 在PowerShell中生成PFX格式的证书并将其放在桌面上可以通过以下步骤完成。请注意，为了执行这些步骤，你需要确保计算机上安装了Windows PowerShell和所需的证书生成工具。以下示例使用了MakeCert和PfxExport工具。
+
+# 打开 PowerShell。
+
+# 使用以下命令生成自签名证书：
+
+# powershell
+# Copy code
+# $cert = New-SelfSignedCertificate -DnsName "YourCertificateName" -CertStoreLocation cert:\CurrentUser\My
+# 替换 "YourCertificateName" 为证书的名称。
+
+# 使用以下命令将证书导出为 PFX 文件：
+
+# powershell
+# Copy code
+# $certPath = "cert:\CurrentUser\My\$($cert.Thumbprint)"
+# $pfxPassword = ConvertTo-SecureString -String "YourPassword" -Force -AsPlainText
+# Export-PfxCertificate -Cert $certPath -FilePath "$env:USERPROFILE\Desktop\YourCertificate.pfx" -Password $pfxPassword
+# 替换 "YourPassword" 为你想要设置的密码，将 "YourCertificate" 替换为你想要的证书文件名。
+
+# 完成后，你将在桌面上找到一个名为 "YourCertificate.pfx" 的 PFX 文件。
+# ----- 
