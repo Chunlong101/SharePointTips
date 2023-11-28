@@ -1,4 +1,4 @@
-# Supplementary Information about Microsoft Graph API `Sites.elected`
+# Supplementary Information about Microsoft Graph API `Sites.Selected`
 
 ## 1. Getting Started Guide
 
