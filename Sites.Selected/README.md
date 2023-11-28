@@ -79,6 +79,10 @@ People asked me some common questions, and I'd like to share the answers:
 
       Answer: One can use Graph API, and the other can use SharePoint Rest API. The fundamental difference lies in the scope parameter when obtaining the Access Token. The former's parameter is `https://graph.microsoft.com/.default`, while the latter is `https://xxx.sharepoint.com/.default`. They generate tokens with different audiences (aud), where one can only call Graph API, and the other can only call SharePoint Rest API. Note that to call SharePoint Rest API, you must use the certificate method when obtaining the token.
 
+---------- 
+---------- 
+---------- 
+
 # 关于Microsoft Graph API Sites.Selected的一些补充
 
 ## 1. 上手指南
