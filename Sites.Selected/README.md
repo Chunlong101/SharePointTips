@@ -17,7 +17,7 @@ In summary, the entire process of using Sites.Selected includes the following st
 
    c. Bind the application to one or more sites and grant it access to the target site (Read/Write/Manage/FullControl, choose one). This step can be completed in various ways:
 
-       - Register another application in Azure app registration with `Sites.FullControl.All` permission, then use Graph API (`https://graph.microsoft.com/v1.0/sites/{sitesId}/permissions`) or PnP PowerShell + certificate connection (`Connect-PnPOnline -CertificatePat xxx -CertificatePassword xxx`, `Grant-PnPAzureADAppSitePermission`) to accomplish it. (Currently if we're using `Connect-PnPOnline -ClientId xxx -ClientSecret xxx` then it will go to ACS, azure access control service, not what we want, and that's the reason why we use `Connect-PnPOnline -CertificatePat xxx -CertificatePassword xxx`) 
+       - Register another application in Azure app registration with `Sites.FullControl.All` permission, then use Graph API (`https://graph.microsoft.com/v1.0/sites/{sitesId}/permissions`) or PnP PowerShell + certificate connection (`Connect-PnPOnline -CertificatePat xxx -CertificatePassword xxx`, `Grant-PnPAzureADAppSitePermission`) to accomplish it. (Currently if we're using `Connect-PnPOnline -ClientId xxx -ClientSecret xxx` then it will go to ACS, azure access control service, not what we want for Microsoft Graph, and that's the reason why we use `Connect-PnPOnline -CertificatePat xxx -CertificatePassword xxx`) 
 
        - Use `Connect-PnPOnline -Url $targetSiteUrl -Interactive + Global Admin` to connect to the target site, then use PnP PowerShell `Grant-PnPAzureADAppSitePermission` to complete the process.
 
@@ -98,7 +98,7 @@ People asked me some common questions, and I'd like to share the answers:
    
    c. 将该应用程序绑定到一个或多个站点，并授予该应用程序访问目标站点的权限（Read/Write/Manage/FullControl，四选一）。这一步骤可以通过多种方式完成：
    
-       - 在 Azure app registration 中注册另一个具有 `Sites.FullControl.All` 权限的应用程序，然后通过 Graph API（`https://graph.microsoft.com/v1.0/sites/{sitesId}/permissions`）或者 PnP PowerShell + 证书的连接方式 (`Connect-PnPOnline -CertificatePat xxx -CertificatePassword xxx，Grant-PnPAzureADAppSitePermission`) 完成。(Currently if we're using `Connect-PnPOnline -ClientId xxx -ClientSecret xxx` then it will go to ACS, azure access control service, not what we want, and that's the reason why we use `Connect-PnPOnline -CertificatePat xxx -CertificatePassword xxx`) 
+       - 在 Azure app registration 中注册另一个具有 `Sites.FullControl.All` 权限的应用程序，然后通过 Graph API（`https://graph.microsoft.com/v1.0/sites/{sitesId}/permissions`）或者 PnP PowerShell + 证书的连接方式 (`Connect-PnPOnline -CertificatePat xxx -CertificatePassword xxx，Grant-PnPAzureADAppSitePermission`) 完成。(Currently if we're using `Connect-PnPOnline -ClientId xxx -ClientSecret xxx` then it will go to ACS, azure access control service, not what we want for Microsoft Graph, and that's the reason why we use `Connect-PnPOnline -CertificatePat xxx -CertificatePassword xxx`) 
        
        - 使用 `Connect-PnPOnline -Url $targetSiteUrl -Interactive + Global Admin` 连接到目标站点，然后使用 PnP PowerShell `Grant-PnPAzureADAppSitePermission` 完成。
        
