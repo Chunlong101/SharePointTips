@@ -1,35 +1,38 @@
-# SharePointScripts
-This repository aims at sharepoint related scripts both for onprem and online. 
+# SharePointTips
 
-## Some scripts in this repository are using sharepoint pnp powershell, here isn how to install sharepoint pnp powershell, both for online and onprem
+Here I will share some commonly used SharePoint tips and experiences, hoping to help you save time. 
 
-A. If your machine has internet connection, pls just use one of the followings to install pnp powershell: 
+#### Installing SharePoint PnP PowerShell
 
-Install-Module -Name "PnP.PowerShell" # This is for sharepoint online
+Some scripts in this repository utilize SharePoint PnP PowerShell. Here's how to install SharePoint PnP PowerShell for both online and on-premises environments:
+
+(By the way, starting from PnP PowerShell version 2.2, it requires PowerShell 7, and Visual Studio Code is recommended)
+
+#### 1. Online Installation (Machine with Internet Connection)
+
+```powershell
+Install-Module -Name "PnP.PowerShell" # For SharePoint Online
 
 Install-Module -Name SharePointPnPPowerShell2013
 
 Install-Module -Name SharePointPnPPowerShell2016
 
 Install-Module -Name SharePointPnPPowerShell2019
+```
 
-Above commands actaully install pnp powershell from powershell gallery: 
+These commands install PnP PowerShell from the PowerShell Gallery:
 
-https://www.powershellgallery.com/packages/SharePointPnPPowerShell2019/3.29.2101.0
+- [SharePointPnPPowerShell2019](https://www.powershellgallery.com/packages/SharePointPnPPowerShell2019/3.29.2101.0)
+- [Search for PnP SharePoint Modules](https://www.powershellgallery.com/packages?q=pnp+sharepoint)
 
-https://www.powershellgallery.com/packages?q=pnp+sharepoint
+#### 2. Offline Installation (Machine without Internet Connection)
 
-B. If your machine doesn't have internet connection, pls just follow below steps for pnp powershell offline installation: 
+1. Download the appropriate version from [PnP PowerShell Modules on PowerShell Gallery](https://www.powershellgallery.com/packages?q=pnp+sharepoint).
+2. Unblock the Internet-downloaded NuGet package (.nupkg) file using the `Unblock-File -Path C:\Downloads\module.nupkg` cmdlet.
+3. Extract the contents of the NuGet package to a local folder.
+4. Delete the NuGet-specific elements from the folder.
+5. Rename the folder to the module name (remove version information). For example, `azurerm.storage.5.0.4-preview` becomes `azurerm.storage`.
+6. Copy the folder to one of the folders in the `$env:PSModulePath` value.
+7. Open a new PowerShell window, and PnP PowerShell commands should be ready.
 
-0. Download appropriate version from https://www.powershellgallery.com/packages?q=pnp+sharepoint
-1. Unblock the Internet-downloaded NuGet package (.nupkg) file, for example using Unblock-File -Path C:\Downloads\module.nupkg cmdlet.
-2. Extract the contents of the NuGet package to a local folder.
-3. Delete the NuGet-specific elements from the folder.
-4. Rename the folder. The default folder name is usually name.version. The version can include -prerelease if the module is tagged as a prerelease version. Rename the folder to just the module name. For example, azurerm.storage.5.0.4-preview becomes azurerm.storage.
-5. Copy the folder to one of the folders in the $env:PSModulePath value. $env:PSModulePath is a semicolon-delimited set of paths in which PowerShell should look for modules.
-6. Open a new powershell window then pnp powershell commands should be ready. 
-
-See more: 
-![image](https://user-images.githubusercontent.com/9314578/167997685-7d0a4dab-ecb5-46c2-a651-f4f615630bf2.png)
-
-Pls note, Microsoft doesn't provide production ready scripts, customers need to test/verify/develop this script by themselves. And these scripts are out of the Microsoft support scope. 
+Please note that Microsoft doesn't provide production-ready scripts. Customers need to test, verify, and develop scripts themselves. These scripts are outside the Microsoft support scope.
