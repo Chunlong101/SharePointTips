@@ -120,7 +120,7 @@ Recently, I encountered a somewhat perplexing issue. Its manifestation defies co
 
     Long in short, our requirement is to move/copy a file from the source library to the target library with correct/consistent metadata value. At this moment, we have 4 options/workarounds below:
 
-    - Download the file from the source library >> upload it to the target library >> download the file from the target library >> upload it back to the target library again.
+    - Download the file from the source library >> upload it to the target library >> download the file from the target library >> upload it back to the target library again. Or manually download the affected document from source, remove the metadata from the advanced properties in word, and re-place the document in the target SharePoint library. 
     - Use PowerShell:
 
       ```powershell
