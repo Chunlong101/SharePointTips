@@ -53,7 +53,7 @@ c. 您还可以混合使用 `sites.selected`，请参考[我的另一篇文章](
 
 ## 第二步：上传证书
 
-上传你的证书到azure ad app registration（可以参考这里自制证书：https://github.com/Chunlong101/SharePointTips/blob/master/NewSelfSignedCertificateEx.ps1）。你的证书应该有两个格式，pfx 和 cer，上传 cer 格式的证书，保留带有私钥的 pfx 证书在本地：
+上传你的证书到azure ad app registration（可以参考这里自制证书：[here](https://github.com/Chunlong101/SharePointTips/blob/master/NewSelfSignedCertificateEx.ps1)）。你的证书应该有两个格式，pfx 和 cer，上传 cer 格式的证书，保留带有私钥的 pfx 证书在本地：
 
 ![Upload Certificate](https://github.com/Chunlong101/SharePointTips/assets/9314578/8ed628ea-8d26-4f43-878f-9f4f5543d151)
 
