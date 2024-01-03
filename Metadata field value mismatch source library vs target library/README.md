@@ -135,4 +135,4 @@ Recently, I encountered a somewhat perplexing issue. Its manifestation defies co
     - Use “Move to” or “Copy to” in UX below:
       ![image](https://github.com/Chunlong101/SharePointScripts/assets/9314578/242dcacd-18f1-4463-a97a-5888a9852c38)
 
-Taxonomy values are not supposed to be retained while moving docs across libraries and sites, currently this scenario is not supported, IcM 449897994. 
+Conclusion: Taxonomy values are not supposed to be retained while moving docs across libraries and sites, currently this scenario is not supported, IcM 449897994. 
