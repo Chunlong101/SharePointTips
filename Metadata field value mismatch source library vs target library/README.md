@@ -14,7 +14,7 @@ Recently, I encountered a somewhat perplexing issue. Its manifestation defies co
 
    ![image](https://github.com/Chunlong101/SharePointScripts/assets/9314578/af2112fc-cf26-46a8-a53e-4cb832bfe2c7)
 
-#### 4. Now, let's manually upload those documents to our target library. First, create the target library with the same columns as our source library. Download the files from the source library and upload them to the target library. Within the first few seconds, observe that the metadata values appear as numbers. Please refer to step #2 for an understanding of what these numbers represent:
+#### 4. Now, let's manually upload those documents to our target library. First, go to another site, create the target library with the same columns as our source library. Download the files from the source library and upload them to the target library. Within the first few seconds, observe that the metadata values appear as numbers. Please refer to step #2 for an understanding of what these numbers represent:
 
    ![image](https://github.com/Chunlong101/SharePointScripts/assets/9314578/5fd3dafd-6f66-4f45-9f04-85d887f28ef0)
 
