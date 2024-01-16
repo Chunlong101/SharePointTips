@@ -76,7 +76,7 @@ Recently, I encountered a somewhat perplexing issue. Its manifestation defies co
 
    -----
 
-#### 8. (Pls ingore #8 ~ #10 if they're confusing) What I am about to show you now is more interesting, I'll demonstrate some additional variations and inconsistent behaviors: I created a flow like below, very simple, just like step #7 above, retrieving that metadata value against “Engineering.docx” from the target library:
+#### 8. (Pls ingore #8 ~ #9 if they're confusing) What I am about to show you now is more interesting, I'll demonstrate some additional variations and inconsistent behaviors: I created a flow like below, very simple, just like step #7 above, retrieving that metadata value against “Engineering.docx” from the target library:
 
    ![image](https://github.com/Chunlong101/SharePointScripts/assets/9314578/153af067-e487-4d3c-b23e-a797e5cff5c3)
    
@@ -88,40 +88,54 @@ Recently, I encountered a somewhat perplexing issue. Its manifestation defies co
    
    I've noticed that every time this flow runs, it increments the ID of the target file in the target library by 2 units. What I mean is, let's say the current maximum ID in the target library is 100. If I manually upload a document, its ID should be 101. However, if I use Flow to Copy or Move the document instead of uploading it manually, the document's ID becomes 102. I suspect that Flow might be performing the upload action twice, and that could be the reason why the above Flow is working well with that metadata value.
 
-#### 10. If I download the file from the source library, then use below PowerShell to upload it to the target library:
+#### 10. Let's focus on powershell now:
 
+   If I download the file from the source library, then use PowerShell to upload it to the target library:
+   
+    ```
     Add-PnPFile -Path "C:\Users\chunlonl\Downloads\Engineering.docx" -Folder "2311170030000442%201"
+    ```
 
     Then it gives the wrong value. This is the same behavior as step #4 above:
     ![image](https://github.com/Chunlong101/SharePointScripts/assets/9314578/4b88d1c8-868b-4c0a-91f4-02d4235cd254)
 
     But if I add one more parameter in that PowerShell:
 
+    ```
     $columnName = "Metadata"
     $termId = "e4a448b8-33af-4254-b53c-de7616afd080" 
     Add-PnPFile -Path "C:\Users\chunlonl\Downloads\Engineering.docx" -Folder "2311170030000442%201" -Values @{ $columnName = $termId }
+    ```
 
     Then it works correctly:
     ![image](https://github.com/Chunlong101/SharePointScripts/assets/9314578/ba87993b-aa4a-4c93-aa98-32287723b858)
 
     Additionally, we can leverage the following PowerShell command without the need for file downloads. This command facilitates a direct copy from the source to the target, ensuring seamless transfer of both content and metadata values:
 
+    ```
     $sourceSiteUrl = https://5xxsz0.sharepoint.com/sites/Test
     Connect-PnPOnline -Url $sourceSiteUrl -Interactive
     Copy-PnPFile -SourceUrl "2311170030000442/Engineering.docx" -TargetUrl "/sites/MSFT/2311170030000442%201" -Overwrite -Force
-    # Move-PnPFile -SourceUrl "2311170030000442/Engineering.docx" -TargetUrl "/sites/MSFT/2311170030000442%201" -Overwrite -Force
+    Move-PnPFile -SourceUrl "2311170030000442/Engineering.docx" -TargetUrl "/sites/MSFT/2311170030000442%201" -Overwrite -Force
+    ```
 
-**Long in short, our requirement is to move/copy a file from the source library to the target library with correct/consistent metadata value. At this moment, we have 4 options/workarounds below:**
+#### Long in short, our requirement is to move/copy a file from the source library to the target library with correct/consistent metadata value. At this moment, we have 4 options/workarounds below:
 
-    - Download the file from the source library >> upload it to the target library >> download the file from the target library >> upload it back to the target library again. Or manually download the affected document from source, remove the metadata from the advanced properties in word (through the word app, by going in the file->info->properties), and re-place the document in the target SharePoint library.  
-    - Use PowerShell:
+Option 1: Download the file from the source library >> upload it to the target library >> download the file from the target library >> upload it back to the target library again. Or manually download the affected document from source, remove the metadata from the advanced properties in word (through the word app, by going in the file->info->properties), and re-place the document in the target SharePoint library.  
+    
+Option 2: Use PowerShell:
+
+      ```
       $sourceSiteUrl = https://5xxsz0.sharepoint.com/sites/Test
       Connect-PnPOnline -Url $sourceSiteUrl -Interactive
       Copy-PnPFile -SourceUrl "2311170030000442/Engineering.docx" -TargetUrl "/sites/MSFT/2311170030000442%201" -Overwrite -Force
-      # Move-PnPFile -SourceUrl "2311170030000442/Engineering.docx" -TargetUrl "/sites/MSFT/2311170030000442%201" -Overwrite -Force
-      # Add-PnPFile -Path "C:\Users\chunlonl\Downloads\Engineering.docx" -Folder "2311170030000442%201" -Values @{ $columnName = $termId }
-    - Use Power Automate, refer to step #9 above.
-    - Use “Move to” or “Copy to” in UX below:
+      Move-PnPFile -SourceUrl "2311170030000442/Engineering.docx" -TargetUrl "/sites/MSFT/2311170030000442%201" -Overwrite -Force
+      Add-PnPFile -Path "C:\Users\chunlonl\Downloads\Engineering.docx" -Folder "2311170030000442%201" -Values @{ $columnName = $termId }
+      ```
+      
+Option 3: Use Power Automate, refer to step #9 above.
+    
+Option 4: Use “Move to” or “Copy to” in UX below:
       ![image](https://github.com/Chunlong101/SharePointScripts/assets/9314578/242dcacd-18f1-4463-a97a-5888a9852c38)
 
-**Conclusion: Taxonomy values are not supposed to be retained while moving docs across libraries and sites, currently this scenario is not supported, IcM 449897994.**
+#### Conclusion: Taxonomy values are not supposed to be retained while moving docs across libraries and sites, currently this scenario is not supported, IcM 449897994.**
