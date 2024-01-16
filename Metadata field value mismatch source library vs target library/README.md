@@ -26,7 +26,7 @@ Recently, I encountered a somewhat perplexing issue. Its manifestation defies co
 
    ![image](https://github.com/Chunlong101/SharePointScripts/assets/9314578/a3c2106d-5d4e-4dae-ab7e-e3b0da9da4a7)
    
-   The "ID" column in the above screenshot represents the order/sequence in which those terms appeared in the target site, so the ID is usually different from the source. At this point, attempting to update the metadata value in the browser from the target library is unsuccessful, it remains stuck on "Saving..." indefinitely (this "Saving forever" issue only occurs while that metadata columns is set as mandentory):  
+   The "ID" column in the above screenshot represents the order/sequence in which those terms appeared in the target site, so the ID is usually different from the source. At this point, attempting to update the metadata value in the browser from the target library is unsuccessful, it remains stuck on "Saving..." indefinitely (this "Saving forever" issue only occurs while that metadata column is set as mandatory):  
 
    ![image](https://github.com/Chunlong101/SharePointScripts/assets/9314578/367f8e02-7c89-4d3b-b2fb-525547efd1d8)
    
