@@ -90,13 +90,14 @@ Recently, I encountered a somewhat perplexing issue. Its manifestation defies co
 
 #### 10. Let's focus on powershell now:
 
-   If I download the file from the source library, then use PowerShell to upload it to the target library:
-   
+    If I download the file from the source library, then use PowerShell to upload it to the target library:
+
     ```
     Add-PnPFile -Path "C:\Users\chunlonl\Downloads\Engineering.docx" -Folder "2311170030000442%201"
     ```
-
+    
     Then it gives the wrong value. This is the same behavior as step #4 above:
+    
     ![image](https://github.com/Chunlong101/SharePointScripts/assets/9314578/4b88d1c8-868b-4c0a-91f4-02d4235cd254)
 
     But if I add one more parameter in that PowerShell:
@@ -108,6 +109,7 @@ Recently, I encountered a somewhat perplexing issue. Its manifestation defies co
     ```
 
     Then it works correctly:
+    
     ![image](https://github.com/Chunlong101/SharePointScripts/assets/9314578/ba87993b-aa4a-4c93-aa98-32287723b858)
 
     Additionally, we can leverage the following PowerShell command without the need for file downloads. This command facilitates a direct copy from the source to the target, ensuring seamless transfer of both content and metadata values:
