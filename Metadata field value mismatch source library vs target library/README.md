@@ -14,7 +14,7 @@ Recently, I encountered a somewhat perplexing issue. Its manifestation defies co
 
    ![image](https://github.com/Chunlong101/SharePointScripts/assets/9314578/af2112fc-cf26-46a8-a53e-4cb832bfe2c7)
 
-#### 4. Now, let's manually upload those documents to our target library. First, go to another site, create the target library with the same columns as our source library. Download the files from the source library and upload them to the target library. Within the first few seconds, observe that the metadata values appear as numbers. Please refer to step #2 for an understanding of what these numbers represent:
+#### 4. Now, let's manually upload those documents to our target library. First, go to another site >> create the target library with the same columns as our source library >> Download the files from the source library >> upload them to the target library. Within the first few seconds, observe that the metadata values appear as numbers. Please refer to step #2 for an understanding of what these numbers represent:
 
    ![image](https://github.com/Chunlong101/SharePointScripts/assets/9314578/5fd3dafd-6f66-4f45-9f04-85d887f28ef0)
 
@@ -26,11 +26,10 @@ Recently, I encountered a somewhat perplexing issue. Its manifestation defies co
 
    ![image](https://github.com/Chunlong101/SharePointScripts/assets/9314578/a3c2106d-5d4e-4dae-ab7e-e3b0da9da4a7)
    
-   The "ID" column in the above screenshot represents the order/sequence in which those terms appeared in the target site, so the ID is usually different from the source. At this point, attempting to update the metadata value in the browser from the target library is unsuccessful, it remains stuck on "Saving..." indefinitely:  
+   The "ID" column in the above screenshot represents the order/sequence in which those terms appeared in the target site, so the ID is usually different from the source. At this point, attempting to update the metadata value in the browser from the target library is unsuccessful, it remains stuck on "Saving..." indefinitely (this "Saving forever" issue only occurs while that metadata columns is set as mandentory):  
 
    ![image](https://github.com/Chunlong101/SharePointScripts/assets/9314578/367f8e02-7c89-4d3b-b2fb-525547efd1d8)
    
-
 #### 5. Interestingly, if we now download "Engineering.docx" from the target library, it still reflects the "correct" metadata value (in comparison to the target where it's wrong, but it's accurate comparing to the source, it's still the same vs our step #3 above):  
 
    ![image](https://github.com/Chunlong101/SharePointScripts/assets/9314578/16a17109-27fc-456a-ae74-987c160b88f5)
@@ -77,7 +76,7 @@ Recently, I encountered a somewhat perplexing issue. Its manifestation defies co
 
    -----
 
-#### 8. What I am about to show you now is more interesting, I'll demonstrate some additional variations and inconsistent behaviors: I created a flow like below, very simple, just like step #7 above, retrieving that metadata value against “Engineering.docx” from the target library:
+#### 8. (Pls ingore #8 ~ #10 if they're confusing) What I am about to show you now is more interesting, I'll demonstrate some additional variations and inconsistent behaviors: I created a flow like below, very simple, just like step #7 above, retrieving that metadata value against “Engineering.docx” from the target library:
 
    ![image](https://github.com/Chunlong101/SharePointScripts/assets/9314578/153af067-e487-4d3c-b23e-a797e5cff5c3)
    
@@ -91,46 +90,36 @@ Recently, I encountered a somewhat perplexing issue. Its manifestation defies co
 
 #### 10. If I download the file from the source library, then use below PowerShell to upload it to the target library:
 
-    ```powershell
     Add-PnPFile -Path "C:\Users\chunlonl\Downloads\Engineering.docx" -Folder "2311170030000442%201"
-    ```
 
     Then it gives the wrong value. This is the same behavior as step #4 above:
     ![image](https://github.com/Chunlong101/SharePointScripts/assets/9314578/4b88d1c8-868b-4c0a-91f4-02d4235cd254)
 
     But if I add one more parameter in that PowerShell:
 
-    ```powershell
     $columnName = "Metadata"
     $termId = "e4a448b8-33af-4254-b53c-de7616afd080" 
     Add-PnPFile -Path "C:\Users\chunlonl\Downloads\Engineering.docx" -Folder "2311170030000442%201" -Values @{ $columnName = $termId }
-    ```
 
     Then it works correctly:
     ![image](https://github.com/Chunlong101/SharePointScripts/assets/9314578/ba87993b-aa4a-4c93-aa98-32287723b858)
 
     Additionally, we can leverage the following PowerShell command without the need for file downloads. This command facilitates a direct copy from the source to the target, ensuring seamless transfer of both content and metadata values:
 
-    ```powershell
     $sourceSiteUrl = https://5xxsz0.sharepoint.com/sites/Test
     Connect-PnPOnline -Url $sourceSiteUrl -Interactive
     Copy-PnPFile -SourceUrl "2311170030000442/Engineering.docx" -TargetUrl "/sites/MSFT/2311170030000442%201" -Overwrite -Force
     # Move-PnPFile -SourceUrl "2311170030000442/Engineering.docx" -TargetUrl "/sites/MSFT/2311170030000442%201" -Overwrite -Force
-    ```
 
 **Long in short, our requirement is to move/copy a file from the source library to the target library with correct/consistent metadata value. At this moment, we have 4 options/workarounds below:**
 
-    - Download the file from the source library >> upload it to the target library >> download the file from the target library >> upload it back to the target library again. Or manually download the affected document from source, remove the metadata from the advanced properties in word, and re-place the document in the target SharePoint library. 
+    - Download the file from the source library >> upload it to the target library >> download the file from the target library >> upload it back to the target library again. Or manually download the affected document from source, remove the metadata from the advanced properties in word (through the word app, by going in the file->info->properties), and re-place the document in the target SharePoint library.  
     - Use PowerShell:
-
-      ```powershell
       $sourceSiteUrl = https://5xxsz0.sharepoint.com/sites/Test
       Connect-PnPOnline -Url $sourceSiteUrl -Interactive
       Copy-PnPFile -SourceUrl "2311170030000442/Engineering.docx" -TargetUrl "/sites/MSFT/2311170030000442%201" -Overwrite -Force
       # Move-PnPFile -SourceUrl "2311170030000442/Engineering.docx" -TargetUrl "/sites/MSFT/2311170030000442%201" -Overwrite -Force
       # Add-PnPFile -Path "C:\Users\chunlonl\Downloads\Engineering.docx" -Folder "2311170030000442%201" -Values @{ $columnName = $termId }
-      ```
-
     - Use Power Automate, refer to step #9 above.
     - Use “Move to” or “Copy to” in UX below:
       ![image](https://github.com/Chunlong101/SharePointScripts/assets/9314578/242dcacd-18f1-4463-a97a-5888a9852c38)
