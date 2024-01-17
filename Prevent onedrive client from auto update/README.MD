@@ -19,3 +19,4 @@ Disabling two endpoints, "oneclient.sfx.ms" seems to be the only effective way t
 ```
 
 Locking the update.xml file, which controls OneDrive updates, including standalone and embedded updates: 
+![Alt text](image.png)
