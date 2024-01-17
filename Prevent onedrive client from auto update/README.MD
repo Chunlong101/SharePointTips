@@ -8,7 +8,7 @@ Here in this article I will share some thoughs, but pls note, not all of them ar
 
 #### The Task Scheduler method mentioned in https://www.coretechnologies.com/blog/miscellaneous/disable-onedrive-automatic-updates (stop auto update tasks in task scheudler) also doesn't prevent OneDrive.exe from checking and automatically updating to a new version.
 
-#### Disabling two endpoints, "oneclient.sfx.ms" seems to be the only effective way to stop OneDrive from auto-updating, but this is not supported by Microsoft (this can also be done by network layer):
+#### Disabling the endpoint, "oneclient.sfx.ms" seems to be the only effective way to stop OneDrive from auto-updating, but this is not supported by Microsoft (this can also be done by network layer):
 ```
 1. Run Notepad as an administrator.
 2. Navigate to and open the hosts file (located at c:\Windows\System32\drivers\etc\hosts).
