@@ -123,7 +123,7 @@ I've noticed that every time this flow runs, it increments the ID of the target 
 
 #### Long in short, our requirement is to move/copy a file from the source library to the target library with correct/consistent metadata value. At this moment, we have 4 options/workarounds below:
 
-Option 1: Download the file from the source library >> upload it to the target library >> download the file from the target library >> upload it back to the target library again. Or manually download the affected document from source, remove the metadata from the advanced properties in word (through the word app, by going in the file->info->properties), and re-place the document in the target SharePoint library.  
+Option 1: Download the file from the source library >> upload it to the target library >> download the file from the target library >> upload it back to the target library again. Or manually download the affected document from source, remove the metadata from the advanced properties in word (through the word app, by going in the file >> info >> properties), and re-place the document in the target SharePoint library.  
     
 Option 2: Use PowerShell:
 
