@@ -1,4 +1,4 @@
-#### Currently we don't have a reliable method to prevent OneDrive from auto-upgrading, do we?
+# Currently we don't have a reliable method to prevent OneDrive from auto-upgrading, do we?
 
 The answer is - No we don't, this scenario is not supported. Currenty there's no official settings or configurations that can help on this, Microsoft does not recommend to disable automatic updates, Mcirosoft believes in the importance of these updates for maintaining the security, performance, and overall functionality of products.
 
