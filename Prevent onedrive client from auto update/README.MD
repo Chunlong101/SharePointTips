@@ -17,7 +17,7 @@ Here in this article I will share some thoughs, but pls note, not all of them ar
    127.0.0.1                  oneclient.sfx.ms
    
 4. Save the file.
-5. Keep in mind that by making this change, OneDrive will no longer update automatically until you remove this entry. You can manually update it by downloading and installing the updates, but it won't update automatically.
+5. Keep in mind that by making this change, OneDrive (onedrive.exe with user context and svchost.exe with SYSTEM) will no longer update automatically until "oneclient.sfx.ms" is unblocked. You can manually update it by downloading and installing the updates, but it won't update automatically.
 ```
 
 #### Locking the update.xml file, which controls OneDrive updates, including standalone and embedded updates,  Microsoft doesn't support this either:
