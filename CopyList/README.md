@@ -2,12 +2,14 @@
 Copying existing list to another one. (We can easily use gpt or github copilot to change this script to meet your scenario)
 
 # Quick start
-Assuming I have a sharepoint list with multiple different columns: 
+Assuming I have a sharepoint list with multiple columns and items: 
 ![screencapture-5xxsz0-sharepoint-sites-Test-layouts-15-listedit-aspx-2023-11-12-00_58_08](https://github.com/Chunlong101/SharePointScripts/assets/9314578/9208bd71-9c01-4bdf-a527-7171b39bbb2e)
-And data: 
+
 ![screencapture-5xxsz0-sharepoint-sites-Test-Lists-AllColumnsList-AllItems-aspx-2023-11-12-00_57_51](https://github.com/Chunlong101/SharePointScripts/assets/9314578/8974fd67-1187-45e0-8ba1-327a4a568006)
-After this script I will get another indentical list: 
+
+What this script will do is - it will help generate another indentical list with the same data: 
 ![screencapture-5xxsz0-sharepoint-sites-Test-Lists-AllColumns-Copy-AllItems-aspx-2023-11-12-01_04_02](https://github.com/Chunlong101/SharePointScripts/assets/9314578/3484d879-708c-440b-93fd-7631ecdecdc9)
+
 Currently this scirpt doens't support multi-values-column (single-value is ok), which means, if you have a people picker column that allow multiple values then this script will skip that column (data loss). 
 
 # Use gpt to help you change the code to meet different enviorment (different columns)
