@@ -1,6 +1,6 @@
 ## ADFS Configuration for SharePoint Integration
 
-### Certificate Acquisition
+### Certificate Acquisition (Assuming Certificate is Already Obtained)
 
 To initiate the configuration process for Active Directory Federation Services (ADFS), the first step requires obtaining a certificate for ADFS Communication Service. This certificate is utilized in URLs like `https://hostname/adfs/ls/IdpInitiatedSignon.aspx`. There are two primary methods for obtaining this certificate:
 
@@ -17,7 +17,7 @@ Get-AdfsEndpoint | Select-Object -ExpandProperty FullUrl | clip
 Set-AdfsProperties -EnableIdPInitiatedSignonPage $true
 ```
 
-Upon successful installation, access the following URL to verify: `https://chunlong.online/adfs/ls/IdpInitiatedSignon.aspx`.
+Upon successful installation, access the following URL to verify: `https://hostname/adfs/ls/IdpInitiatedSignon.aspx`.
 
 ### SharePoint Integration Steps
 
@@ -48,7 +48,7 @@ Integration of ADFS with SharePoint involves four main steps:
 
 4. **Configure SharePoint**:
 
-   Run the following PowerShell commands to configure SharePoint:
+   Run the following PowerShell commands to configure SharePoint: (Update parameters as necessary)
 
    ```powershell
    Add-PSSnapin "Microsoft.SharePoint.PowerShell" -ErrorAction SilentlyContinue
@@ -99,7 +99,7 @@ Integration of ADFS with SharePoint involves four main steps:
 
 # ADFS 配置指南
 
-## 1. 获取证书
+## 1. 获取证书 （本篇文章假设你已经获取到了相关证书）
 
 ADFS 通信服务需要一张证书，例如 https://hostname/adfs/ls/IdpInitiatedSignon.aspx 将使用此证书。你可以通过以下两种方式获取证书：
 
@@ -115,7 +115,7 @@ Get-AdfsEndpoint | select FullUrl | clip
 Set-AdfsProperties -EnableIdPInitiatedSignonPage $true 
 ```
 
-访问以下链接进行验证：https://chunlong.online/adfs/ls/IdpInitiatedSignon.aspx
+访问以下链接进行验证：https://hostname/adfs/ls/IdpInitiatedSignon.aspx
 
 ## 3. ADFS 与 SharePoint 对接
 
@@ -142,7 +142,7 @@ Set-AdfsProperties -EnableIdPInitiatedSignonPage $true
 
 ### 步骤 4: 在 SharePoint 上配置令牌颁发者
 
-运行以下 PowerShell 脚本，在 SharePoint 中配置令牌颁发者。
+运行以下 PowerShell 脚本，在 SharePoint 中配置令牌颁发者。（请自行匹配具体参数）
 
 ```powershell
 Add-PSSnapin "Microsoft.SharePoint.PowerShell" -ErrorAction SilentlyContinue
@@ -163,7 +163,7 @@ $signInURL="https://ad.china.contoso.com/adfs/ls/"
 $TrustedIdentity = New-SPTrustedIdentityTokenIssuer -Name "Trusted IDP (ADFS)" -Description "ADFS Trusted Identity Provider" -realm $realm -ImportTrustCertificate $cert -ClaimsMappings $EmailMap,$upnMap,$RoleMap -SignInUrl $signInURL -IdentifierClaim $UPNMap.InputClaimType
 ```
 
-### 可能的错误解决方案
+### 可能会遇到错误的地方
 
 如果遇到 `PartialChain: A certificate chain could not be built to a trusted root authority` 的错误，按照以下步骤解决：
 
