@@ -93,16 +93,9 @@ Integration of ADFS with SharePoint involves four main steps:
 
    ![Permissions](image-9.png)
 
-
-
-
 -----
 -----
 -----
-
-
-
-
 
 # ADFS 配置指南
 
