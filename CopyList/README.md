@@ -1,5 +1,13 @@
+# Now SharePoint Online provides a very convenient feature that allows you to easily copy a list to another site or tenant:
+
+![alt text](image.png)
+![alt text](image-1.png)
+![](image-2.png)
+
+However, if you want to migrate a list from online to on-premises or from on-premises to on-premises, you can follow the methods below:
+
 # What can this script do?
-Copying existing list to another one. (We can easily use gpt or github copilot to change this script to meet your scenario)
+Copying existing list to another environment (Online >> OnPrem or OnPrem >> OnPrem). (We can easily use gpt or github copilot to change this script to meet your scenario)
 
 # Quick start
 Assuming I have a sharepoint list with multiple columns and items: 
