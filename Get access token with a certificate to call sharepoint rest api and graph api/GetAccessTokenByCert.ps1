@@ -85,6 +85,9 @@ function GenerateJWT ($cert, $clientId, $tenantId, $scope) {
 # Get the client_assertion
 $RequestToken = GenerateJWT -cert $cert -clientId $clientId -tenantId $tenantId -scope $scope
 
+# Output the client_assertion
+Write-Output "Client_Assertion: $RequestToken"
+
 $AccessTokenResponse = Invoke-WebRequest `
     -Method POST `
     -ContentType "application/x-www-form-urlencoded" `
