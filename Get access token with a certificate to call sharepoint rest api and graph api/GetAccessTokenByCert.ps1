@@ -43,13 +43,15 @@ Write-Host $privateKeyString
 # Define the Azure AD tenant ID and app client ID
 $tenantId = "311ca363-cc76-4086-93a7-94f6b8f4ae2a"
 $clientId = "efec52de-b554-40e0-8596-27a895cb4589"
-<# Define the certificate thumbprint
-$thumbprint = "9c3c823815c56832457ed15b90d0b03261f822e3" #"YOUR_CERTIFICATE_THUMBPRINT"
-$cert = Get-Item Cert:\CurrentUser\My\$Thumbprint  #CurrentUser/LocalMachine
+<# 
+Use the certificate thumbprint to get the certificate:
+$thumbprint = "9c3c823815c56832457ed15b90d0b03261f822e3" # Thumbprint for MyCert99
+$cert = Get-Item Cert:\CurrentUser\My\$Thumbprint
 #>
 $cert = Get-ChildItem -Path $CERT_Store | Where-Object { $_.Subject -Match $CERT_Subject } # | Select-Object FriendlyName, Thumbprint, Subject, NotBefore, NotAfter
 $scope = "https://5xxsz0.sharepoint.com"
-<# for Graph api call test
+<# 
+For Graph api call:
 $scope="https://graph.microsoft.com"
 #>
 
@@ -99,8 +101,10 @@ $AccessToken = $AccessTokenJsonResponse.access_token
 # Output the access token
 Write-Output "Access Token: $AccessToken"
 
-<# Alternatively, you can also go to MMC >> Add/Remove Snap-ins >> Certificates >> Current User >> Personal >> Your Certificates >> Export the certificate to a .pfx file with private key, then use the following code to get access token(s)
+<# 
+Alternatively, you can also go to MMC >> Add/Remove Snap-ins >> Certificates >> Current User >> Personal >> MyCert99 >> Export the certificate to a .pfx file with private key, then use the following code to get access token(s)
 $password = (ConvertTo-SecureString -AsPlainText 'Your Private Key (generated while exporting .pfx)' -Force)
 Connect-PnPOnline -Url "https://5xxsz0.sharepoint.com/sites/test" -ClientId $clientId -CertificatePath "$CERT_PATH\\$CERT_NAME.pfx" -CertificatePassword $password  -Tenant '5xxsz0.onmicrosoft.com'
 Get-PnPAccessToken -ResourceTypeName SharePoint # Access Token For SharePoint REST API
-Get-PnPAccessToken -ResourceTypeName Graph # Access Token For Microsoft Graph API #>
+Get-PnPAccessToken -ResourceTypeName Graph # Access Token For Microsoft Graph API 
+#>
