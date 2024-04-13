@@ -18,7 +18,7 @@ c. You can also use `sites.selected` in a hybrid scenario; refer to [my other ar
 
 ## Step 2: Upload Certificate
 
-Upload your certificate to Azure AD app registration (you can refer to creating a self-assigned certificate [here](https://github.com/Chunlong101/SharePointTips/blob/master/NewSelfSignedCertificateEx.ps1)). Your certificate should have two formats, pfx and cer. Upload the cer and keep the pfx with the private key locally:
+Upload your certificate to Azure AD app registration (you can refer to creating a self-assigned certificate [here](https://github.com/Chunlong101/SharePointTips/blob/46146e6517c15e1548b196f9b3f82a5ff086b2ac/Get%20access%20token%20with%20a%20certificate%20to%20call%20sharepoint%20rest%20api%20and%20graph%20api/GetAccessTokenByCert.ps1#L2)). Your certificate should have two formats, pfx and cer. Upload the cer and keep the pfx with the private key locally:
 
 ![Upload Certificate](https://github.com/Chunlong101/SharePointTips/assets/9314578/8ed628ea-8d26-4f43-878f-9f4f5543d151)
 
@@ -77,7 +77,7 @@ c. 您还可以混合使用 `sites.selected`，请参考[我的另一篇文章](
 
 ## 第二步：上传证书
 
-上传你的证书到azure ad app registration（可以参考这里自制证书：[here](https://github.com/Chunlong101/SharePointTips/blob/master/NewSelfSignedCertificateEx.ps1)）。你的证书应该有两个格式，pfx 和 cer，上传 cer 格式的证书，保留带有私钥的 pfx 证书在本地：
+上传你的证书到azure ad app registration（可以参考这里自制证书：[here](https://github.com/Chunlong101/SharePointTips/blob/46146e6517c15e1548b196f9b3f82a5ff086b2ac/Get%20access%20token%20with%20a%20certificate%20to%20call%20sharepoint%20rest%20api%20and%20graph%20api/GetAccessTokenByCert.ps1#L2)）。你的证书应该有两个格式，pfx 和 cer，上传 cer 格式的证书，保留带有私钥的 pfx 证书在本地：
 
 ![Upload Certificate](https://github.com/Chunlong101/SharePointTips/assets/9314578/8ed628ea-8d26-4f43-878f-9f4f5543d151)
 

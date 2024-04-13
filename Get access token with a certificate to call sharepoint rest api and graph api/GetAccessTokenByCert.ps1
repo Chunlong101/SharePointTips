@@ -2,15 +2,20 @@
 # Step 1: Create a self-signed certificate, you can skip this step if you already have a one
 # ----- 
 
-$CERT_NAME = "MyCert"
+$CERT_NAME = "MyCert99"
 $CERT_PATH = "C:\Temp"
-$CERT_Store = "Cert:\CurrentUser\My" # MMC >> Add/Remove Snap-ins >> Certificates >> Current User >> Personal >> Your Certificates
+$CERT_Store = "Cert:\CurrentUser\My" # MMC >> Add/Remove Snap-ins >> Certificates >> Current User >> Personal >> MyCert99
 $CERT_Subject = "CN=$($CERT_NAME)"
 
-$cert = New-SelfSignedCertificate -Subject $CERT_Subject -CertStoreLocation $CERT_Store -KeyExportPolicy Exportable -KeySpec Signature -KeyLength 2048 -KeyAlgorithm RSA -HashAlgorithm SHA256 -Provider "Microsoft Enhanced RSA and AES Cryptographic Provider"
+# Create a self-signed certificate that expires in 99 years
+$cert = New-SelfSignedCertificate -Subject $CERT_Subject -CertStoreLocation $CERT_Store -KeyExportPolicy Exportable -KeySpec Signature -KeyLength 2048 -KeyAlgorithm RSA -HashAlgorithm SHA256 -Provider "Microsoft Enhanced RSA and AES Cryptographic Provider" -NotAfter (Get-Date).AddYears(99)
 
-#Set-ExecutionPolicy RemoteSigned #Unrestricted; may error due to policy,export manually
+# Export the certificate to a .cer file. If encountering errors due to policy restrictions then use "Set-ExecutionPolicy RemoteSigned #Unrestricted" or manually export the certificate instead
 Export-Certificate -Cert $cert -FilePath "$CERT_PATH\$($CERT_NAME).cer" -Force
+
+<#
+Then go to MMC >> Add/Remove Snap-ins >> Certificates >> Current User >> Personal >> MyCert99 >> Export the certificate to a .pfx file with private key, then you should have two files: MyCert99.cer and MyCert99.pfx
+#>
 
 # Private key to Base64, not used for current scenario
 $privateKey = [System.Security.Cryptography.X509Certificates.RSACertificateExtensions]::GetRSAPrivateKey($cert)
