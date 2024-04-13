@@ -94,9 +94,8 @@ $AccessToken = $AccessTokenJsonResponse.access_token
 # Output the access token
 Write-Output "Access Token: $AccessToken"
 
-<# You can also go to MMC >> Add/Remove Snap-ins >> Certificates >> Current User >> Personal >> Your Certificates >> Export the certificate to a .pfx file with private key, then use the following code to get access token(s)
+<# Alternatively, you can also go to MMC >> Add/Remove Snap-ins >> Certificates >> Current User >> Personal >> Your Certificates >> Export the certificate to a .pfx file with private key, then use the following code to get access token(s)
 $password = (ConvertTo-SecureString -AsPlainText 'Your Private Key (generated while exporting .pfx)' -Force)
 Connect-PnPOnline -Url "https://5xxsz0.sharepoint.com/sites/test" -ClientId $clientId -CertificatePath "$CERT_PATH\\$CERT_NAME.pfx" -CertificatePassword $password  -Tenant '5xxsz0.onmicrosoft.com'
 Get-PnPAccessToken -ResourceTypeName SharePoint # Access Token For SharePoint REST API
-Get-PnPAccessToken -ResourceTypeName Graph # Access Token For Microsoft Graph API
-#>
+Get-PnPAccessToken -ResourceTypeName Graph # Access Token For Microsoft Graph API #>
