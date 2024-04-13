@@ -1,0 +1,710 @@
+Level,Message
+Medium,Name=Request (POST:https://colliers.sharepoint.com/_forms/default.aspx<scrubbed>)
+Medium,The request is for a root site - get the redirect URL directly colliers.sharepoint.com - colliers.sharepoint.com
+Monitorable,Unknown SPSkuType types for [639dec6b-bb19-468b-871c-c5c441c4b0cb][be9f9771-1c64-4618-9907-244325141096][61902246-d7cb-453e-85cd-53ee28eec138]
+Medium,"Initial: FileOperationType = [_Unknown], OperationId = [Authentication_FormsDefaultAuthPage], ComponentId = [AuthenticationApi]"
+Medium,Intializing RpsContextCookie.
+Medium,Extracting sign-in previous correlation ID from the rps context cookie. Value: '34421ba1-403f-4000-ff0a-2c2b431bb0f3'.
+Unexpected,The ReturnUrl element is not a relative uri. Discarding.
+Medium,Using the Source element for sign-in target path.
+Medium,Creating claims operaton scope with sign-in target.
+Medium,Skip the cookie authentication for this request.
+High,There are no tasks to execute asynchronously.
+Medium,Site=/
+Unexpected,The ReturnUrl element is not a relative uri. Discarding.
+Medium,Using the Source element for sign-in target path.
+Medium,No groups on windows token.
+Medium,"SyntexPAYGEnabled:'False', Is setting valid:'False', Features enabled:'None'."
+Medium,Checking for MSA tenant.
+Medium,Tested site for MSA context. Value: 'False'.
+Medium,The site configuration environment is null.
+Medium,MsaTenant: SPOAuthHelper NOT configuring for MsaTenant because MsaTenantUtils.IsMsaTenant() is false.
+Medium,This default auth mode is set. Value: 'OpenIdConnect'.
+Medium,Request has an OpenID Connect state element in the query string. Key: 'state'.
+Medium,Page is not sign-out page load.
+Medium,Page is not sign-out page load.
+Medium,The OpenID Connect request elements were calculated. RequestElement: 'IdToken | NonceCookie | OpenIDConnectState'.
+Medium,Request does not have element. Value: 'False'.
+Medium,Request does not have element. Value: 'False'.
+Medium,Request has element. Value: 'False'.
+Medium,Request has element. Value: 'False'.
+Medium,Request has element. Value: 'False'.
+Medium,This OpenID Connect request is for sign-in and has all the needed request elements potentially.
+Medium,"Request initialized. RequestAuthenticationMode: 'OpenIdConnect', RequestType: 'IdentityProviderSignInSuccessReturnRequest'."
+Medium,EvoStsAuthenticationPipeline Start: My Scenario Start
+Medium,Entering authentication pipeline...
+Medium,Not an invitation acceptance request.
+Medium,This is a return from an identity provider. The pre-sign in correlation id: '34421ba1-403f-4000-ff0a-2c2b431bb0f3'.
+Medium,This is a sign-in request.
+Medium,Trying to sign in with the token returning from authentication provider.
+Medium,Using IRPSSignInCallback2 for TryToAuthenticateFromRequest.
+Medium,Request has element. Value: 'False'.
+Medium,Trying to sign-in by building an SPOAuthToken from the request.
+Medium,Attempting to build an SPOAuthToken from request.
+Medium,Getting OpenID Connect token string from HTTP POST body. Key: 'id_token'.
+Medium,Found a value with the key. Adding key prefix to value. Key: 'id_token'.
+High,The HTTP context info accessor does not have cached IP address.
+Medium,The request is made with a token with key identifier 'q-23falevZhhD3hm9CQbkP5MQyU' and thumbprint 'ABEDB77DA95EBD98610F7866F4241B90FE4C4325'.
+Medium,Successfully built an OpenID Connect JSON token object from the raw ticket.
+Medium,Audience Guid matches current App Id Guid. Audience: '00000003-0000-0ff1-ce00-000000000000'.
+Medium,Audience Guid matches current App Id Guid. Audience: '00000003-0000-0ff1-ce00-000000000000'.
+Medium,Successfully validated OpenID Connect JSON token.
+Medium,Getting OpenID Connect code string from form. Key: 'code'.
+Medium,Found a value with the key. Key: 'code'.
+Medium,"Id token: '{""typ"":""JWT"",""alg"":""RS256"",""x5t"":""q-23falevZhhD3hm9CQbkP5MQyU"",""kid"":""q-23falevZhhD3hm9CQbkP5MQyU""}.{""aud"":""00000003-0000-0ff1-ce00-000000000000"",""iss"":""https://sts.windows.net/049e3382-8cdc-477b-9317-951b04689668/"",""iat"":1712113965,""nbf"":1712113965,""exp"":1712117865,""acrs"":[""urn:user:registersecurityinfo""],""aio"":""AUQAu/8WAAAA5WP2sulVrYnAgApa2IiU/5wYyGhP/5Mas/Eq97nsf/PQ5GWi+oh/QoVS6kWPjeqaNZYCyaFKJSVgrk7PEGFmrw=="",""altsecid"":""5::10032002CC6815D0"",""amr"":[""pwd""],""auth_time"":1706733039,""c_hash"":""Ubyy7WkHoOuso27M-tkr4g"",""e_exp"":262797,""email"":""*@twgroup.co.nz"",""idp"":""https://sts.windows.net/07e47c7e-9339-473b-8138-adb77559c551/"",""ipaddr"":""203.97.64.20"",""name"":""*"",""nonce"":""FC08EF6B552810B042BB1ADEC22EAB27CE71C2736D719C88-B2A5BB7D90DF6846446A0A470A8D8BA38D49EA9925CCF4FFEB0CF1BC5E02B8C6"",""oid"":""6b8caf92-2bd6-4fc6-9ba2-3462b05cfc79"",""preferred_username"":""*"",""puid"":""10032002CE038AB7"",""rh"":""0.ARsAgjOeBNyMe0eTF5UbBGiWaAMAAAAAAPEPzgAAAAAAAAAbAEg."",""sid"":""4c736738-d5c4-4075-bde6-eca7974bfa50"",""sub"":""TlRti10Ln9tEE73wJcEKPxVDl5FeaFhfATsiFdTDIOU"",""tid"":""049e3382-8cdc-477b-9317-951b04689668"",""unique_name"":""*"",""upn"":""*@colliers.onmicrosoft.com"",""uti"":""6HhteOXMf0Om4IYmGtNbAA"",""ver"":""1.0"",""wids"":[""13bd1c72-6f4a-4dcf-985f-18d3b80f208a""],""xms_cc"":[""CP1""],""xms_mpci"":259200,""xms_pci"":3600}.<scrubbed>'."
+Medium,Successfully built an SPOAuthToken from the OpenID Connect JSON token and raw ticket.
+Medium,"With CCSWebV2, CachedCredentialsService is also a supported Identity Provider."
+Medium,Got identity provider. Value: 'AadEvoSts'.
+Medium,"Got the JSON token claim value as a date-time. ClaimType: 'iat', ClaimValue: '04/03/2024 03:12:45'."
+Medium,"Token audience matches the client id. ClientIdentifier: '00000003-0000-0ff1-ce00-000000000000', Audience: '00000003-0000-0ff1-ce00-000000000000'."
+Medium,"Token issuer identifier matches the current tenant identifier. TenantIdentifier: '049e3382-8cdc-477b-9317-951b04689668', IssuerIdentifier: 'https://sts.windows.net/049e3382-8cdc-477b-9317-951b04689668/'."
+Medium,Got the tenant id from the JSON token. TenantId: '049e3382-8cdc-477b-9317-951b04689668'.
+Medium,"Token tenant identifier matches the current tenant identifier. TenantIdentifier: '049e3382-8cdc-477b-9317-951b04689668', TokenTenantIdentifier: '049e3382-8cdc-477b-9317-951b04689668'."
+Medium,Leaving Monitored Scope: (Name=SPOAuthToken.ValidateReferredTokenBinding;StaticScopeId=6jnkp) Execution Time=0.0197; CPU Milliseconds=0; Managed Bytes=1088; SQL Query Count=0; GCPauseMS=0; AllocBytes=2088;; Parent=Request (POST:https://colliers.sharepoint.com/_forms/default.aspx<scrubbed>)
+Medium,The token is valid for sign-in pending Nonce cookie-token validation. Status: 'ValidTimeStamps | ValidAudience | ValidIssuer | ValidTenant | ValidNonceClaimPresent | ValidIdentityProvider | ValidRpsTokenV2 | ValidTokenBinding | ValidForOpenIdConnectInvitationAcceptanceWithoutNonceCheck | ValidForOpenIdConnectSignInWithoutNonceCheck | ValidForOpenIdConnectOperationsV2 | ValidForOpenIdConnectInvitationAcceptanceWithoutNonceCheckV2 | ValidForOpenIdConnectInvitationAcceptanceWithoutNonceCheckV3 | ValidForOpenIdConnectSignInWithoutNonceCheckV2'.
+Medium,Ticket validation succeeded.
+Medium,Successfully obtained a valid SPOAuthToken from the request to sign-in with.
+Medium,Attempting to sign in with SPOAuthToken.
+Medium,Got raw user name from the JSON token. RawUserName: <name>'327420_twgroup.co.nz#EXT#@colliers.onmicrosoft.com'</name>.
+Medium,Got the identity provider from the JSON token. OriginalIdentityProvider: 'https://sts.windows.net/07e47c7e-9339-473b-8138-adb77559c551/'.
+Medium,Got wids claim from ID token. Value: '13bd1c72-6f4a-4dcf-985f-18d3b80f208a'.
+Medium,home_oid is not included in the JSON token.
+Medium,Got the alternative security id from the JSON token. AlternativeSecurityId: '5::10032002CC6815D0'.
+Medium,Using full host domain for cookie. CookieName: 'nSGt'.
+Medium,"Successfully read nonce cookie. Version: '0', Seed: '876DCCFDC814B3A2C5A05AC95023860ED17C40E1403DE165', Identifier: 'FC08EF6B552810B042BB1ADEC22EAB27CE71C2736D719C88'."
+Medium,Successfully read the Nonce cookie and validated it against the token Nonce claim value.
+Medium,The JSON token nonce is valid because it has matching nonce cookie.
+Medium,Trying to map user.
+Medium,Trying to find connected account for tenant OpenID Connect token.
+Medium,Got the puid from the JSON token. PUID: '10032002CE038AB7'.
+Medium,The JSON token is for a tenant user.
+Medium,"Connected account lookup for tenant user. UserName: <name>'327420_twgroup.co.nz#EXT#@colliers.onmicrosoft.com'</name>, Puid: '10032002CE038AB7',  AlternateSecurityId: '5::10032002CC6815D0'."
+Medium,[SPOAuthSPODSAccessor.GetSPODSMode]: Got current SPODS Mode. Value: 'ADOnly'.
+Medium,"Initializing ActiveDirectoryResolver from context was SUCCESSFUL for SPSite. Value: 'https://colliers.sharepoint.com/_vti_bin/client.svc/contextinfo<scrubbed>', UsedValue: 'https://colliers.sharepoint.com/_vti_bin/client.svc/contextinfo<scrubbed>'."
+Medium,[ActiveDirectoryResolver]: In GetUserFromDirectoryAsProcess
+Medium,"SetSpodsCredentialIfNeeded: Using custom credentials for Spods. Server 'LDAP://spd192625-055.spods192624.msft.net/OU=049e3382-8cdc-477b-9317-951b04689668,OU=Tenants,OU=MSOnline,DC=SPODS192624,DC=msft,DC=net', UserName: 'SPODS192624.msft.net\_DS192624_RD_7'."
+Medium,Skipping load shedding evaluation for scope SPODS_ActiveDirectory
+Medium,Leaving Monitored Scope: (Name=QueryDirectoryServices with high availability for login;StaticScopeId=6jnk9) Execution Time=6.0885; CPU Milliseconds=4; Managed Bytes=114304; SQL Query Count=0; GCPauseMS=0; AllocBytes=115432;; Parent=GuestHelper.TryFindUserInSPODS: SPOAuthSPODSAccessor.GetUser
+Medium,userSearchResult = System.DirectoryServices.SearchResult
+Medium,User search resulted in MsoAccountEnabled being true.
+Medium,This is a new guest user: 327420_twgroup.co.nz#EXT#@colliers.onmicrosoft.com.
+Medium,GetUtcDateTimeProperty: Received property as a DateTime instance. Property name: 'msOnline-StsRefreshTokensValidFrom' Incoming value: '8/1/2023 3:50:29 AM' Incoming kind: 'Unspecified'.
+Medium,GetUtcDateTimeProperty: Received property as a DateTime instance. Property name: 'msOnline-StsRefreshTokensValidFrom' Value: '8/1/2023 3:50:29 AM' Kind: 'Utc'.
+Medium,Leaving Monitored Scope: (Name=GuestHelper.TryFindUserInSPODS: SPOAuthSPODSAccessor.GetUser;StaticScopeId=6jnku) Execution Time=7.0148; CPU Milliseconds=5; Managed Bytes=197544; SQL Query Count=0; GCPauseMS=0; AllocBytes=198800;; Parent=GuestHelper.TryFindConnectedAccount
+Medium,TryFindConnectedAccount: found user '327420_twgroup.co.nz#EXT#@colliers.onmicrosoft.com' by PUID in SPODS. Ignoring.
+Medium,Leaving Monitored Scope: (Name=GuestHelper.TryFindConnectedAccount;StaticScopeId=6jnkt) Execution Time=7.2335; CPU Milliseconds=5; Managed Bytes=218440; SQL Query Count=0; GCPauseMS=0; AllocBytes=219824;; Parent=Request (POST:https://colliers.sharepoint.com/_forms/default.aspx<scrubbed>)
+Medium,Have not found connected account. UserName: <name>'327420_twgroup.co.nz#EXT#@colliers.onmicrosoft.com'</name>.
+Medium,The JSON token is valid for tenant user sign-in.
+Medium,All sign-in policy checks passed.
+Unexpected,The ReturnUrl element is not a relative uri. Discarding.
+Medium,Using the Source element for sign-in target path.
+High,context does not match contextUri. Not obtaining settings for context from cache.
+Medium,Caching tenant user.
+High,context does not match contextUri. Not obtaining settings for context from cache.
+Medium,Access control claim is null or empty. ClaimType: 'controls'.
+Medium,The ABT timeout property is returning computed value. Value: 'Null'.
+Medium,"Got the JSON token claim value as a long. ClaimType: 'xms_pci', ClaimValue: '3600'."
+Medium,Got the JSON token policy check interval. PolicyCheckInterval: '3600'.
+Medium,Got the next CA policy check time. NextCAPolicyCheckTime: 04/03/2024 04:17:47.
+Medium,"Got the JSON token claim value as a long. ClaimType: 'xms_mpci', ClaimValue: '259200'."
+Medium,Got the JSON token policy check interval. MaxPolicyCheckInterval: '259200'.
+Medium,Got the extended CA policy check time. ExtendedCAPolicyCheckTime: 04/06/2024 03:17:47.
+Medium,The device id is not included in the JSON token so using the empty string.
+Medium,The capolids_latebind claim is not included in the JSON token so using the empty string.
+Medium,"Got the xms_cc claim from the JSON token. ClientCapabilities: '[""CP1""]'."
+Medium,The xms_ssm claim is not included in the JSON token so using the empty string.
+Medium,The xms_caechecks claim is not included in the JSON token.
+Medium,The xms_rp_ipaddr claim is not included in the JSON token so using the empty string.
+Medium,The tenant restrictions policy id claim is not included in the JSON token so using the empty string.
+Medium,"Got the AuthContext claim from the JSON token: '[""urn:user:registersecurityinfo""]'."
+Medium,Got the preferred_username claim from the JSON token. Value: <name>'327420@twgroup.co.nz'</name>.
+Medium,Got the unique token id from the JSON token. Value: '6HhteOXMf0Om4IYmGtNbAA'.
+Medium,Got the object id from the JSON token. ObjectId: '6b8caf92-2bd6-4fc6-9ba2-3462b05cfc79'.
+Medium,Leaving Monitored Scope: (Name=SPSiteInfoData.Serialize;StaticScopeId=6gu6l) Execution Time=0.0231; CPU Milliseconds=0; Managed Bytes=5616; SQL Query Count=0; GCPauseMS=0; AllocBytes=6616;; Parent=FormsSignInPage.AuthenticateEventHandler: Retrieve security token and establish session.
+Medium,SecurityTokenServiceReceiveRequest: Calling correlation id. Value: '34421ba1-50f0-5000-048b-356be2a51f34'.
+Medium,The user key provider instance is created and set on the thread context.
+Medium,STS Call: Creating Claims Operations Scope for Applies To Uri: 'https://colliers.sharepoint.com/_vti_bin/client.svc/contextinfo<scrubbed><scrubbed>'.
+Medium,Leaving Monitored Scope: (Name=SPSiteInfoData.Deserialize;StaticScopeId=6gu6k) Execution Time=0.0326; CPU Milliseconds=0; Managed Bytes=1328; SQL Query Count=0; GCPauseMS=0; AllocBytes=2080;; Parent=SPSecurityTokenService.Issue
+Medium,Created claims operation context with values passed from the content application pool.
+Medium,SetupUserValidationType: Sign-in operation. Username: <name>327420_twgroup.co.nz#EXT#@colliers.onmicrosoft.com</name>.
+Medium,Using SPClaimsOperationContext without HttpContext. Scope: '7669dc6c-1c61-4add-918e-c7e4843aec7c'.
+Medium,Checking for MSA tenant.
+Medium,Tested site subscription for MSA context. Value: 'False'.
+Medium,The site configuration environment is null.
+Medium,MsaTenant: SPOAuthHelper NOT configuring for MsaTenant because MsaTenantUtils.IsMsaTenant() is false.
+Medium,Attempting to get a SPOAuthToken from raw ticket.
+Unexpected,The authentication request context or the logging events are null.
+Medium,The request is made with a token with key identifier 'q-23falevZhhD3hm9CQbkP5MQyU' and thumbprint 'ABEDB77DA95EBD98610F7866F4241B90FE4C4325'.
+Medium,Successfully built an OpenID Connect JSON token object from the raw ticket.
+Medium,Audience Guid matches current App Id Guid. Audience: '00000003-0000-0ff1-ce00-000000000000'.
+Medium,Audience Guid matches current App Id Guid. Audience: '00000003-0000-0ff1-ce00-000000000000'.
+Unexpected,Failed to get current subscription id.
+Medium,Successfully validated OpenID Connect JSON token.
+Medium,"Id token: '{""typ"":""JWT"",""alg"":""RS256"",""x5t"":""q-23falevZhhD3hm9CQbkP5MQyU"",""kid"":""q-23falevZhhD3hm9CQbkP5MQyU""}.{""aud"":""00000003-0000-0ff1-ce00-000000000000"",""iss"":""https://sts.windows.net/049e3382-8cdc-477b-9317-951b04689668/"",""iat"":1712113965,""nbf"":1712113965,""exp"":1712117865,""acrs"":[""urn:user:registersecurityinfo""],""aio"":""AUQAu/8WAAAA5WP2sulVrYnAgApa2IiU/5wYyGhP/5Mas/Eq97nsf/PQ5GWi+oh/QoVS6kWPjeqaNZYCyaFKJSVgrk7PEGFmrw=="",""altsecid"":""5::10032002CC6815D0"",""amr"":[""pwd""],""auth_time"":1706733039,""c_hash"":""Ubyy7WkHoOuso27M-tkr4g"",""e_exp"":262797,""email"":""*@twgroup.co.nz"",""idp"":""https://sts.windows.net/07e47c7e-9339-473b-8138-adb77559c551/"",""ipaddr"":""203.97.64.20"",""name"":""*"",""nonce"":""FC08EF6B552810B042BB1ADEC22EAB27CE71C2736D719C88-B2A5BB7D90DF6846446A0A470A8D8BA38D49EA9925CCF4FFEB0CF1BC5E02B8C6"",""oid"":""6b8caf92-2bd6-4fc6-9ba2-3462b05cfc79"",""preferred_username"":""*"",""puid"":""10032002CE038AB7"",""rh"":""0.ARsAgjOeBNyMe0eTF5UbBGiWaAMAAAAAAPEPzgAAAAAAAAAbAEg."",""sid"":""4c736738-d5c4-4075-bde6-eca7974bfa50"",""sub"":""TlRti10Ln9tEE73wJcEKPxVDl5FeaFhfATsiFdTDIOU"",""tid"":""049e3382-8cdc-477b-9317-951b04689668"",""unique_name"":""*"",""upn"":""*@colliers.onmicrosoft.com"",""uti"":""6HhteOXMf0Om4IYmGtNbAA"",""ver"":""1.0"",""wids"":[""13bd1c72-6f4a-4dcf-985f-18d3b80f208a""],""xms_cc"":[""CP1""],""xms_mpci"":259200,""xms_pci"":3600}.<scrubbed>'."
+Medium,Successfully built an SPOAuthToken from the OpenID Connect JSON token and raw ticket.
+Medium,"With CCSWebV2, CachedCredentialsService is also a supported Identity Provider."
+Medium,Got identity provider. Value: 'AadEvoSts'.
+Medium,"Got the JSON token claim value as a date-time. ClaimType: 'iat', ClaimValue: '04/03/2024 03:12:45'."
+Medium,"Token audience matches the client id. ClientIdentifier: '00000003-0000-0ff1-ce00-000000000000', Audience: '00000003-0000-0ff1-ce00-000000000000'."
+Medium,"Token issuer identifier matches the current tenant identifier. TenantIdentifier: '049e3382-8cdc-477b-9317-951b04689668', IssuerIdentifier: 'https://sts.windows.net/049e3382-8cdc-477b-9317-951b04689668/'."
+Medium,Got the tenant id from the JSON token. TenantId: '049e3382-8cdc-477b-9317-951b04689668'.
+Medium,"Token tenant identifier matches the current tenant identifier. TenantIdentifier: '049e3382-8cdc-477b-9317-951b04689668', TokenTenantIdentifier: '049e3382-8cdc-477b-9317-951b04689668'."
+Medium,Leaving Monitored Scope: (Name=SPOAuthToken.ValidateReferredTokenBinding;StaticScopeId=6jnkp) Execution Time=0.0237; CPU Milliseconds=0; Managed Bytes=1256; SQL Query Count=0; GCPauseMS=0; AllocBytes=2008;; Parent=SPSecurityTokenService.Issue
+Medium,The token is valid for sign-in pending Nonce cookie-token validation. Status: 'ValidTimeStamps | ValidAudience | ValidIssuer | ValidTenant | ValidNonceClaimPresent | ValidIdentityProvider | ValidRpsTokenV2 | ValidTokenBinding | ValidForOpenIdConnectInvitationAcceptanceWithoutNonceCheck | ValidForOpenIdConnectSignInWithoutNonceCheck | ValidForOpenIdConnectOperationsV2 | ValidForOpenIdConnectInvitationAcceptanceWithoutNonceCheckV2 | ValidForOpenIdConnectInvitationAcceptanceWithoutNonceCheckV3 | ValidForOpenIdConnectSignInWithoutNonceCheckV2'.
+Medium,Ticket validation succeeded.
+Medium,Got wids claim from ID token. Value: '13bd1c72-6f4a-4dcf-985f-18d3b80f208a'.
+Medium,home_oid is not included in the JSON token.
+Medium,Trying to map user.
+Medium,Trying to find connected account for tenant OpenID Connect token.
+Medium,Got the alternative security id from the JSON token. AlternativeSecurityId: '5::10032002CC6815D0'.
+Medium,Got raw user name from the JSON token. RawUserName: <name>'327420_twgroup.co.nz#EXT#@colliers.onmicrosoft.com'</name>.
+Medium,Got the puid from the JSON token. PUID: '10032002CE038AB7'.
+Medium,The JSON token is for a tenant user.
+Medium,"Connected account lookup for tenant user. UserName: <name>'327420_twgroup.co.nz#EXT#@colliers.onmicrosoft.com'</name>, Puid: '10032002CE038AB7',  AlternateSecurityId: '5::10032002CC6815D0'."
+Medium,[SPOAuthSPODSAccessor.GetSPODSMode]: Got current SPODS Mode. Value: 'ADOnly'.
+Medium,"Initializing ActiveDirectoryResolver from context was SUCCESSFUL for SPSite. Value: 'https://colliers.sharepoint.com/_vti_bin/client.svc/contextinfo<scrubbed>', UsedValue: 'https://colliers.sharepoint.com/_vti_bin/client.svc/contextinfo<scrubbed>'."
+Medium,[ActiveDirectoryResolver]: In GetUserFromDirectoryAsProcess
+Medium,"SetSpodsCredentialIfNeeded: Using custom credentials for Spods. Server 'LDAP://spd192625-054.spods192624.msft.net/OU=049e3382-8cdc-477b-9317-951b04689668,OU=Tenants,OU=MSOnline,DC=SPODS192624,DC=msft,DC=net', UserName: 'SPODS192624.msft.net\_DS192624_RD_7'."
+Unexpected,The argument does not have the encoding separator. Argument name : 'encodedValue'.
+Medium,Leaving Monitored Scope: (Name=QueryDirectoryServices with high availability for login;StaticScopeId=6jnk9) Execution Time=25.4921; CPU Milliseconds=5; Managed Bytes=119480; SQL Query Count=0; GCPauseMS=0; AllocBytes=120360;; Parent=GuestHelper.TryFindUserInSPODS: SPOAuthSPODSAccessor.GetUser
+Medium,userSearchResult = System.DirectoryServices.SearchResult
+Medium,User search resulted in MsoAccountEnabled being true.
+Medium,This is a new guest user: 327420_twgroup.co.nz#EXT#@colliers.onmicrosoft.com.
+Medium,GetUtcDateTimeProperty: Received property as a DateTime instance. Property name: 'msOnline-StsRefreshTokensValidFrom' Incoming value: '8/1/2023 3:50:29 AM' Incoming kind: 'Unspecified'.
+Medium,GetUtcDateTimeProperty: Received property as a DateTime instance. Property name: 'msOnline-StsRefreshTokensValidFrom' Value: '8/1/2023 3:50:29 AM' Kind: 'Utc'.
+Medium,Leaving Monitored Scope: (Name=GuestHelper.TryFindUserInSPODS: SPOAuthSPODSAccessor.GetUser;StaticScopeId=6jnku) Execution Time=26.5233; CPU Milliseconds=6; Managed Bytes=229152; SQL Query Count=0; GCPauseMS=0; AllocBytes=230160;; Parent=GuestHelper.TryFindConnectedAccount
+Medium,TryFindConnectedAccount: found user '327420_twgroup.co.nz#EXT#@colliers.onmicrosoft.com' by PUID in SPODS. Ignoring.
+Medium,Leaving Monitored Scope: (Name=GuestHelper.TryFindConnectedAccount;StaticScopeId=6jnkt) Execution Time=27.2612; CPU Milliseconds=7; Managed Bytes=264600; SQL Query Count=0; GCPauseMS=0; AllocBytes=265736;; Parent=SPSecurityTokenService.Issue
+Medium,Have not found connected account. UserName: <name>'327420_twgroup.co.nz#EXT#@colliers.onmicrosoft.com'</name>.
+Medium,The JSON token is valid for tenant user sign-in.
+Medium,"Got the JSON token claim value as a date-time. ClaimType: 'auth_time', ClaimValue: '01/31/2024 20:30:39'."
+Medium,Got the JSON token autenticaiton time. AuthInstant: '01/31/2024 20:30:39'.
+Medium,"Got the JSON token claim value as a date-time. ClaimType: 'iat', ClaimValue: '04/03/2024 03:12:45'."
+Medium,Got ValidFrom property from Json token. Result: '2024-04-03 03:17:45'.
+Medium,Got the identity provider from the JSON token. OriginalIdentityProvider: 'https://sts.windows.net/07e47c7e-9339-473b-8138-adb77559c551/'.
+Medium,Got the session id from the JSON token. SessionId: '4c736738-d5c4-4075-bde6-eca7974bfa50'.
+Medium,"PopulatePropertiesForValidateUser: Adding the following claims for potential partner user. Idp: 'https://sts.windows.net/07e47c7e-9339-473b-8138-adb77559c551/', Email: '327420@twgroup.co.nz'."
+Medium,"Token Handler: Claims Forms Sign-In: Enhanced username-password check for user succeeded. MembershipProvider: 'membership', UserName: <name>'327420_twgroup.co.nz#EXT#@colliers.onmicrosoft.com'</name>."
+Medium,"AddClaimFromProperties: Found valid claim. ClaimType: 'http://schemas.microsoft.com/office/2017/03/SessionId', Value: '4c736738-d5c4-4075-bde6-eca7974bfa50'."
+Medium,"AddClaimFromProperties: Found valid claim. ClaimType: 'http://schemas.microsoft.com/office/2017/05/HomeTenantId', Value: 'https://sts.windows.net/07e47c7e-9339-473b-8138-adb77559c551/'."
+Medium,"AddClaimFromProperties: Found valid claim. ClaimType: 'http://schemas.microsoft.com/office/2017/05/PartnerUserEmail', Value: '327420@twgroup.co.nz'."
+Medium,"AddClaimFromProperties: Found valid claim. ClaimType: 'http://schemas.microsoft.com/sharepoint/online/2021/10/claims/originalidentityprovider', Value: 'https://sts.windows.net/07e47c7e-9339-473b-8138-adb77559c551/'."
+Medium,AddIncomingValidFromTimeClaim: This is a sign in request. Not adding this claim because we will get a new value from the token.
+Medium,"No identity provider claim on the identity. ClaimType: 'http://schemas.microsoft.com/sharepoint/2009/08/claims/identityprovider', IdentityName: <name>'IIS APPPOOL\SharePoint Content Services'</name>."
+Medium,"No identity provider claim on the identity. ClaimType: 'http://schemas.microsoft.com/sharepoint/2009/08/claims/identityprovider', IdentityName: <name>'327420_twgroup.co.nz#EXT#@colliers.onmicrosoft.com'</name>."
+Medium,Initialized session revocation members. Auth instant: '01/31/2024 20:30:39' AVF: ''. IssuedAt: '04/03/2024 03:17:45'. NotBefore: '04/03/2024 03:17:45'. Form operation type: ''.
+Medium,Initialize session attributes: Success from request properties: 'IsBrowser'.
+Medium,TryInitializeSessionIdForForms: Success. Value: '4c736738-d5c4-4075-bde6-eca7974bfa50'
+Medium,Initialize next CA policy check time. Value: '133565914679249543'.
+Medium,Initialize extended CA policy check time. Value: '133568470679249543'.
+Medium,TryInitializeInitialIpAddressForFormsSignIn: Initialized InitialIpAddress. Value: '<name>203.97.64.20</name>'.
+Medium,TryInitializeDeviceIdForAadFormsSignIn: Initialized DeviceId. Value: ''.
+Medium,TryInitializeAadClaimsForFormsSignIn: Initialized AAD claims. '3' claims were found.
+Medium,TryInitializeObjectIdForFormsSignIn: Initialized ObjectId. Value: '6b8caf92-2bd6-4fc6-9ba2-3462b05cfc79'.
+Medium,TryInitializeUserHexCid: GetSingleClaim did not return a UserHexCid claim.
+Unexpected,TryInitializeGranularDelegatedAdminPermissionsMembersForFormsOperation fails to get well known role ids.
+Medium,STS Call: Adding partner resolver related claims to the SPClaimsOperationContext.
+Medium,STS Call: Adding identity provider claim. Value: 'https://sts.windows.net/07e47c7e-9339-473b-8138-adb77559c551/'
+Medium,STS Call: Adding email claim. Value: '<name>327420@twgroup.co.nz</name>'
+Medium,Not creating SPClaimsOperationContext since there is one on the thread already. Uri: 'https://colliers.sharepoint.com/_vti_bin/client.svc/contextinfo<scrubbed><scrubbed>'.
+Medium,The membership provider user cache instance is null or not of an expected type.
+Unexpected,The argument does not have the encoding separator. Argument name : 'encodedValue'.
+Medium,"FillClaims [context: 'https://colliers.sharepoint.com/_vti_bin/client.svc/contextinfo<scrubbed><scrubbed>'] [entity: value: <name>0#.f|membership|327420_twgroup.co.nz#ext#@colliers.onmicrosoft.com</name>, type: 'http://schemas.microsoft.com/sharepoint/2009/08/claims/userid']"
+Medium,CreateNativeFedUserInfoFromClaimsContext detects no native fed members on claims operation context. Not a native fed user.
+Medium,CreateGranularDelegatedAdminPermissionsInfoFromClaimsContext detects no GDAP identity on the current thread.
+Medium,"The license groups are refreshed after the last tenant provisioning. Last provisioning time : '4/2/2024 10:20:51 PM', Last cached time: '4/3/2024 3:10:06 AM'."
+High,"The tenant license groups for tenant '7669dc6c-1c61-4add-918e-c7e4843aec7c' retrieved from the cache. Groups : 'SPO_SYS_CloudBIUsers,SPO_SYS_CopilotUsers,SPO_SYS_ProjectUsers,SPO_SYS_WACEditUsers,SPO_SYS_DesklessUsers,SPO_SYS_StandardUsers,SPO_SYS_ClipchampUsers,SPO_SYS_EnterpriseUsers,SPO_SYS_ProjectTeamUsers,SPO_SYS_VivaAmplifyUsers,SPO_SYS_OneDriveBasicUsers,SPO_SYS_VisioOnlineEditUsers,SPO_SYS_VivaConnectionsPremiumUsers'."
+Medium,Leaving Monitored Scope: (Name=SPTenantLicenseGroupAccessor.GetTenantLicenseGroupsOrStartAsyncFetch;StaticScopeId=6h5rh) Execution Time=0.0783; CPU Milliseconds=0; Managed Bytes=5784; SQL Query Count=0; GCPauseMS=0; AllocBytes=6536;; Parent=SPClaimProvider.FillClaimsForEntity() : Tenant
+Medium,[ActiveDirectoryResolver]: In GetUserFromDirectoryAsProcess
+Medium,"SetSpodsCredentialIfNeeded: Using custom credentials for Spods. Server 'LDAP://spd192625-055.spods192624.msft.net/cn=6b8caf92-2bd6-4fc6-9ba2-3462b05cfc79,OU=049e3382-8cdc-477b-9317-951b04689668,OU=Tenants,OU=MSOnline,DC=SPODS192624,DC=msft,DC=net', UserName: 'SPODS192624.msft.net\_DS192624_RD_7'."
+Medium,Leaving Monitored Scope: (Name=QueryDirectoryServices with high availability for login;StaticScopeId=6jnk9) Execution Time=20.5245; CPU Milliseconds=5; Managed Bytes=92944; SQL Query Count=0; GCPauseMS=0; AllocBytes=93824;; Parent=SPClaimProvider.FillClaimsForEntity() : Tenant
+Medium,userSearchResult = System.DirectoryServices.SearchResult
+Medium,User search resulted in MsoAccountEnabled being true.
+Medium,This is a new guest user: 327420_twgroup.co.nz#EXT#@colliers.onmicrosoft.com.
+Medium,The total groups retrieved for the user. Count: '4'.
+Medium,The license group value does not exist in the license groups set. Parsed Token Group : 'Users'.
+Medium,The license group value does not exist in the license groups set. Parsed Token Group : 'Domain Users'.
+Medium,"Total security groups user is part of : '2', total license groups user is part of : '0'."
+Medium,"The security groups retrieved using the token group names property. Security groups count : '2', license groups count : '0'."
+Medium,GetUtcDateTimeProperty: Received property as a DateTime instance. Property name: 'msOnline-StsRefreshTokensValidFrom' Incoming value: '8/1/2023 3:50:29 AM' Incoming kind: 'Unspecified'.
+Medium,GetUtcDateTimeProperty: Received property as a DateTime instance. Property name: 'msOnline-StsRefreshTokensValidFrom' Value: '8/1/2023 3:50:29 AM' Kind: 'Utc'.
+Medium,"Insert the user info into cache. user principal name: '<name>327420_twgroup.co.nz#ext#@colliers.onmicrosoft.com</name>, puid: '10032002CE038AB7@live.com'."
+Medium,The user information is successfully retrieved using the object identifier. Object identifier : '6b8caf92-2bd6-4fc6-9ba2-3462b05cfc79'.
+Medium,"database DedicatedContent_143557_105 updated, needsRefresh"
+Medium,"04/02/2024 20:17:48.01	w3wp (0x1BCC)	0x4A68	SharePoint Foundation Upgrade	SPContentDatabaseSequence	c9pa9	DEBUG	VERSION LOG (GET): Get version 16.0.24713.12007 for Database [DedicatedContent_143557_105] from database with version Id 00000000-0000-0000-0000-000000000000, Status = Online.	34421ba1-40f2-5000-048b-399a2e2fa5f0"
+Medium,"04/02/2024 20:17:48.01	w3wp (0x1BCC)	0x4A68	SharePoint Foundation Upgrade	SPContentDatabaseSequence	c9pa4	DEBUG	VERSION LOG (GET): Get version 16.0.399.0 for Database [DedicatedContent_143557_105] from cache with version Id 6333368d-85f0-4ef5-8241-5252b12b2e50, Status = Online.	34421ba1-40f2-5000-048b-399a2e2fa5f0"
+Medium,"04/02/2024 20:17:48.01	w3wp (0x1BCC)	0x4A68	SharePoint Foundation Upgrade	SPContentDatabaseSequence	ajy5i	DEBUG	Returning SchemaVersion [16.0.399.0] for Database DedicatedContent_143557_105, Status = Online.	34421ba1-40f2-5000-048b-399a2e2fa5f0"
+Medium,"04/02/2024 20:17:48.01	w3wp (0x1BCC)	0x4A68	SharePoint Foundation Upgrade	SPContentDatabaseSequence	c9pa4	DEBUG	VERSION LOG (GET): Get version 16.0.24713.12007 for Database [DedicatedContent_143557_105] from cache with version Id 00000000-0000-0000-0000-000000000000, Status = Online.	34421ba1-40f2-5000-048b-399a2e2fa5f0"
+Medium,"04/02/2024 20:17:48.01	w3wp (0x1BCC)	0x4A68	SharePoint Foundation Upgrade	SPContentDatabaseSequence	c9pa4	DEBUG	VERSION LOG (GET): Get version 16.0.399.0 for Database [DedicatedContent_143557_105] from cache with version Id 6333368d-85f0-4ef5-8241-5252b12b2e50, Status = Online.	34421ba1-40f2-5000-048b-399a2e2fa5f0"
+Medium,"04/02/2024 20:17:48.01	w3wp (0x1BCC)	0x4A68	SharePoint Foundation Upgrade	SPContentDatabaseSequence	ajy5i	DEBUG	Returning SchemaVersion [16.0.399.0] for Database DedicatedContent_143557_105, Status = Online.	34421ba1-40f2-5000-048b-399a2e2fa5f0"
+Medium,04/02/2024 20:17:48.01	w3wp (0x1BCC)	0x4A68	SharePoint Foundation Upgrade	SPContentDatabaseSequence	ajyxg	DEBUG	UpgradableBuildBypassInternal = 0	34421ba1-40f2-5000-048b-399a2e2fa5f0
+Medium,04/02/2024 20:17:48.01	w3wp (0x1BCC)	0x4A68	SharePoint Foundation Upgrade	SPContentDatabaseSequence	ajyxh	DEBUG	UpgradableBuildBypass = 0	34421ba1-40f2-5000-048b-399a2e2fa5f0
+Medium,"04/02/2024 20:17:48.01	w3wp (0x1BCC)	0x4A68	SharePoint Foundation Upgrade	SPSearchDatabaseSequence	c9pa4	DEBUG	VERSION LOG (GET): Get version 16.0.117.0 for Database [DedicatedContent_143557_105] from cache with version Id 4868d461-1977-4c60-b0a6-8bb7670833cf, Status = Online.	34421ba1-40f2-5000-048b-399a2e2fa5f0"
+Medium,"04/02/2024 20:17:48.01	w3wp (0x1BCC)	0x4A68	SharePoint Foundation Upgrade	SPSearchDatabaseSequence	ajy5i	DEBUG	Returning SchemaVersion [16.0.117.0] for Database DedicatedContent_143557_105, Status = Online.	34421ba1-40f2-5000-048b-399a2e2fa5f0"
+Medium,"04/02/2024 20:17:48.01	w3wp (0x1BCC)	0x4A68	SharePoint Foundation Upgrade	SPSearchDatabaseSequence	c9pa4	DEBUG	VERSION LOG (GET): Get version 16.0.117.0 for Database [DedicatedContent_143557_105] from cache with version Id 4868d461-1977-4c60-b0a6-8bb7670833cf, Status = Online.	34421ba1-40f2-5000-048b-399a2e2fa5f0"
+Medium,"04/02/2024 20:17:48.01	w3wp (0x1BCC)	0x4A68	SharePoint Foundation Upgrade	SPSearchDatabaseSequence	ajy5i	DEBUG	Returning SchemaVersion [16.0.117.0] for Database DedicatedContent_143557_105, Status = Online.	34421ba1-40f2-5000-048b-399a2e2fa5f0"
+Medium,"04/02/2024 20:17:48.01	w3wp (0x1BCC)	0x4A68	SharePoint Foundation Upgrade	SPContentDatabaseTvfTvpsSequence	c9pa4	DEBUG	VERSION LOG (GET): Get version 16.0.24713.12007 for Database [DedicatedContent_143557_105] from cache with version Id 00000000-0000-0000-0000-000000000000, Status = Online.	34421ba1-40f2-5000-048b-399a2e2fa5f0"
+Medium,"04/02/2024 20:17:48.01	w3wp (0x1BCC)	0x4A68	SharePoint Foundation Upgrade	SPContentDatabaseTvfTvpsSequence	c9pa4	DEBUG	VERSION LOG (GET): Get version 16.0.32.0 for Database [DedicatedContent_143557_105] from cache with version Id 530fabcc-cb84-46f7-ab2d-3acf0e112dce, Status = Online.	34421ba1-40f2-5000-048b-399a2e2fa5f0"
+Medium,"04/02/2024 20:17:48.01	w3wp (0x1BCC)	0x4A68	SharePoint Foundation Upgrade	SPContentDatabaseTvfTvpsSequence	ajy5i	DEBUG	Returning SchemaVersion [16.0.32.0] for Database DedicatedContent_143557_105, Status = Online.	34421ba1-40f2-5000-048b-399a2e2fa5f0"
+Medium,"04/02/2024 20:17:48.01	w3wp (0x1BCC)	0x4A68	SharePoint Foundation Upgrade	SPContentDatabaseTvfTvpsSequence	c9pa4	DEBUG	VERSION LOG (GET): Get version 16.0.24713.12007 for Database [DedicatedContent_143557_105] from cache with version Id 00000000-0000-0000-0000-000000000000, Status = Online.	34421ba1-40f2-5000-048b-399a2e2fa5f0"
+Medium,"04/02/2024 20:17:48.01	w3wp (0x1BCC)	0x4A68	SharePoint Foundation Upgrade	SPContentDatabaseTvfTvpsSequence	c9pa4	DEBUG	VERSION LOG (GET): Get version 16.0.32.0 for Database [DedicatedContent_143557_105] from cache with version Id 530fabcc-cb84-46f7-ab2d-3acf0e112dce, Status = Online.	34421ba1-40f2-5000-048b-399a2e2fa5f0"
+Medium,"04/02/2024 20:17:48.01	w3wp (0x1BCC)	0x4A68	SharePoint Foundation Upgrade	SPContentDatabaseTvfTvpsSequence	ajy5i	DEBUG	Returning SchemaVersion [16.0.32.0] for Database DedicatedContent_143557_105, Status = Online.	34421ba1-40f2-5000-048b-399a2e2fa5f0"
+Medium,04/02/2024 20:17:48.01	w3wp (0x1BCC)	0x4A68	SharePoint Foundation Upgrade	SPContentDatabaseTvfTvpsSequence	ajyxg	DEBUG	UpgradableBuildBypassInternal = 0	34421ba1-40f2-5000-048b-399a2e2fa5f0
+Medium,04/02/2024 20:17:48.01	w3wp (0x1BCC)	0x4A68	SharePoint Foundation Upgrade	SPContentDatabaseTvfTvpsSequence	ajyxh	DEBUG	UpgradableBuildBypass = 0	34421ba1-40f2-5000-048b-399a2e2fa5f0
+Medium,"04/02/2024 20:17:48.01	w3wp (0x1BCC)	0x4A68	SharePoint Foundation Upgrade	SPGlobalExtensionUpgradeSequence	c9pa4	DEBUG	VERSION LOG (GET): Get version 16.0.10.0 for Database [DedicatedContent_143557_105] from cache with version Id 51a10866-84fa-4a60-b6b4-282ff1b9372c, Status = Online.	34421ba1-40f2-5000-048b-399a2e2fa5f0"
+Medium,"04/02/2024 20:17:48.01	w3wp (0x1BCC)	0x4A68	SharePoint Foundation Upgrade	SPGlobalExtensionUpgradeSequence	ajy5i	DEBUG	Returning SchemaVersion [16.0.10.0] for Database DedicatedContent_143557_105, Status = Online.	34421ba1-40f2-5000-048b-399a2e2fa5f0"
+Medium,"04/02/2024 20:17:48.01	w3wp (0x1BCC)	0x4A68	SharePoint Foundation Upgrade	SPGlobalExtensionUpgradeSequence	c9pa4	DEBUG	VERSION LOG (GET): Get version 16.0.10.0 for Database [DedicatedContent_143557_105] from cache with version Id 51a10866-84fa-4a60-b6b4-282ff1b9372c, Status = Online.	34421ba1-40f2-5000-048b-399a2e2fa5f0"
+Medium,"04/02/2024 20:17:48.01	w3wp (0x1BCC)	0x4A68	SharePoint Foundation Upgrade	SPGlobalExtensionUpgradeSequence	ajy5i	DEBUG	Returning SchemaVersion [16.0.10.0] for Database DedicatedContent_143557_105, Status = Online.	34421ba1-40f2-5000-048b-399a2e2fa5f0"
+Medium,"04/02/2024 20:17:48.01	w3wp (0x1BCC)	0x4A68	SharePoint Foundation Upgrade	SPContentDatabaseSequence3	c9pa4	DEBUG	VERSION LOG (GET): Get version 16.0.24713.12007 for Database [DedicatedContent_143557_105] from cache with version Id 00000000-0000-0000-0000-000000000000, Status = Online.	34421ba1-40f2-5000-048b-399a2e2fa5f0"
+Medium,"04/02/2024 20:17:48.01	w3wp (0x1BCC)	0x4A68	SharePoint Foundation Upgrade	SPContentDatabaseSequence3	c9pa4	DEBUG	VERSION LOG (GET): Get version 16.0.8.0 for Database [DedicatedContent_143557_105] from cache with version Id 5a18f688-ae67-46e5-b546-2c65e7aca548, Status = Online.	34421ba1-40f2-5000-048b-399a2e2fa5f0"
+Medium,"04/02/2024 20:17:48.01	w3wp (0x1BCC)	0x4A68	SharePoint Foundation Upgrade	SPContentDatabaseSequence3	ajy5i	DEBUG	Returning SchemaVersion [16.0.8.0] for Database DedicatedContent_143557_105, Status = Online.	34421ba1-40f2-5000-048b-399a2e2fa5f0"
+Medium,"04/02/2024 20:17:48.01	w3wp (0x1BCC)	0x4A68	SharePoint Foundation Upgrade	SPContentDatabaseSequence3	c9pa4	DEBUG	VERSION LOG (GET): Get version 16.0.24713.12007 for Database [DedicatedContent_143557_105] from cache with version Id 00000000-0000-0000-0000-000000000000, Status = Online.	34421ba1-40f2-5000-048b-399a2e2fa5f0"
+Medium,"04/02/2024 20:17:48.01	w3wp (0x1BCC)	0x4A68	SharePoint Foundation Upgrade	SPContentDatabaseSequence3	c9pa4	DEBUG	VERSION LOG (GET): Get version 16.0.8.0 for Database [DedicatedContent_143557_105] from cache with version Id 5a18f688-ae67-46e5-b546-2c65e7aca548, Status = Online.	34421ba1-40f2-5000-048b-399a2e2fa5f0"
+Medium,"04/02/2024 20:17:48.01	w3wp (0x1BCC)	0x4A68	SharePoint Foundation Upgrade	SPContentDatabaseSequence3	ajy5i	DEBUG	Returning SchemaVersion [16.0.8.0] for Database DedicatedContent_143557_105, Status = Online.	34421ba1-40f2-5000-048b-399a2e2fa5f0"
+Medium,04/02/2024 20:17:48.01	w3wp (0x1BCC)	0x4A68	SharePoint Foundation Upgrade	SPContentDatabaseSequence3	ajyxg	DEBUG	UpgradableBuildBypassInternal = 0	34421ba1-40f2-5000-048b-399a2e2fa5f0
+Medium,04/02/2024 20:17:48.01	w3wp (0x1BCC)	0x4A68	SharePoint Foundation Upgrade	SPContentDatabaseSequence3	ajyxh	DEBUG	UpgradableBuildBypass = 0	34421ba1-40f2-5000-048b-399a2e2fa5f0
+Medium,"04/02/2024 20:17:48.01	w3wp (0x1BCC)	0x4A68	SharePoint Foundation Upgrade	SPContentDatabaseSequence2	c9pa4	DEBUG	VERSION LOG (GET): Get version 16.0.24713.12007 for Database [DedicatedContent_143557_105] from cache with version Id 00000000-0000-0000-0000-000000000000, Status = Online.	34421ba1-40f2-5000-048b-399a2e2fa5f0"
+Medium,"04/02/2024 20:17:48.01	w3wp (0x1BCC)	0x4A68	SharePoint Foundation Upgrade	SPContentDatabaseSequence2	c9pa4	DEBUG	VERSION LOG (GET): Get version 16.0.10.0 for Database [DedicatedContent_143557_105] from cache with version Id 1a707ef5-45b2-4235-9327-021e5f9b8bb0, Status = Online.	34421ba1-40f2-5000-048b-399a2e2fa5f0"
+Medium,"04/02/2024 20:17:48.01	w3wp (0x1BCC)	0x4A68	SharePoint Foundation Upgrade	SPContentDatabaseSequence2	ajy5i	DEBUG	Returning SchemaVersion [16.0.10.0] for Database DedicatedContent_143557_105, Status = Online.	34421ba1-40f2-5000-048b-399a2e2fa5f0"
+Medium,"04/02/2024 20:17:48.01	w3wp (0x1BCC)	0x4A68	SharePoint Foundation Upgrade	SPContentDatabaseSequence2	c9pa4	DEBUG	VERSION LOG (GET): Get version 16.0.24713.12007 for Database [DedicatedContent_143557_105] from cache with version Id 00000000-0000-0000-0000-000000000000, Status = Online.	34421ba1-40f2-5000-048b-399a2e2fa5f0"
+Medium,"04/02/2024 20:17:48.01	w3wp (0x1BCC)	0x4A68	SharePoint Foundation Upgrade	SPContentDatabaseSequence2	c9pa4	DEBUG	VERSION LOG (GET): Get version 16.0.10.0 for Database [DedicatedContent_143557_105] from cache with version Id 1a707ef5-45b2-4235-9327-021e5f9b8bb0, Status = Online.	34421ba1-40f2-5000-048b-399a2e2fa5f0"
+Medium,"04/02/2024 20:17:48.01	w3wp (0x1BCC)	0x4A68	SharePoint Foundation Upgrade	SPContentDatabaseSequence2	ajy5i	DEBUG	Returning SchemaVersion [16.0.10.0] for Database DedicatedContent_143557_105, Status = Online.	34421ba1-40f2-5000-048b-399a2e2fa5f0"
+Medium,04/02/2024 20:17:48.01	w3wp (0x1BCC)	0x4A68	SharePoint Foundation Upgrade	SPContentDatabaseSequence2	ajyxg	DEBUG	UpgradableBuildBypassInternal = 0	34421ba1-40f2-5000-048b-399a2e2fa5f0
+Medium,04/02/2024 20:17:48.01	w3wp (0x1BCC)	0x4A68	SharePoint Foundation Upgrade	SPContentDatabaseSequence2	ajyxh	DEBUG	UpgradableBuildBypass = 0	34421ba1-40f2-5000-048b-399a2e2fa5f0
+Medium,"04/02/2024 20:17:48.01	w3wp (0x1BCC)	0x4A68	SharePoint Foundation Upgrade	SPAppManagementExtensionUpgradeSequence	c9pa4	DEBUG	VERSION LOG (GET): Get version 16.0.4.0 for Database [DedicatedContent_143557_105] from cache with version Id 46b326e0-8841-4541-966c-90fb1be346be, Status = Online.	34421ba1-40f2-5000-048b-399a2e2fa5f0"
+Medium,"04/02/2024 20:17:48.01	w3wp (0x1BCC)	0x4A68	SharePoint Foundation Upgrade	SPAppManagementExtensionUpgradeSequence	ajy5i	DEBUG	Returning SchemaVersion [16.0.4.0] for Database DedicatedContent_143557_105, Status = Online.	34421ba1-40f2-5000-048b-399a2e2fa5f0"
+Medium,"04/02/2024 20:17:48.01	w3wp (0x1BCC)	0x4A68	SharePoint Foundation Upgrade	SPAppManagementExtensionUpgradeSequence	c9pa4	DEBUG	VERSION LOG (GET): Get version 16.0.4.0 for Database [DedicatedContent_143557_105] from cache with version Id 46b326e0-8841-4541-966c-90fb1be346be, Status = Online.	34421ba1-40f2-5000-048b-399a2e2fa5f0"
+Medium,"04/02/2024 20:17:48.01	w3wp (0x1BCC)	0x4A68	SharePoint Foundation Upgrade	SPAppManagementExtensionUpgradeSequence	ajy5i	DEBUG	Returning SchemaVersion [16.0.4.0] for Database DedicatedContent_143557_105, Status = Online.	34421ba1-40f2-5000-048b-399a2e2fa5f0"
+Medium,"04/02/2024 20:17:48.01	w3wp (0x1BCC)	0x4A68	SharePoint Foundation Upgrade	TaxonomyDatabaseExtensionSequence	c9pa4	DEBUG	VERSION LOG (GET): Get version 16.0.16.0 for Database [DedicatedContent_143557_105] from cache with version Id 8b03a57e-7f56-42f2-b296-d9ff28b22c1c, Status = Online.	34421ba1-40f2-5000-048b-399a2e2fa5f0"
+Medium,"04/02/2024 20:17:48.01	w3wp (0x1BCC)	0x4A68	SharePoint Foundation Upgrade	TaxonomyDatabaseExtensionSequence	ajy5i	DEBUG	Returning SchemaVersion [16.0.16.0] for Database DedicatedContent_143557_105, Status = Online.	34421ba1-40f2-5000-048b-399a2e2fa5f0"
+Medium,"04/02/2024 20:17:48.01	w3wp (0x1BCC)	0x4A68	SharePoint Foundation Upgrade	TaxonomyDatabaseExtensionSequence	c9pa4	DEBUG	VERSION LOG (GET): Get version 16.0.16.0 for Database [DedicatedContent_143557_105] from cache with version Id 8b03a57e-7f56-42f2-b296-d9ff28b22c1c, Status = Online.	34421ba1-40f2-5000-048b-399a2e2fa5f0"
+Medium,"04/02/2024 20:17:48.01	w3wp (0x1BCC)	0x4A68	SharePoint Foundation Upgrade	TaxonomyDatabaseExtensionSequence	ajy5i	DEBUG	Returning SchemaVersion [16.0.16.0] for Database DedicatedContent_143557_105, Status = Online.	34421ba1-40f2-5000-048b-399a2e2fa5f0"
+Medium,"04/02/2024 20:17:48.01	w3wp (0x1BCC)	0x4A68	SharePoint Foundation Upgrade	ProfileDatabaseExtensionSequence	c9pa4	DEBUG	VERSION LOG (GET): Get version 16.0.136.0 for Database [DedicatedContent_143557_105] from cache with version Id 2dec6a4b-7072-4124-a4b1-1c333208183e, Status = Online.	34421ba1-40f2-5000-048b-399a2e2fa5f0"
+Medium,"04/02/2024 20:17:48.01	w3wp (0x1BCC)	0x4A68	SharePoint Foundation Upgrade	ProfileDatabaseExtensionSequence	ajy5i	DEBUG	Returning SchemaVersion [16.0.136.0] for Database DedicatedContent_143557_105, Status = Online.	34421ba1-40f2-5000-048b-399a2e2fa5f0"
+Medium,"04/02/2024 20:17:48.01	w3wp (0x1BCC)	0x4A68	SharePoint Foundation Upgrade	ProfileDatabaseExtensionSequence	c9pa4	DEBUG	VERSION LOG (GET): Get version 16.0.136.0 for Database [DedicatedContent_143557_105] from cache with version Id 2dec6a4b-7072-4124-a4b1-1c333208183e, Status = Online.	34421ba1-40f2-5000-048b-399a2e2fa5f0"
+Medium,"04/02/2024 20:17:48.01	w3wp (0x1BCC)	0x4A68	SharePoint Foundation Upgrade	ProfileDatabaseExtensionSequence	ajy5i	DEBUG	Returning SchemaVersion [16.0.136.0] for Database DedicatedContent_143557_105, Status = Online.	34421ba1-40f2-5000-048b-399a2e2fa5f0"
+Medium,"04/02/2024 20:17:48.01	w3wp (0x1BCC)	0x4A68	SharePoint Foundation Upgrade	BdcDatabaseExtensionUpgradeSequence	c9pa4	DEBUG	VERSION LOG (GET): Get version 16.0.4.0 for Database [DedicatedContent_143557_105] from cache with version Id 09c18861-f237-4389-a477-1331bab06cb6, Status = Online.	34421ba1-40f2-5000-048b-399a2e2fa5f0"
+Medium,"04/02/2024 20:17:48.01	w3wp (0x1BCC)	0x4A68	SharePoint Foundation Upgrade	BdcDatabaseExtensionUpgradeSequence	ajy5i	DEBUG	Returning SchemaVersion [16.0.4.0] for Database DedicatedContent_143557_105, Status = Online.	34421ba1-40f2-5000-048b-399a2e2fa5f0"
+Medium,"04/02/2024 20:17:48.01	w3wp (0x1BCC)	0x4A68	SharePoint Foundation Upgrade	BdcDatabaseExtensionUpgradeSequence	c9pa4	DEBUG	VERSION LOG (GET): Get version 16.0.4.0 for Database [DedicatedContent_143557_105] from cache with version Id 09c18861-f237-4389-a477-1331bab06cb6, Status = Online.	34421ba1-40f2-5000-048b-399a2e2fa5f0"
+Medium,"04/02/2024 20:17:48.01	w3wp (0x1BCC)	0x4A68	SharePoint Foundation Upgrade	BdcDatabaseExtensionUpgradeSequence	ajy5i	DEBUG	Returning SchemaVersion [16.0.4.0] for Database DedicatedContent_143557_105, Status = Online.	34421ba1-40f2-5000-048b-399a2e2fa5f0"
+Medium,"04/02/2024 20:17:48.01	w3wp (0x1BCC)	0x4A68	SharePoint Foundation Upgrade	PDEUpgradeSequence	c9pa4	DEBUG	VERSION LOG (GET): Get version 16.0.24713.12007 for Database [DedicatedContent_143557_105] from cache with version Id 00000000-0000-0000-0000-000000000000, Status = Online.	34421ba1-40f2-5000-048b-399a2e2fa5f0"
+Medium,"04/02/2024 20:17:48.01	w3wp (0x1BCC)	0x4A68	SharePoint Foundation Upgrade	PDEUpgradeSequence	c9pa4	DEBUG	VERSION LOG (GET): Get version 19.0.9.0 for Database [DedicatedContent_143557_105] from cache with version Id a3df1728-45f9-4e78-8177-fb5a83cd3225, Status = Online.	34421ba1-40f2-5000-048b-399a2e2fa5f0"
+Medium,"04/02/2024 20:17:48.01	w3wp (0x1BCC)	0x4A68	SharePoint Foundation Upgrade	PDEUpgradeSequence	ajy5i	DEBUG	Returning SchemaVersion [19.0.9.0] for Database DedicatedContent_143557_105, Status = Online.	34421ba1-40f2-5000-048b-399a2e2fa5f0"
+Medium,"04/02/2024 20:17:48.01	w3wp (0x1BCC)	0x4A68	SharePoint Foundation Upgrade	PDEUpgradeSequence	c9pa4	DEBUG	VERSION LOG (GET): Get version 16.0.24713.12007 for Database [DedicatedContent_143557_105] from cache with version Id 00000000-0000-0000-0000-000000000000, Status = Online.	34421ba1-40f2-5000-048b-399a2e2fa5f0"
+Medium,"04/02/2024 20:17:48.01	w3wp (0x1BCC)	0x4A68	SharePoint Foundation Upgrade	PDEUpgradeSequence	c9pa4	DEBUG	VERSION LOG (GET): Get version 19.0.9.0 for Database [DedicatedContent_143557_105] from cache with version Id a3df1728-45f9-4e78-8177-fb5a83cd3225, Status = Online.	34421ba1-40f2-5000-048b-399a2e2fa5f0"
+Medium,"04/02/2024 20:17:48.01	w3wp (0x1BCC)	0x4A68	SharePoint Foundation Upgrade	PDEUpgradeSequence	ajy5i	DEBUG	Returning SchemaVersion [19.0.9.0] for Database DedicatedContent_143557_105, Status = Online.	34421ba1-40f2-5000-048b-399a2e2fa5f0"
+Medium,04/02/2024 20:17:48.01	w3wp (0x1BCC)	0x4A68	SharePoint Foundation Upgrade	PDEUpgradeSequence	ajyxg	DEBUG	UpgradableBuildBypassInternal = 0	34421ba1-40f2-5000-048b-399a2e2fa5f0
+Medium,04/02/2024 20:17:48.01	w3wp (0x1BCC)	0x4A68	SharePoint Foundation Upgrade	PDEUpgradeSequence	ajyxh	DEBUG	UpgradableBuildBypass = 0	34421ba1-40f2-5000-048b-399a2e2fa5f0
+Medium,"04/02/2024 20:17:48.03	w3wp (0x1BCC)	0x4A68	SharePoint Foundation Upgrade	SecureStoreServiceExtensionSequence	c9pa4	DEBUG	VERSION LOG (GET): Get version 16.0.11.0 for Database [DedicatedContent_143557_105] from cache with version Id ca03df36-6b6d-48f0-9644-577600fdb120, Status = Online.	34421ba1-40f2-5000-048b-399a2e2fa5f0"
+Medium,"04/02/2024 20:17:48.03	w3wp (0x1BCC)	0x4A68	SharePoint Foundation Upgrade	SecureStoreServiceExtensionSequence	ajy5i	DEBUG	Returning SchemaVersion [16.0.11.0] for Database DedicatedContent_143557_105, Status = Online.	34421ba1-40f2-5000-048b-399a2e2fa5f0"
+Medium,"04/02/2024 20:17:48.03	w3wp (0x1BCC)	0x4A68	SharePoint Foundation Upgrade	SecureStoreServiceExtensionSequence	c9pa4	DEBUG	VERSION LOG (GET): Get version 16.0.11.0 for Database [DedicatedContent_143557_105] from cache with version Id ca03df36-6b6d-48f0-9644-577600fdb120, Status = Online.	34421ba1-40f2-5000-048b-399a2e2fa5f0"
+Medium,"04/02/2024 20:17:48.03	w3wp (0x1BCC)	0x4A68	SharePoint Foundation Upgrade	SecureStoreServiceExtensionSequence	ajy5i	DEBUG	Returning SchemaVersion [16.0.11.0] for Database DedicatedContent_143557_105, Status = Online.	34421ba1-40f2-5000-048b-399a2e2fa5f0"
+Medium,04/02/2024 20:17:48.03	w3wp (0x1BCC)	0x4A68	SharePoint Foundation Upgrade	SPUpgradeSession	an58d	DEBUG	CanUpgrade [SPContentDatabase Name=DedicatedContent_143557_105] returned: True.	34421ba1-40f2-5000-048b-399a2e2fa5f0
+Medium,04/02/2024 20:17:48.03	w3wp (0x1BCC)	0x4A68	SharePoint Foundation Upgrade	SPUpgradeSession	brrnw	DEBUG	VERSION LOG (GET): Getting NeedsUpgrade recursively for [SPContentDatabase Name=DedicatedContent_143557_105] and its children	34421ba1-40f2-5000-048b-399a2e2fa5f0
+Medium,"04/02/2024 20:17:48.03	w3wp (0x1BCC)	0x4A68	SharePoint Foundation Upgrade	SPContentDatabaseSequence	c9pa4	DEBUG	VERSION LOG (GET): Get version 16.0.24713.12007 for Database [DedicatedContent_143557_105] from cache with version Id 00000000-0000-0000-0000-000000000000, Status = Online.	34421ba1-40f2-5000-048b-399a2e2fa5f0"
+Medium,"04/02/2024 20:17:48.03	w3wp (0x1BCC)	0x4A68	SharePoint Foundation Upgrade	SPContentDatabaseSequence	c9pa4	DEBUG	VERSION LOG (GET): Get version 16.0.24713.12007 for Database [DedicatedContent_143557_105] from cache with version Id 00000000-0000-0000-0000-000000000000, Status = Online.	34421ba1-40f2-5000-048b-399a2e2fa5f0"
+Medium,"04/02/2024 20:17:48.03	w3wp (0x1BCC)	0x4A68	SharePoint Foundation Upgrade	SPContentDatabaseSequence	ajyxv	DEBUG	VERSION LOG (GET): [SPContentDatabase Name=DedicatedContent_143557_105] NeedsUpgrade = true, BuildVersion = 16.0.24713.12007, TargetBuildVersion = 16.0.24720.12003.	34421ba1-40f2-5000-048b-399a2e2fa5f0"
+Medium,04/02/2024 20:17:48.03	w3wp (0x1BCC)	0x4A68	SharePoint Foundation Upgrade	SPUpgradeSession	an58t	DEBUG	VERSION LOG (GET): NeedsUpgrade = true for [SPContentDatabase Name=DedicatedContent_143557_105] because of upgrader [Microsoft.SharePoint.Upgrade.SPContentDatabaseSequence]	34421ba1-40f2-5000-048b-399a2e2fa5f0
+Medium,04/02/2024 20:17:48.03	w3wp (0x1BCC)	0x4A68	SharePoint Foundation Upgrade	SPUpgradeSession	an58v	DEBUG	VERSION LOG (GET): NeedsUpgrade [SPContentDatabase Name=DedicatedContent_143557_105] returned: True.	34421ba1-40f2-5000-048b-399a2e2fa5f0
+Medium,"04/02/2024 20:17:48.03	w3wp (0x1BCC)	0x4A68	SharePoint Foundation Upgrade	SPContentDatabaseSequence	c9pa4	DEBUG	VERSION LOG (GET): Get version 16.0.399.0 for Database [DedicatedContent_143557_105] from cache with version Id 6333368d-85f0-4ef5-8241-5252b12b2e50, Status = Online.	34421ba1-40f2-5000-048b-399a2e2fa5f0"
+Medium,"04/02/2024 20:17:48.03	w3wp (0x1BCC)	0x4A68	SharePoint Foundation Upgrade	SPContentDatabaseSequence	ajy5i	DEBUG	Returning SchemaVersion [16.0.399.0] for Database DedicatedContent_143557_105, Status = Online.	34421ba1-40f2-5000-048b-399a2e2fa5f0"
+Medium,"04/02/2024 20:17:48.03	w3wp (0x1BCC)	0x4A68	SharePoint Foundation Upgrade	SPSearchDatabaseSequence	c9pa4	DEBUG	VERSION LOG (GET): Get version 16.0.117.0 for Database [DedicatedContent_143557_105] from cache with version Id 4868d461-1977-4c60-b0a6-8bb7670833cf, Status = Online.	34421ba1-40f2-5000-048b-399a2e2fa5f0"
+Medium,"04/02/2024 20:17:48.03	w3wp (0x1BCC)	0x4A68	SharePoint Foundation Upgrade	SPSearchDatabaseSequence	ajy5i	DEBUG	Returning SchemaVersion [16.0.117.0] for Database DedicatedContent_143557_105, Status = Online.	34421ba1-40f2-5000-048b-399a2e2fa5f0"
+Medium,"04/02/2024 20:17:48.03	w3wp (0x1BCC)	0x4A68	SharePoint Foundation Upgrade	SPSearchDatabaseSprocsSequence	c9pa4	DEBUG	VERSION LOG (GET): Get version 16.0.0.216 for Database [DedicatedContent_143557_105] from cache with version Id 79288d52-5c5d-48a7-9fdd-a10131b9e3bf, Status = Online.	34421ba1-40f2-5000-048b-399a2e2fa5f0"
+Medium,"04/02/2024 20:17:48.03	w3wp (0x1BCC)	0x4A68	SharePoint Foundation Upgrade	SPSearchDatabaseSprocsSequence	ajy5i	DEBUG	Returning SchemaVersion [16.0.0.216] for Database DedicatedContent_143557_105, Status = Online.	34421ba1-40f2-5000-048b-399a2e2fa5f0"
+Medium,"04/02/2024 20:17:48.03	w3wp (0x1BCC)	0x4A68	SharePoint Foundation Upgrade	SPContentDatabaseTvfTvpsSequence	c9pa4	DEBUG	VERSION LOG (GET): Get version 16.0.32.0 for Database [DedicatedContent_143557_105] from cache with version Id 530fabcc-cb84-46f7-ab2d-3acf0e112dce, Status = Online.	34421ba1-40f2-5000-048b-399a2e2fa5f0"
+Medium,"04/02/2024 20:17:48.03	w3wp (0x1BCC)	0x4A68	SharePoint Foundation Upgrade	SPContentDatabaseTvfTvpsSequence	ajy5i	DEBUG	Returning SchemaVersion [16.0.32.0] for Database DedicatedContent_143557_105, Status = Online.	34421ba1-40f2-5000-048b-399a2e2fa5f0"
+Medium,"04/02/2024 20:17:48.03	w3wp (0x1BCC)	0x4A68	SharePoint Foundation Upgrade	SPContentDatabaseSprocsSequence	c9pa4	DEBUG	VERSION LOG (GET): Get version 16.0.1091.0 for Database [DedicatedContent_143557_105] from cache with version Id 980acb89-1b99-4e1f-a039-187cad928276, Status = Online.	34421ba1-40f2-5000-048b-399a2e2fa5f0"
+Medium,"04/02/2024 20:17:48.03	w3wp (0x1BCC)	0x4A68	SharePoint Foundation Upgrade	SPContentDatabaseSprocsSequence	ajy5i	DEBUG	Returning SchemaVersion [16.0.1091.0] for Database DedicatedContent_143557_105, Status = Online.	34421ba1-40f2-5000-048b-399a2e2fa5f0"
+Medium,"04/02/2024 20:17:48.03	w3wp (0x1BCC)	0x4A68	SharePoint Foundation Upgrade	SPGlobalExtensionUpgradeSequence	c9pa4	DEBUG	VERSION LOG (GET): Get version 16.0.10.0 for Database [DedicatedContent_143557_105] from cache with version Id 51a10866-84fa-4a60-b6b4-282ff1b9372c, Status = Online.	34421ba1-40f2-5000-048b-399a2e2fa5f0"
+Medium,"04/02/2024 20:17:48.03	w3wp (0x1BCC)	0x4A68	SharePoint Foundation Upgrade	SPGlobalExtensionUpgradeSequence	ajy5i	DEBUG	Returning SchemaVersion [16.0.10.0] for Database DedicatedContent_143557_105, Status = Online.	34421ba1-40f2-5000-048b-399a2e2fa5f0"
+Medium,"04/02/2024 20:17:48.03	w3wp (0x1BCC)	0x4A68	SharePoint Foundation Upgrade	SPContentDatabaseSequence3	c9pa4	DEBUG	VERSION LOG (GET): Get version 16.0.8.0 for Database [DedicatedContent_143557_105] from cache with version Id 5a18f688-ae67-46e5-b546-2c65e7aca548, Status = Online.	34421ba1-40f2-5000-048b-399a2e2fa5f0"
+Medium,"04/02/2024 20:17:48.03	w3wp (0x1BCC)	0x4A68	SharePoint Foundation Upgrade	SPContentDatabaseSequence3	ajy5i	DEBUG	Returning SchemaVersion [16.0.8.0] for Database DedicatedContent_143557_105, Status = Online.	34421ba1-40f2-5000-048b-399a2e2fa5f0"
+Medium,"04/02/2024 20:17:48.03	w3wp (0x1BCC)	0x4A68	SharePoint Foundation Upgrade	SPContentDatabaseSequence2	c9pa4	DEBUG	VERSION LOG (GET): Get version 16.0.10.0 for Database [DedicatedContent_143557_105] from cache with version Id 1a707ef5-45b2-4235-9327-021e5f9b8bb0, Status = Online.	34421ba1-40f2-5000-048b-399a2e2fa5f0"
+Medium,"04/02/2024 20:17:48.03	w3wp (0x1BCC)	0x4A68	SharePoint Foundation Upgrade	SPContentDatabaseSequence2	ajy5i	DEBUG	Returning SchemaVersion [16.0.10.0] for Database DedicatedContent_143557_105, Status = Online.	34421ba1-40f2-5000-048b-399a2e2fa5f0"
+Medium,"04/02/2024 20:17:48.03	w3wp (0x1BCC)	0x4A68	SharePoint Foundation Upgrade	SPAppManagementExtensionUpgradeSequence	c9pa4	DEBUG	VERSION LOG (GET): Get version 16.0.4.0 for Database [DedicatedContent_143557_105] from cache with version Id 46b326e0-8841-4541-966c-90fb1be346be, Status = Online.	34421ba1-40f2-5000-048b-399a2e2fa5f0"
+Medium,"04/02/2024 20:17:48.03	w3wp (0x1BCC)	0x4A68	SharePoint Foundation Upgrade	SPAppManagementExtensionUpgradeSequence	ajy5i	DEBUG	Returning SchemaVersion [16.0.4.0] for Database DedicatedContent_143557_105, Status = Online.	34421ba1-40f2-5000-048b-399a2e2fa5f0"
+Medium,"04/02/2024 20:17:48.03	w3wp (0x1BCC)	0x4A68	SharePoint Foundation Upgrade	TaxonomyDatabaseExtensionSequence	c9pa4	DEBUG	VERSION LOG (GET): Get version 16.0.16.0 for Database [DedicatedContent_143557_105] from cache with version Id 8b03a57e-7f56-42f2-b296-d9ff28b22c1c, Status = Online.	34421ba1-40f2-5000-048b-399a2e2fa5f0"
+Medium,"04/02/2024 20:17:48.03	w3wp (0x1BCC)	0x4A68	SharePoint Foundation Upgrade	TaxonomyDatabaseExtensionSequence	ajy5i	DEBUG	Returning SchemaVersion [16.0.16.0] for Database DedicatedContent_143557_105, Status = Online.	34421ba1-40f2-5000-048b-399a2e2fa5f0"
+Medium,"04/02/2024 20:17:48.03	w3wp (0x1BCC)	0x4A68	SharePoint Foundation Upgrade	ProfileDatabaseExtensionSequence	c9pa4	DEBUG	VERSION LOG (GET): Get version 16.0.136.0 for Database [DedicatedContent_143557_105] from cache with version Id 2dec6a4b-7072-4124-a4b1-1c333208183e, Status = Online.	34421ba1-40f2-5000-048b-399a2e2fa5f0"
+Medium,"04/02/2024 20:17:48.03	w3wp (0x1BCC)	0x4A68	SharePoint Foundation Upgrade	ProfileDatabaseExtensionSequence	ajy5i	DEBUG	Returning SchemaVersion [16.0.136.0] for Database DedicatedContent_143557_105, Status = Online.	34421ba1-40f2-5000-048b-399a2e2fa5f0"
+Medium,"04/02/2024 20:17:48.03	w3wp (0x1BCC)	0x4A68	SharePoint Foundation Upgrade	SPAppManagementExtensionSprocsSequence	c9pa4	DEBUG	VERSION LOG (GET): Get version 16.0.9.0 for Database [DedicatedContent_143557_105] from cache with version Id 001dd9b0-0bb5-4924-888f-b3192e549c29, Status = Online.	34421ba1-40f2-5000-048b-399a2e2fa5f0"
+Medium,"04/02/2024 20:17:48.03	w3wp (0x1BCC)	0x4A68	SharePoint Foundation Upgrade	SPAppManagementExtensionSprocsSequence	ajy5i	DEBUG	Returning SchemaVersion [16.0.9.0] for Database DedicatedContent_143557_105, Status = Online.	34421ba1-40f2-5000-048b-399a2e2fa5f0"
+Medium,"04/02/2024 20:17:48.03	w3wp (0x1BCC)	0x4A68	SharePoint Foundation Upgrade	TaxonomyDatabaseExtensionSprocsSequence	c9pa4	DEBUG	VERSION LOG (GET): Get version 16.0.35.0 for Database [DedicatedContent_143557_105] from cache with version Id eb4d44fd-6b30-41b0-91de-31b715e6a2f2, Status = Online.	34421ba1-40f2-5000-048b-399a2e2fa5f0"
+Medium,"04/02/2024 20:17:48.03	w3wp (0x1BCC)	0x4A68	SharePoint Foundation Upgrade	TaxonomyDatabaseExtensionSprocsSequence	ajy5i	DEBUG	Returning SchemaVersion [16.0.35.0] for Database DedicatedContent_143557_105, Status = Online.	34421ba1-40f2-5000-048b-399a2e2fa5f0"
+Medium,"04/02/2024 20:17:48.03	w3wp (0x1BCC)	0x4A68	SharePoint Foundation Upgrade	ProfileDatabaseExtensionSprocsSequence	c9pa4	DEBUG	VERSION LOG (GET): Get version 16.0.121.0 for Database [DedicatedContent_143557_105] from cache with version Id 31f00a73-0d05-41f2-a4f3-095ad2fb8ef7, Status = Online.	34421ba1-40f2-5000-048b-399a2e2fa5f0"
+Medium,"04/02/2024 20:17:48.03	w3wp (0x1BCC)	0x4A68	SharePoint Foundation Upgrade	ProfileDatabaseExtensionSprocsSequence	ajy5i	DEBUG	Returning SchemaVersion [16.0.121.0] for Database DedicatedContent_143557_105, Status = Online.	34421ba1-40f2-5000-048b-399a2e2fa5f0"
+Medium,"04/02/2024 20:17:48.03	w3wp (0x1BCC)	0x4A68	SharePoint Foundation Upgrade	BdcDatabaseExtensionUpgradeSequence	c9pa4	DEBUG	VERSION LOG (GET): Get version 16.0.4.0 for Database [DedicatedContent_143557_105] from cache with version Id 09c18861-f237-4389-a477-1331bab06cb6, Status = Online.	34421ba1-40f2-5000-048b-399a2e2fa5f0"
+Medium,"04/02/2024 20:17:48.03	w3wp (0x1BCC)	0x4A68	SharePoint Foundation Upgrade	BdcDatabaseExtensionUpgradeSequence	ajy5i	DEBUG	Returning SchemaVersion [16.0.4.0] for Database DedicatedContent_143557_105, Status = Online.	34421ba1-40f2-5000-048b-399a2e2fa5f0"
+Medium,"04/02/2024 20:17:48.03	w3wp (0x1BCC)	0x4A68	SharePoint Foundation Upgrade	PDEUpgradeSequence	c9pa4	DEBUG	VERSION LOG (GET): Get version 19.0.9.0 for Database [DedicatedContent_143557_105] from cache with version Id a3df1728-45f9-4e78-8177-fb5a83cd3225, Status = Online.	34421ba1-40f2-5000-048b-399a2e2fa5f0"
+Medium,"04/02/2024 20:17:48.03	w3wp (0x1BCC)	0x4A68	SharePoint Foundation Upgrade	PDEUpgradeSequence	ajy5i	DEBUG	Returning SchemaVersion [19.0.9.0] for Database DedicatedContent_143557_105, Status = Online.	34421ba1-40f2-5000-048b-399a2e2fa5f0"
+Medium,"04/02/2024 20:17:48.03	w3wp (0x1BCC)	0x4A68	SharePoint Foundation Upgrade	SecureStoreServiceExtensionSequence	c9pa4	DEBUG	VERSION LOG (GET): Get version 16.0.11.0 for Database [DedicatedContent_143557_105] from cache with version Id ca03df36-6b6d-48f0-9644-577600fdb120, Status = Online.	34421ba1-40f2-5000-048b-399a2e2fa5f0"
+Medium,"04/02/2024 20:17:48.03	w3wp (0x1BCC)	0x4A68	SharePoint Foundation Upgrade	SecureStoreServiceExtensionSequence	ajy5i	DEBUG	Returning SchemaVersion [16.0.11.0] for Database DedicatedContent_143557_105, Status = Online.	34421ba1-40f2-5000-048b-399a2e2fa5f0"
+Medium,04/02/2024 20:17:48.03	w3wp (0x1BCC)	0x4A68	SharePoint Foundation Upgrade	SPUpgradeSession	an58i	DEBUG	IsBackwardsCompatible [SPContentDatabase Name=DedicatedContent_143557_105] returned: True.	34421ba1-40f2-5000-048b-399a2e2fa5f0
+High,SharePoint object [SPContentDatabase Name=DedicatedContent_143557_105] is currently running in backwards compatible mode. Please fully upgrade it to ensure optimal performance from this object.
+Medium,No groups on windows token.
+Medium,"DGCache [2024-04-02 20:17:48Z] : 7116, 19048, 0x0000000000000000, 0, CSPRequest::HrRunMondoSproc, VdbSubweb::setDomainGroupCache
+"
+Medium,"SPPolicyUtility.IsEnableMIPLabelEnabled: The value of the AAD unified setting for label, 'EnableMIPLabels', is 'True'."
+Medium,External user '327420_twgroup.co.nz#ext#@colliers.onmicrosoft.com' cannot sign in to SPSite 'https://colliers.sharepoint.com/_vti_bin/client.svc/contextinfo<scrubbed>' with id '83fafc2b-3011-4966-80fe-7da2b53f8a53' because that feature is disabled.
+High,"Cancelling sign-in because we could not find a valid matching tenancy user. UserName: '327420_twgroup.co.nz#ext#@colliers.onmicrosoft.com', FaultCode: 'SiteExtranetUsersDisabled', SPSite '83fafc2b-3011-4966-80fe-7da2b53f8a53'."
+High,Cancelling sign-in for the user. UserType: 'non-guest'.
+High,Throwing token issuance failure exception. ErrorCode: SiteExtranetUsersDisabled
+Medium,"SPClaimProvider.FillClaimsForEntity: Request for entity claims failed with sign-in exception. Exception: System.ServiceModel.FaultException: ID3035: The request was not valid or is malformed.
+   at Microsoft.SharePoint.Administration.Claims.SPSecurityTokenServiceFailureUtilities.ThrowTokenIssuanceFailureException(String errorNamespace, String errorCode)
+   at Microsoft.SharePointGrid.TenantClaimProviders.TenantClaimProvider.GetUserFromSpodsWithAadFallbackForGuests(Uri context, SPSite site, SPClaim userClaim, String puid, SPClaimProviderContext claimProviderContext, UserSearchOptions userOptions)
+   at Microsoft.SharePointGrid.TenantClaimProviders.TenantClaimProvider.FillClaimsForEntityWithSite(Uri context, SPClaim userClaim, String puid, SPSite site, SPClaimProviderContext claimProviderContext, List`1 claims)
+   at Microsoft.SharePointGrid.TenantClaimProviders.TenantClaimProvider.FillClaimsForEntity(Uri context, SPClaim entity, SPClaimProviderContext claimProviderContext, List`1 claims)
+   at Microsoft.SharePoint.Administration.Claims.SPClaimProvider.GetClaimsForEntity(Uri context, SPClaim entity, SPClaimProviderContext claimProviderContext)"
+Medium,"STS Call Claims Forms: Request for entity claims failed with sign-in exception. Exception: 'System.ServiceModel.FaultException: ID3035: The request was not valid or is malformed.
+   at Microsoft.SharePoint.Administration.Claims.SPSecurityTokenServiceFailureUtilities.ThrowTokenIssuanceFailureException(String errorNamespace, String errorCode)
+   at Microsoft.SharePointGrid.TenantClaimProviders.TenantClaimProvider.GetUserFromSpodsWithAadFallbackForGuests(Uri context, SPSite site, SPClaim userClaim, String puid, SPClaimProviderContext claimProviderContext, UserSearchOptions userOptions)
+   at Microsoft.SharePointGrid.TenantClaimProviders.TenantClaimProvider.FillClaimsForEntityWithSite(Uri context, SPClaim userClaim, String puid, SPSite site, SPClaimProviderContext claimProviderContext, List`1 claims)
+   at Microsoft.SharePointGrid.TenantClaimProviders.TenantClaimProvider.FillClaimsForEntity(Uri context, SPClaim entity, SPClaimProviderContext claimProviderContext, List`1 claims)
+   at Microsoft.SharePoint.Administration.Claims.SPClaimProvider.GetClaimsForEntity(Uri context, SPClaim entity, SPClaimProviderContext claimProviderContext)
+   at Microsoft.SharePoint.Administration.Claims.SPClaimProviderOperations.ClaimsForEntity(Uri context, SPClaimProviderOperationOptions mode, String[] providerNames, SPClaim entity, SPClaimProviderContext claimProviderContext)
+   at Microsoft.SharePoint.IdentityModel.SPSecurityTokenService.<>c__DisplayClass45_0.<AugmentClaimsIdentityWithClaimProviders>b__0()
+   at Microsoft.SharePoint.IdentityModel.SPClaimsIdentityContext.RunWithClaimsIdentityContext(IClaimsIdentity identity, CodeToRun code)
+   at Microsoft.SharePoint.IdentityModel.SPSecurityTokenService.AugmentClaimsIdentityWithClaimProviders(SPSecurityTokenRequestContext requestInfo, IClaimsIdentity identity, SPClaim identityClaim)
+   at Microsoft.SharePoint.IdentityModel.SPSecurityTokenService.AugmentOutputIdentityForRequest(SPSecurityTokenRequestContext requestInfo, IClaimsIdentity outputIdentity)
+   at Microsoft.SharePoint.IdentityModel.SPSecurityTokenService.GetOutputClaimsIdentityForRegularTokenRequest(SPSecurityTokenRequestContext requestInfo)
+   at Microsoft.SharePoint.IdentityModel.SPSecurityTokenService.GetOutputClaimsIdentityForSPO(IClaimsPrincipal principal, RequestSecurityToken request)'."
+Medium,"STS Call: Failed to issue new security token with sign-in exception. Exception: 'System.ServiceModel.FaultException: ID3035: The request was not valid or is malformed.
+   at Microsoft.SharePoint.Administration.Claims.SPSecurityTokenServiceFailureUtilities.ThrowTokenIssuanceFailureException(String errorNamespace, String errorCode)
+   at Microsoft.SharePointGrid.TenantClaimProviders.TenantClaimProvider.GetUserFromSpodsWithAadFallbackForGuests(Uri context, SPSite site, SPClaim userClaim, String puid, SPClaimProviderContext claimProviderContext, UserSearchOptions userOptions)
+   at Microsoft.SharePointGrid.TenantClaimProviders.TenantClaimProvider.FillClaimsForEntityWithSite(Uri context, SPClaim userClaim, String puid, SPSite site, SPClaimProviderContext claimProviderContext, List`1 claims)
+   at Microsoft.SharePointGrid.TenantClaimProviders.TenantClaimProvider.FillClaimsForEntity(Uri context, SPClaim entity, SPClaimProviderContext claimProviderContext, List`1 claims)
+   at Microsoft.SharePoint.Administration.Claims.SPClaimProvider.GetClaimsForEntity(Uri context, SPClaim entity, SPClaimProviderContext claimProviderContext)
+   at Microsoft.SharePoint.Administration.Claims.SPClaimProviderOperations.ClaimsForEntity(Uri context, SPClaimProviderOperationOptions mode, String[] providerNames, SPClaim entity, SPClaimProviderContext claimProviderContext)
+   at Microsoft.SharePoint.IdentityModel.SPSecurityTokenService.<>c__DisplayClass45_0.<AugmentClaimsIdentityWithClaimProviders>b__0()
+   at Microsoft.SharePoint.IdentityModel.SPClaimsIdentityContext.RunWithClaimsIdentityContext(IClaimsIdentity identity, CodeToRun code)
+   at Microsoft.SharePoint.IdentityModel.SPSecurityTokenService.AugmentClaimsIdentityWithClaimProviders(SPSecurityTokenRequestContext requestInfo, IClaimsIdentity identity, SPClaim identityClaim)
+   at Microsoft.SharePoint.IdentityModel.SPSecurityTokenService.AugmentOutputIdentityForRequest(SPSecurityTokenRequestContext requestInfo, IClaimsIdentity outputIdentity)
+   at Microsoft.SharePoint.IdentityModel.SPSecurityTokenService.GetOutputClaimsIdentityForRegularTokenRequest(SPSecurityTokenRequestContext requestInfo)
+   at Microsoft.SharePoint.IdentityModel.SPSecurityTokenService.GetOutputClaimsIdentityForSPO(IClaimsPrincipal principal, RequestSecurityToken request)
+   at Microsoft.SharePoint.IdentityModel.SPSecurityTokenService.GetOutputClaimsIdentity(IClaimsPrincipal principal, RequestSecurityToken request, Scope scope)
+   at Microsoft.IdentityModel.SecurityTokenService.SecurityTokenService.Issue(IClaimsPrincipal principal, RequestSecurityToken request)
+   at Microsoft.SharePoint.IdentityModel.SPSecurityTokenService.Issue(IClaimsPrincipal principal, RequestSecurityToken request)'."
+Medium,Leaving Monitored Scope: (Name=ExecuteSecurityTokenServiceOperationServer;StaticScopeId=6h8ie) Execution Time=101.1072; CPU Milliseconds=38; Managed Bytes=3066248; SQL Query Count=2; GCPauseMS=0; AllocBytes=3076696;; Parent=None
+Unexpected,"Tenant SiteSubscription object is null, returning without tracking people manager api."
+High,"[Forced due to logging gap, cached 94 ms earlier, Original Level: Verbose] SPRequestSecurityToken: SerializeProperty() serializing elementname:{0}, with value:{1}."
+High,"[Forced due to logging gap, Original Level: VerboseEx] SPMonitoredScope ExecuteSecurityTokenServiceOperationCaller:http://docs.oasis-open.org/ws-sx/ws-trust/200512/RST/Issue dispose is starting"
+High,Leaving Monitored Scope: (Name=ExecuteSecurityTokenServiceOperationCaller:http://docs.oasis-open.org/ws-sx/ws-trust/200512/RST/Issue;StaticScopeId=6jmt6) Execution Time=108.066; CPU Milliseconds=0; Managed Bytes=61416; SQL Query Count=0; GCPauseMS=0; AllocBytes=62416;; Parent=FormsSignInPage.AuthenticateEventHandler: Retrieve security token and establish session.
+Medium,The user is disabled for this site. Exception : 'ID3035: The request was not valid or is malformed.'.
+High,SecurityTokenForFormsAuthentication.TokenOrCookieBuildOrRebuild Failure: ID3035: The request was not valid or is malformed.
+Medium,RpsFormsSignInPage::GetSecurityToken: Failed to get a non-persistant security token for user '<name>327420_twgroup.co.nz#EXT#@colliers.onmicrosoft.com</name>' with membership provider 'membership' and role provider 'rolemanager' with applies to 'https://colliers.sharepoint.com/_vti_bin/client.svc/contextinfo'. Exception: 'ID3035: The request was not valid or is malformed.'
+High,Leaving Monitored Scope: (Name=FormsSignInPage.AuthenticateEventHandler: Retrieve security token and establish session.;StaticScopeId=6jngi) Execution Time=110.3862; CPU Milliseconds=2; Managed Bytes=177912; SQL Query Count=0; GCPauseMS=0; AllocBytes=179296;; Parent=Request (POST:https://colliers.sharepoint.com/_forms/default.aspx<scrubbed>)
+Medium,The browser does support SameSite at revision 3 of RFC6265.
+Medium,Deleted nonce cookie if present. Identifier: 'FC08EF6B552810B042BB1ADEC22EAB27CE71C2736D719C88'.
+Medium,Successfully deleted the Nonce cookie if present.
+Medium,Sign-in attempt resulted in an exception.
+Medium,"this.UserNameWithoutDecoration was not set to null, not anonymous guest user."
+High,m_isEmailAuthGuestUser was not properly initialized. Falling back to False.
+Medium,"Known sign-in exception encountered. Exception Message: 'ID3035: The request was not valid or is malformed.'
+Stack Trace: '   at Microsoft.IdentityModel.Protocols.WSTrust.WSTrustChannel.ReadResponse(Message response)
+   at Microsoft.IdentityModel.Protocols.WSTrust.WSTrustChannel.Issue(RequestSecurityToken rst, RequestSecurityTokenResponse& rstr)
+   at Microsoft.IdentityModel.Protocols.WSTrust.WSTrustChannel.Issue(RequestSecurityToken rst)
+   at Microsoft.SharePoint.SPSecurityContext.SecurityTokenForContext(Uri context, Boolean bearerToken, SecurityToken onBehalfOf, SecurityToken actAs, SecurityToken delegateTo, SPRequestSecurityTokenProperties properties)
+   at Microsoft.SharePoint.SPSecurityContext.SecurityTokenForFormsAuthentication(Uri context, String membershipProviderName, String roleProviderName, String username, String password, SPRequestSecurityTokenProperties requestProperties, Boolean isBootstrapTokenRequested)
+   at Microsoft.Online.SharePoint.IdentityModel.RpsFormsSignInPage.GetSecurityToken(Login formsSignInControl)
+   at Microsoft.SharePoint.IdentityModel.Pages.FormsSignInPage.AuthenticateEventHandler(Object sender, AuthenticateEventArgs formAuthenticateEventArgs)
+   at Microsoft.Online.SharePoint.IdentityModel.RpsLogin.DoLogin(SPOAuthenticationArguments arguments)
+   at Microsoft.Online.SharePoint.IdentityModel.RpsFormsSignInPage.SignInWithToken(SPOAuthToken token, SPOAuthenticationArguments arguments)
+   at Microsoft.Online.SharePoint.IdentityModel.SPOAuthHelper.TryToAuthenticateWithToken(IRPSSignInCallback2 signInCallback, SPOAuthToken token, SPOIdentityProviderRedirectReason& reason)
+   at Microsoft.Online.SharePoint.IdentityModel.SPOAuthHelper.TryToAuthenticateFromRequest(IRPSSignInCallback2 signInCallback, SPOAuthToken token, SPOIdentityProviderRedirectReason& reason)
+   at Microsoft.Online.SharePoint.IdentityModel.SPOAuthHelper.TryToAuthenticateFromRequest(IRPSSignInCallback2 signInCallback, SPOIdentityProviderRedirectReason& reason)
+   at Microsoft.Online.SharePoint.IdentityModel.SPOAuthHelper.TryToAuthenticate(IRPSSignInCallback signInCallback, SPOIdentityProviderRedirectReason& reason)
+   at Microsoft.Online.SharePoint.IdentityModel.RpsFormsSignInPage.OnSignInRequest(RpsHelper helper)'."
+High,EvoStsAuthenticationPipeline ExpectedFailure: TryToAuthenticate: Exception was not a session revocation signal. Rethrowing.
+Medium,Disposing token.
+Medium,Deleting nonce cookie if present as part disposing token handler.
+Medium,Deleted nonce cookie if present. Identifier: 'FC08EF6B552810B042BB1ADEC22EAB27CE71C2736D719C88'.
+Medium,"PermissionMask check failed for '{CA02D12D-6400-4DAB-8B1A-7297C939BE3A}'. Asking for '0x00010000', have '0x00000000'."
+Unexpected,Setting internal status code
+Unexpected,Failed to assert permission mask.
+Medium,Unknown SPRequest error occurred. More information: 0x80070005
+Medium,Retrieved internal error code from CSPRequest object.
+Medium,"PermissionMask check failed for '{CA02D12D-6400-4DAB-8B1A-7297C939BE3A}'. Asking for '0x00010000', have '0x00000000'."
+Unexpected,Setting internal status code
+Unexpected,Failed to assert permission mask.
+Medium,Unknown SPRequest error occurred. More information: 0x80070005
+Medium,Retrieved internal error code from CSPRequest object.
+Medium,"Experiment Manager: GetExpName final key: "
+Medium,Experiment Manager: GetExpName expName: production
+Medium,Component Manager: public CreateInstance: Microsoft.SharePoint.Context.ContextInfo
+Medium,Component Manager: Look in production
+High,SpPageContextInfo.VanityUrls ExpectedFailure: Get Vanity Urls for no single tenant.
+Medium,[SPTenantInstanceInfo] Try to load tenant instance info from tenantStore cache for tenant = 7669dc6c-1c61-4add-918e-c7e4843aec7c
+Medium,"[SPTenantInstanceInfo] Successfully loaded tenantStore cache for tenant = 7669dc6c-1c61-4add-918e-c7e4843aec7c, Try to get HasMultipleInstances property from it."
+Medium,"[SPTenantInstanceInfo] hasMultipleInstancesValueFromTenantStoreCache = False for tenant = 7669dc6c-1c61-4add-918e-c7e4843aec7c, from tenantStoreCache."
+Medium,[SPTenantInstanceInfo] TenantInstanceInfo killswitch is NOT activated.
+Medium,[SPTenantInstanceInfo] Current Tenant = 7669dc6c-1c61-4add-918e-c7e4843aec7c is Non-Multigeo Tenant
+Medium,"[SPTenantInstanceInfo] hasMultipleInstances Is True, Get property TenantInstanceInfo from TenantStore Cache for tenant = 7669dc6c-1c61-4add-918e-c7e4843aec7c"
+Medium,"[SPTenantInstanceInfo] tenant Instance Infos Json From TenantStore Cache = [{""InstanceId"":""4e130bd8-5681-43ce-8774-bbd3df744a80"",""DataLocation"":"""",""IsDefaultDataLocation"":false,""RootSiteUrl"":""https://colliers.sharepoint.com/"",""MySiteHostUrl"":""https://colliers-my.sharepoint.com/"",""TenantAdminUrl"":""https://colliers-admin.sharepoint.com/"",""PortalUrl"":""https://colliers.sharepoint.com/"",""AdditionalUrls"":[]}],for tenant = 7669dc6c-1c61-4add-918e-c7e4843aec7c"
+Medium,"[SPTenantInstanceInfo] Successfully loaded property TenantInstanceInfo from TenantStore Cache for tenant = 7669dc6c-1c61-4add-918e-c7e4843aec7c, TenantInstanceInfoJson = [{""InstanceId"":""4e130bd8-5681-43ce-8774-bbd3df744a80"",""DataLocation"":"""",""IsDefaultDataLocation"":false,""RootSiteUrl"":""https://colliers.sharepoint.com/"",""MySiteHostUrl"":""https://colliers-my.sharepoint.com/"",""TenantAdminUrl"":""https://colliers-admin.sharepoint.com/"",""PortalUrl"":""https://colliers.sharepoint.com/"",""AdditionalUrls"":[]}]"
+Medium,"[SPTenantInstanceInfo] tenantInstanceInfos is Loaded from TenantStore Cache and it is a cache hit, tenantInstanceInfosJson = [{""InstanceId"":""4e130bd8-5681-43ce-8774-bbd3df744a80"",""DataLocation"":"""",""IsDefaultDataLocation"":false,""RootSiteUrl"":""https://colliers.sharepoint.com/"",""MySiteHostUrl"":""https://colliers-my.sharepoint.com/"",""TenantAdminUrl"":""https://colliers-admin.sharepoint.com/"",""PortalUrl"":""https://colliers.sharepoint.com/"",""AdditionalUrls"":[]}], Tenant = 7669dc6c-1c61-4add-918e-c7e4843aec7c"
+Medium,Leaving Monitored Scope: (Name=WEXAddMultiGeoInfoInPageContext;StaticScopeId=6jm0a) Execution Time=0.3134; CPU Milliseconds=0; Managed Bytes=25144; SQL Query Count=0; GCPauseMS=0; AllocBytes=26272;; Parent=Request (POST:https://colliers.sharepoint.com/_forms/default.aspx<scrubbed>)
+Medium,Site is in readOnlyIntent mode
+Medium,Get Service Context from claims operation scope. SiteId: '83fafc2b-3011-4966-80fe-7da2b53f8a53'.
+Medium,"PermissionMask check failed for '{CA02D12D-6400-4DAB-8B1A-7297C939BE3A}'. Asking for '0x00010000', have '0x00000000'."
+Unexpected,Setting internal status code
+Unexpected,Failed to assert permission mask.
+Medium,Unknown SPRequest error occurred. More information: 0x80070005
+Medium,Retrieved internal error code from CSPRequest object.
+Medium,DisableCompanyWideSharingLinks:: Attempt in Retrieving DisableCSL rootweb setting via elevation due to exception
+Medium,"SyntexPAYGEnabled:'False', Is setting valid:'False', Features enabled:'None'."
+Medium,"DisableCompanyWideSharingLinks:: Success in Retrieving DisableCSL rootweb setting via elevation: "
+Medium,DisableCompanyWideSharingLinks:: Default of false used
+Medium,SyntexEntitlementProvider::IsEntitledForFeature - Syntex Billing Setting is invalid.
+Medium,SyntexEntitlementProvider::IsEntitledForFeature - Syntex Billing Setting is invalid.
+Medium,SyntexEntitlementProvider::IsEntitledForFeature - Syntex Billing Setting is invalid.
+Medium,SyntexEntitlementProvider::IsEntitledForFeature - Syntex Billing Setting is invalid.
+High,Leaving Monitored Scope: (Name=GenerateClientSnippet;StaticScopeId=6e54v) Execution Time=5.7213; CPU Milliseconds=5; Managed Bytes=570200; SQL Query Count=0; GCPauseMS=0; AllocBytes=568592;; Parent=Request (POST:https://colliers.sharepoint.com/_forms/default.aspx<scrubbed>)
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90254. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90253. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90251. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90246. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90244. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90242. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90238. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90237. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90234. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90233. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90232. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90231. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90230. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90229. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90226. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90225. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90224. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90220. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90217. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90212. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90211. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90210. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90209. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90208. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90206. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90205. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90203. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90202. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90200. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90199. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90198. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90197. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90195. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90192. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90190. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90189. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90188. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90187. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90186. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90184. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90183. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90182. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90180. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90179. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90178. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90177. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90176. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90174. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90173. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90172. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90171. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90170. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90169. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90168. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90167. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90165. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90164. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90163. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90162. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90161. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90158. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90157. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90155. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90154. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90153. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90152. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90151. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90150. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90149. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90147. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90146. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90143. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90141. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90140. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90138. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90137. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90136. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90135. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90132. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90129. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90128. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90127. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90126. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90125. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90124. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90123. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90122. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90121. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90120. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90119. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90118. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90115. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90112. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90111. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90110. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90108. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90104. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90103. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90102. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90101. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90097. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90095. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90094. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90093. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90092. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90089. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90088. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90087. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90084. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90083. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90082. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90079. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90077. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90074. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90072. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90071. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90070. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90066. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90065. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90064. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90062. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90060. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90057. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90056. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90055. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90054. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90053. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90052. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90050. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90049. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90048. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90047. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90046. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90045. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90044. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90043. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90042. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90040. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90038. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90036. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90035. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90032. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90031. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90030. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90029. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90027. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90026. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90024. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90022. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90021. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90019. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90018. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90015. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90014. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90013. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90012. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90009. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90008. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90007. Returning default.
+Medium,[GetAssignmentWithoutCache] User is unauthenticated for feature Reserved_Client_ExpFeature90005. Returning default.
+Medium,"SPPolicyUtility.IsEnableMIPLabelEnabled: The value of the AAD unified setting for label, 'EnableMIPLabels', is 'True'."
+Medium,"LicensableEntityMap.LicensableEntities - Total Count [64], Values [BCS,Duet,HostBIEnabled,IPFS,EntSearch,VisioServices,MySites,CloudStorage,EntSiteTemplate,Microsoft.Office.Excel.WebUI.ExcelWebRenderer,Microsoft.Office.InfoPath.Server.Controls.WebUI.BrowserFormWebPart,Microsoft.Office.Server.Search.WebControls.CatalogItemReuseWebPart,Microsoft.Office.Server.Search.WebControls.ContentBySearchWebPart,Microsoft.Office.Server.Search.WebControls.TaxonomyRefinementScriptWebPart,Microsoft.Office.Visio.Server.WebControls.VisioWebAccess,Microsoft.SharePoint.Portal.WebControls.BusinessDataActionsWebPart,Microsoft.SharePoint.Portal.WebControls.BusinessDataAssociationWebPart,Microsoft.SharePoint.Portal.WebControls.BusinessDataDetailsWebPart,Microsoft.SharePoint.Portal.WebControls.BusinessDataFilterWebPart,Microsoft.SharePoint.Portal.WebControls.BusinessDataItemBuilder,Microsoft.SharePoint.Portal.WebControls.BusinessDataListWebPart,Microsoft.SharePoint.Portal.WebControls.IndicatorWebPart,Microsoft.SharePoint.Portal.WebControls.KPIListWebPart,Project,Microsoft.Office.Project.PWA.WebParts.IssuesPart,Microsoft.Office.Project.PWA.WebParts.ProjectCenterPart,Microsoft.Office.Project.PWA.WebParts.ProjectCustomFieldsPart,Microsoft.Office.Project.PWA.WebParts.ProjectDrillDownPart,Microsoft.Office.Project.PWA.WebParts.ProjectFieldPart,Microsoft.Office.Project.PWA.WebParts.ProjectWorkspacesPart,Microsoft.Office.Project.PWA.WebParts.QueueStatusPart,Microsoft.Office.Project.PWA.WebParts.RemindersPart,Microsoft.Office.Project.PWA.WebParts.ResourceAssignmentsPart,Microsoft.Office.Project.PWA.WebParts.ResourceCenterPart,Microsoft.Office.Project.PWA.WebParts.ResourcePlansPart,Microsoft.Office.Project.PWA.WebParts.RisksPart,Microsoft.Office.Project.PWA.WebParts.SchedulePart,Microsoft.Office.Project.PWA.WebParts.StatusApprovalsPart,Microsoft.Office.Project.PWA.WebParts.StrategicImpactPart,Microsoft.Office.Project.PWA.WebParts.TaskPart,Microsoft.Office.Project.PWA.WebParts.TeamAssignmentsPart,Microsoft.Office.Project.PWA.WebParts.TimesheetPart,Microsoft.Office.Project.PWA.WebParts.WorkflowStatusPart,OfficeWebAppsEdit,CloudStorageBasic,CloudStorageBasicP2,CloudStorageEnterprise,CloudStorageDeskless,ProjectTeam,PersonalSiteRestriction,HostExtendedBIEnabled,OneDriveViral,OneDriveLite,VisioOnlineEdit,ContentServices,MnAODMove,SyntexSeatLicense,VivaAmplifyLicense,ClipchampLicense,ClipchampPremiumLicense,VivaConnectionsLicense,SharePointCopilot,StreamCopilot,OneDriveClipchamp]"
+Medium,LicenseValidationProvider.IsUserLicensedForEntity - Lisensable Entity [OfficeWebAppsEdit] defined in SPO
+Medium,"LicenseValidationProvider.IsUserLicensedForEntityWithQosEvent - Result [False], Data [LicenseValidationProvider.GetUserLicenses - UserPuid [], Licenses []
+LicenseValidationProvider.IsUserLicensedForEntityWithQosEvent - LicensableEntity [OfficeWebAppsEdit], API [SPWebApplication_IsUserLicensedForEntity], Scenario [None], ResultFromOldPath [False], ResultFromNewPath [False], IsMismatchResult [False]
+]"
+Medium,"LicensableEntityMap.LicensableEntities - Total Count [64], Values [BCS,Duet,HostBIEnabled,IPFS,EntSearch,VisioServices,MySites,CloudStorage,EntSiteTemplate,Microsoft.Office.Excel.WebUI.ExcelWebRenderer,Microsoft.Office.InfoPath.Server.Controls.WebUI.BrowserFormWebPart,Microsoft.Office.Server.Search.WebControls.CatalogItemReuseWebPart,Microsoft.Office.Server.Search.WebControls.ContentBySearchWebPart,Microsoft.Office.Server.Search.WebControls.TaxonomyRefinementScriptWebPart,Microsoft.Office.Visio.Server.WebControls.VisioWebAccess,Microsoft.SharePoint.Portal.WebControls.BusinessDataActionsWebPart,Microsoft.SharePoint.Portal.WebControls.BusinessDataAssociationWebPart,Microsoft.SharePoint.Portal.WebControls.BusinessDataDetailsWebPart,Microsoft.SharePoint.Portal.WebControls.BusinessDataFilterWebPart,Microsoft.SharePoint.Portal.WebControls.BusinessDataItemBuilder,Microsoft.SharePoint.Portal.WebControls.BusinessDataListWebPart,Microsoft.SharePoint.Portal.WebControls.IndicatorWebPart,Microsoft.SharePoint.Portal.WebControls.KPIListWebPart,Project,Microsoft.Office.Project.PWA.WebParts.IssuesPart,Microsoft.Office.Project.PWA.WebParts.ProjectCenterPart,Microsoft.Office.Project.PWA.WebParts.ProjectCustomFieldsPart,Microsoft.Office.Project.PWA.WebParts.ProjectDrillDownPart,Microsoft.Office.Project.PWA.WebParts.ProjectFieldPart,Microsoft.Office.Project.PWA.WebParts.ProjectWorkspacesPart,Microsoft.Office.Project.PWA.WebParts.QueueStatusPart,Microsoft.Office.Project.PWA.WebParts.RemindersPart,Microsoft.Office.Project.PWA.WebParts.ResourceAssignmentsPart,Microsoft.Office.Project.PWA.WebParts.ResourceCenterPart,Microsoft.Office.Project.PWA.WebParts.ResourcePlansPart,Microsoft.Office.Project.PWA.WebParts.RisksPart,Microsoft.Office.Project.PWA.WebParts.SchedulePart,Microsoft.Office.Project.PWA.WebParts.StatusApprovalsPart,Microsoft.Office.Project.PWA.WebParts.StrategicImpactPart,Microsoft.Office.Project.PWA.WebParts.TaskPart,Microsoft.Office.Project.PWA.WebParts.TeamAssignmentsPart,Microsoft.Office.Project.PWA.WebParts.TimesheetPart,Microsoft.Office.Project.PWA.WebParts.WorkflowStatusPart,OfficeWebAppsEdit,CloudStorageBasic,CloudStorageBasicP2,CloudStorageEnterprise,CloudStorageDeskless,ProjectTeam,PersonalSiteRestriction,HostExtendedBIEnabled,OneDriveViral,OneDriveLite,VisioOnlineEdit,ContentServices,MnAODMove,SyntexSeatLicense,VivaAmplifyLicense,ClipchampLicense,ClipchampPremiumLicense,VivaConnectionsLicense,SharePointCopilot,StreamCopilot,OneDriveClipchamp]"
+Medium,LicenseValidationProvider.IsUserLicensedForEntity - Lisensable Entity [VisioOnlineEdit] defined in SPO
+Medium,"LicenseValidationProvider.IsUserLicensedForEntityWithQosEvent - Result [False], Data [LicenseValidationProvider.GetUserLicenses - UserPuid [], Licenses []
+LicenseValidationProvider.IsUserLicensedForEntityWithQosEvent - LicensableEntity [VisioOnlineEdit], API [SPWebApplication_IsUserLicensedForEntity], Scenario [None], ResultFromOldPath [False], ResultFromNewPath [False], IsMismatchResult [False]
+]"
+Medium,"LicensableEntityMap.LicensableEntities - Total Count [64], Values [BCS,Duet,HostBIEnabled,IPFS,EntSearch,VisioServices,MySites,CloudStorage,EntSiteTemplate,Microsoft.Office.Excel.WebUI.ExcelWebRenderer,Microsoft.Office.InfoPath.Server.Controls.WebUI.BrowserFormWebPart,Microsoft.Office.Server.Search.WebControls.CatalogItemReuseWebPart,Microsoft.Office.Server.Search.WebControls.ContentBySearchWebPart,Microsoft.Office.Server.Search.WebControls.TaxonomyRefinementScriptWebPart,Microsoft.Office.Visio.Server.WebControls.VisioWebAccess,Microsoft.SharePoint.Portal.WebControls.BusinessDataActionsWebPart,Microsoft.SharePoint.Portal.WebControls.BusinessDataAssociationWebPart,Microsoft.SharePoint.Portal.WebControls.BusinessDataDetailsWebPart,Microsoft.SharePoint.Portal.WebControls.BusinessDataFilterWebPart,Microsoft.SharePoint.Portal.WebControls.BusinessDataItemBuilder,Microsoft.SharePoint.Portal.WebControls.BusinessDataListWebPart,Microsoft.SharePoint.Portal.WebControls.IndicatorWebPart,Microsoft.SharePoint.Portal.WebControls.KPIListWebPart,Project,Microsoft.Office.Project.PWA.WebParts.IssuesPart,Microsoft.Office.Project.PWA.WebParts.ProjectCenterPart,Microsoft.Office.Project.PWA.WebParts.ProjectCustomFieldsPart,Microsoft.Office.Project.PWA.WebParts.ProjectDrillDownPart,Microsoft.Office.Project.PWA.WebParts.ProjectFieldPart,Microsoft.Office.Project.PWA.WebParts.ProjectWorkspacesPart,Microsoft.Office.Project.PWA.WebParts.QueueStatusPart,Microsoft.Office.Project.PWA.WebParts.RemindersPart,Microsoft.Office.Project.PWA.WebParts.ResourceAssignmentsPart,Microsoft.Office.Project.PWA.WebParts.ResourceCenterPart,Microsoft.Office.Project.PWA.WebParts.ResourcePlansPart,Microsoft.Office.Project.PWA.WebParts.RisksPart,Microsoft.Office.Project.PWA.WebParts.SchedulePart,Microsoft.Office.Project.PWA.WebParts.StatusApprovalsPart,Microsoft.Office.Project.PWA.WebParts.StrategicImpactPart,Microsoft.Office.Project.PWA.WebParts.TaskPart,Microsoft.Office.Project.PWA.WebParts.TeamAssignmentsPart,Microsoft.Office.Project.PWA.WebParts.TimesheetPart,Microsoft.Office.Project.PWA.WebParts.WorkflowStatusPart,OfficeWebAppsEdit,CloudStorageBasic,CloudStorageBasicP2,CloudStorageEnterprise,CloudStorageDeskless,ProjectTeam,PersonalSiteRestriction,HostExtendedBIEnabled,OneDriveViral,OneDriveLite,VisioOnlineEdit,ContentServices,MnAODMove,SyntexSeatLicense,VivaAmplifyLicense,ClipchampLicense,ClipchampPremiumLicense,VivaConnectionsLicense,SharePointCopilot,StreamCopilot,OneDriveClipchamp]"
+Medium,LicenseValidationProvider.IsUserLicensedForEntity - Lisensable Entity [CloudStorageDeskless] defined in SPO
+Medium,"LicenseValidationProvider.IsUserLicensedForEntityWithQosEvent - Result [False], Data [LicenseValidationProvider.GetUserLicenses - UserPuid [], Licenses []
+LicenseValidationProvider.IsUserLicensedForEntityWithQosEvent - LicensableEntity [CloudStorageDeskless], API [SPWebApplication_IsUserLicensedForEntity], Scenario [None], ResultFromOldPath [False], ResultFromNewPath [False], IsMismatchResult [False]
+]"
+Medium,"LicensableEntityMap.LicensableEntities - Total Count [64], Values [BCS,Duet,HostBIEnabled,IPFS,EntSearch,VisioServices,MySites,CloudStorage,EntSiteTemplate,Microsoft.Office.Excel.WebUI.ExcelWebRenderer,Microsoft.Office.InfoPath.Server.Controls.WebUI.BrowserFormWebPart,Microsoft.Office.Server.Search.WebControls.CatalogItemReuseWebPart,Microsoft.Office.Server.Search.WebControls.ContentBySearchWebPart,Microsoft.Office.Server.Search.WebControls.TaxonomyRefinementScriptWebPart,Microsoft.Office.Visio.Server.WebControls.VisioWebAccess,Microsoft.SharePoint.Portal.WebControls.BusinessDataActionsWebPart,Microsoft.SharePoint.Portal.WebControls.BusinessDataAssociationWebPart,Microsoft.SharePoint.Portal.WebControls.BusinessDataDetailsWebPart,Microsoft.SharePoint.Portal.WebControls.BusinessDataFilterWebPart,Microsoft.SharePoint.Portal.WebControls.BusinessDataItemBuilder,Microsoft.SharePoint.Portal.WebControls.BusinessDataListWebPart,Microsoft.SharePoint.Portal.WebControls.IndicatorWebPart,Microsoft.SharePoint.Portal.WebControls.KPIListWebPart,Project,Microsoft.Office.Project.PWA.WebParts.IssuesPart,Microsoft.Office.Project.PWA.WebParts.ProjectCenterPart,Microsoft.Office.Project.PWA.WebParts.ProjectCustomFieldsPart,Microsoft.Office.Project.PWA.WebParts.ProjectDrillDownPart,Microsoft.Office.Project.PWA.WebParts.ProjectFieldPart,Microsoft.Office.Project.PWA.WebParts.ProjectWorkspacesPart,Microsoft.Office.Project.PWA.WebParts.QueueStatusPart,Microsoft.Office.Project.PWA.WebParts.RemindersPart,Microsoft.Office.Project.PWA.WebParts.ResourceAssignmentsPart,Microsoft.Office.Project.PWA.WebParts.ResourceCenterPart,Microsoft.Office.Project.PWA.WebParts.ResourcePlansPart,Microsoft.Office.Project.PWA.WebParts.RisksPart,Microsoft.Office.Project.PWA.WebParts.SchedulePart,Microsoft.Office.Project.PWA.WebParts.StatusApprovalsPart,Microsoft.Office.Project.PWA.WebParts.StrategicImpactPart,Microsoft.Office.Project.PWA.WebParts.TaskPart,Microsoft.Office.Project.PWA.WebParts.TeamAssignmentsPart,Microsoft.Office.Project.PWA.WebParts.TimesheetPart,Microsoft.Office.Project.PWA.WebParts.WorkflowStatusPart,OfficeWebAppsEdit,CloudStorageBasic,CloudStorageBasicP2,CloudStorageEnterprise,CloudStorageDeskless,ProjectTeam,PersonalSiteRestriction,HostExtendedBIEnabled,OneDriveViral,OneDriveLite,VisioOnlineEdit,ContentServices,MnAODMove,SyntexSeatLicense,VivaAmplifyLicense,ClipchampLicense,ClipchampPremiumLicense,VivaConnectionsLicense,SharePointCopilot,StreamCopilot,OneDriveClipchamp]"
+Medium,LicenseValidationProvider.IsUserLicensedForEntity - Lisensable Entity [VivaConnectionsLicense] defined in SPO
+Medium,"LicenseValidationProvider.IsUserLicensedForEntityWithQosEvent - Result [False], Data [LicenseValidationProvider.GetUserLicenses - UserPuid [], Licenses []
+LicenseValidationProvider.IsUserLicensedForEntityWithQosEvent - LicensableEntity [VivaConnectionsLicense], API [SPWebApplication_IsUserLicensedForEntity], Scenario [None], ResultFromOldPath [False], ResultFromNewPath [False], IsMismatchResult [False]
+]"
+Medium,"LicensableEntityMap.LicensableEntities - Total Count [64], Values [BCS,Duet,HostBIEnabled,IPFS,EntSearch,VisioServices,MySites,CloudStorage,EntSiteTemplate,Microsoft.Office.Excel.WebUI.ExcelWebRenderer,Microsoft.Office.InfoPath.Server.Controls.WebUI.BrowserFormWebPart,Microsoft.Office.Server.Search.WebControls.CatalogItemReuseWebPart,Microsoft.Office.Server.Search.WebControls.ContentBySearchWebPart,Microsoft.Office.Server.Search.WebControls.TaxonomyRefinementScriptWebPart,Microsoft.Office.Visio.Server.WebControls.VisioWebAccess,Microsoft.SharePoint.Portal.WebControls.BusinessDataActionsWebPart,Microsoft.SharePoint.Portal.WebControls.BusinessDataAssociationWebPart,Microsoft.SharePoint.Portal.WebControls.BusinessDataDetailsWebPart,Microsoft.SharePoint.Portal.WebControls.BusinessDataFilterWebPart,Microsoft.SharePoint.Portal.WebControls.BusinessDataItemBuilder,Microsoft.SharePoint.Portal.WebControls.BusinessDataListWebPart,Microsoft.SharePoint.Portal.WebControls.IndicatorWebPart,Microsoft.SharePoint.Portal.WebControls.KPIListWebPart,Project,Microsoft.Office.Project.PWA.WebParts.IssuesPart,Microsoft.Office.Project.PWA.WebParts.ProjectCenterPart,Microsoft.Office.Project.PWA.WebParts.ProjectCustomFieldsPart,Microsoft.Office.Project.PWA.WebParts.ProjectDrillDownPart,Microsoft.Office.Project.PWA.WebParts.ProjectFieldPart,Microsoft.Office.Project.PWA.WebParts.ProjectWorkspacesPart,Microsoft.Office.Project.PWA.WebParts.QueueStatusPart,Microsoft.Office.Project.PWA.WebParts.RemindersPart,Microsoft.Office.Project.PWA.WebParts.ResourceAssignmentsPart,Microsoft.Office.Project.PWA.WebParts.ResourceCenterPart,Microsoft.Office.Project.PWA.WebParts.ResourcePlansPart,Microsoft.Office.Project.PWA.WebParts.RisksPart,Microsoft.Office.Project.PWA.WebParts.SchedulePart,Microsoft.Office.Project.PWA.WebParts.StatusApprovalsPart,Microsoft.Office.Project.PWA.WebParts.StrategicImpactPart,Microsoft.Office.Project.PWA.WebParts.TaskPart,Microsoft.Office.Project.PWA.WebParts.TeamAssignmentsPart,Microsoft.Office.Project.PWA.WebParts.TimesheetPart,Microsoft.Office.Project.PWA.WebParts.WorkflowStatusPart,OfficeWebAppsEdit,CloudStorageBasic,CloudStorageBasicP2,CloudStorageEnterprise,CloudStorageDeskless,ProjectTeam,PersonalSiteRestriction,HostExtendedBIEnabled,OneDriveViral,OneDriveLite,VisioOnlineEdit,ContentServices,MnAODMove,SyntexSeatLicense,VivaAmplifyLicense,ClipchampLicense,ClipchampPremiumLicense,VivaConnectionsLicense,SharePointCopilot,StreamCopilot,OneDriveClipchamp]"
+Medium,LicenseValidationProvider.IsUserLicensedForEntity - Lisensable Entity [ClipchampLicense] defined in SPO
+Medium,"LicenseValidationProvider.IsUserLicensedForEntityWithQosEvent - Result [False], Data [LicenseValidationProvider.GetUserLicenses - UserPuid [], Licenses []
+LicenseValidationProvider.IsUserLicensedForEntityWithQosEvent - LicensableEntity [ClipchampLicense], API [SPWebApplication_IsUserLicensedForEntity], Scenario [None], ResultFromOldPath [False], ResultFromNewPath [False], IsMismatchResult [False]
+]"
+Medium,"LicensableEntityMap.LicensableEntities - Total Count [64], Values [BCS,Duet,HostBIEnabled,IPFS,EntSearch,VisioServices,MySites,CloudStorage,EntSiteTemplate,Microsoft.Office.Excel.WebUI.ExcelWebRenderer,Microsoft.Office.InfoPath.Server.Controls.WebUI.BrowserFormWebPart,Microsoft.Office.Server.Search.WebControls.CatalogItemReuseWebPart,Microsoft.Office.Server.Search.WebControls.ContentBySearchWebPart,Microsoft.Office.Server.Search.WebControls.TaxonomyRefinementScriptWebPart,Microsoft.Office.Visio.Server.WebControls.VisioWebAccess,Microsoft.SharePoint.Portal.WebControls.BusinessDataActionsWebPart,Microsoft.SharePoint.Portal.WebControls.BusinessDataAssociationWebPart,Microsoft.SharePoint.Portal.WebControls.BusinessDataDetailsWebPart,Microsoft.SharePoint.Portal.WebControls.BusinessDataFilterWebPart,Microsoft.SharePoint.Portal.WebControls.BusinessDataItemBuilder,Microsoft.SharePoint.Portal.WebControls.BusinessDataListWebPart,Microsoft.SharePoint.Portal.WebControls.IndicatorWebPart,Microsoft.SharePoint.Portal.WebControls.KPIListWebPart,Project,Microsoft.Office.Project.PWA.WebParts.IssuesPart,Microsoft.Office.Project.PWA.WebParts.ProjectCenterPart,Microsoft.Office.Project.PWA.WebParts.ProjectCustomFieldsPart,Microsoft.Office.Project.PWA.WebParts.ProjectDrillDownPart,Microsoft.Office.Project.PWA.WebParts.ProjectFieldPart,Microsoft.Office.Project.PWA.WebParts.ProjectWorkspacesPart,Microsoft.Office.Project.PWA.WebParts.QueueStatusPart,Microsoft.Office.Project.PWA.WebParts.RemindersPart,Microsoft.Office.Project.PWA.WebParts.ResourceAssignmentsPart,Microsoft.Office.Project.PWA.WebParts.ResourceCenterPart,Microsoft.Office.Project.PWA.WebParts.ResourcePlansPart,Microsoft.Office.Project.PWA.WebParts.RisksPart,Microsoft.Office.Project.PWA.WebParts.SchedulePart,Microsoft.Office.Project.PWA.WebParts.StatusApprovalsPart,Microsoft.Office.Project.PWA.WebParts.StrategicImpactPart,Microsoft.Office.Project.PWA.WebParts.TaskPart,Microsoft.Office.Project.PWA.WebParts.TeamAssignmentsPart,Microsoft.Office.Project.PWA.WebParts.TimesheetPart,Microsoft.Office.Project.PWA.WebParts.WorkflowStatusPart,OfficeWebAppsEdit,CloudStorageBasic,CloudStorageBasicP2,CloudStorageEnterprise,CloudStorageDeskless,ProjectTeam,PersonalSiteRestriction,HostExtendedBIEnabled,OneDriveViral,OneDriveLite,VisioOnlineEdit,ContentServices,MnAODMove,SyntexSeatLicense,VivaAmplifyLicense,ClipchampLicense,ClipchampPremiumLicense,VivaConnectionsLicense,SharePointCopilot,StreamCopilot,OneDriveClipchamp]"
+Medium,LicenseValidationProvider.IsUserLicensedForEntity - Lisensable Entity [SharePointCopilot] defined in SPO
+Medium,"LicenseValidationProvider.IsUserLicensedForEntityWithQosEvent - Result [False], Data [LicenseValidationProvider.GetUserLicenses - UserPuid [], Licenses []
+LicenseValidationProvider.IsUserLicensedForEntityWithQosEvent - LicensableEntity [SharePointCopilot], API [SPWebApplication_IsUserLicensedForEntity], Scenario [None], ResultFromOldPath [False], ResultFromNewPath [False], IsMismatchResult [False]
+]"
+Medium,Tenant has StreamCopilot license: False
+Medium,"SyntexPAYGEnabled:'False', Is setting valid:'False', Features enabled:'None'."
+Medium,"SyntexPAYGEnabled:'False', Is setting valid:'False', Features enabled:'None'."
+Medium,SPFarm InitializationSettings ExternalService_contentcenterexperiencesupported is True
+Medium,"SyntexPAYGEnabled:'False', Is setting valid:'False', Features enabled:'None'."
+Medium,"SyntexPAYGEnabled:'False', Is setting valid:'False', Features enabled:'None'."
+Medium,SyntexESignatureEnabled: Checking SPFarm.IsSPO - True and IsESignatureEnabled
+Medium,SyntexESignatureEnabled: ESignature is not enabled on the site
+Medium,SyntexESignatureEnabledThirdPartyProviders: Checking SPFarm.IsSPO - True and SyntexESignatureEnabledThirdPartyProviders
+Medium,"SyntexPAYGEnabled:'False', Is setting valid:'False', Features enabled:'None'."
+Medium,SyntexTaxonomyTaggingEnabled: Checking SPFarm.IsSPO - True and IsTaxonomyTaggingEnabled
+Medium,SyntexTaxonomyTaggingEnabled: TaxonomyTagging is not enabled on the site
+Unexpected,"AAD Session ID is not a guid. Session Id: "
+Medium,spPageContextInfo-isCurrentSiteAHomeSite : Web or site is null.
+High,Knowledge Hub link could not be found for SiteSubscription ID 7669dc6c-1c61-4add-918e-c7e4843aec7c.
+Monitorable,TenantCdn - compute auth token for Url <name>HTTPS://COLLIERS.SHAREPOINT.COM/_USERPROFILE/USERPHOTO.JPG</name> with secret (hashed) 8ieuQLX4LB+4oDN9UpkJFmh5tTNVAmE0Y0NHlItfRl8=
+Medium,Look up azure region from microservice default maps for datacenter [SAT11].
+Medium,Look up azure region from microservice default maps for datacenter [SAT11].
+Medium,"Using Global region present in config db for region compute, microservice: media primary region: southcentralus secondary region: northcentralus primary dc: SAT11 secondary dc: "
+Medium,Look up azure region from microservice default maps for datacenter [SAT11].
+Medium,Look up azure region from microservice default maps for datacenter [SAT11].
+Medium,Look up azure region from microservice default maps for datacenter [SAT11].
+Medium,Look up azure region from microservice default maps for datacenter [SAT11].
+Medium,Look up azure region from microservice default maps for datacenter [SAT11].
+Medium,Look up azure region from microservice default maps for datacenter [SAT11].
+Medium,"ServiceEnvironment: [p] , publicFacingUrl: [True]"
+Medium,ShouldFallbackToItemsScope - TRUE because list is null
+Medium,"[TenantLicensesChecker.DoesTenantContainSkuTypesInTenantStore] Tenant has licenses of type: E5 in TenantStore, SiteSubscriptionId: 7669dc6c-1c61-4add-918e-c7e4843aec7c"
+Medium,[TenantLicensesChecker.DoesTenantContainAnySkuType] returning result True for SiteSubscriptionId 7669dc6c-1c61-4add-918e-c7e4843aec7c
+Medium,"includeResponseStatsHeader is FALSE. UserAgent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+Medium,"Sending response headers to client [s=200,ct=text/html; charset=utf-8]"
+Medium,The request file path is to an auth page.
+Medium,Leaving Monitored Scope: (Name=Request (POST:https://colliers.sharepoint.com/_forms/default.aspx<scrubbed>);StaticScopeId=6jmmy) Execution Time=195.9401; CPU Milliseconds=78; Managed Bytes=20693416; SQL Query Count=6; GCPauseMS=0; AllocBytes=20703720;; Parent=None
+Medium,"Final: FileOperationType = [_Unknown], OperationId = [Authentication_FormsDefaultAuthPage], ComponentId = [AuthenticationApi]"
+Unexpected,"Disposing SPMemoryData [2cc3b5bc-ee97-4138-be9e-4a31559f37c4] is not active on this thread [Active: 00000000-0000-0000-0000-000000000000] [LastActive: 00000000-0000-0000-0000-000000000000] StackTrace:   at Microsoft.SharePoint.Utilities.SPMemoryData.Dispose()
+   at Microsoft.SharePoint.Administration.SPRequestUsageMonitoredScope.OnDisposing()
+   at Microsoft.SharePoint.Utilities.SPMonitoredScope.Dispose(Boolean disposing)
+   at Microsoft.SharePoint.ApplicationRuntime.SPRequestModule.EndRequestHandler(Object oSender, EventArgs ea)
+   at Microsoft.SharePoint.ApplicationRuntime.RequestInstrumentationScopeManager.<>c__DisplayClass17_0.<WrapEndRequestEventHandler>b__0(Object oSender, EventArgs ea)
+   at System.Web.HttpApplication.SyncEventExecutionStep.System.Web.HttpApplication.IExecutionStep.Execute()
+   at System.Web.HttpApplication.ExecuteStepImpl(IExecutionStep step)
+   at System.Web.HttpApplication.ExecuteStep(IExecutionStep step, Boolean& completedSynchronously)
+   at System.Web.HttpApplication.PipelineStepManager.ResumeSteps(Exception error)
+   at System.Web.HttpApplication.BeginProcessRequestNotification(HttpContext context, AsyncCallback cb)
+   at System.Web.HttpRuntime.ProcessRequestNotificationPrivate(IIS7WorkerRequest wr, HttpContext context)
+   at System.Web.Hosting.PipelineRuntime.ProcessRequestNotificationHelper(IntPtr rootedObjectsPointer, IntPtr nativeRequestContext, IntPtr moduleData, Int32 flags)
+   at System.Web.Hosting.PipelineRuntime.ProcessRequestNotification(IntPtr rootedObjectsPointer, IntPtr nativeRequestContext, IntPtr moduleData, Int32 flags)
+   at System.Web.Hosting.UnsafeIISMethods.MgdIndicateCompletion(IntPtr pHandler, RequestNotificationStatus& notificationStatus)
+   at System.Web.Hosting.UnsafeIISMethods.MgdIndicateCompletion(IntPtr pHandler, RequestNotificationStatus& notificationStatus)
+   at System.Web.Hosting.PipelineRuntime.ProcessRequestNotificationHelper(IntPtr rootedObjectsPointer, IntPtr nativeRequestContext, IntPtr moduleData, Int32 flags)
+   at System.Web.Hosting.PipelineRuntime.ProcessRequestNotification(IntPtr rootedObjectsPointer, IntPtr nativeRequestContext, IntPtr moduleData, Int32 flags)
+"
+Medium,The authentication settings retrieval will be evaluated on a separate task.
+Medium,The task to execute the authentication code blocks asynchronously started.
+Medium,Disposing of the claims operation scope.
+Unexpected,Parse 'SiteSubscription' to GenevaId failed for Requested value 'SiteSubscription' was not found.
+Medium,Sending aggregated event; Operation:SiteSubscription_MinDB_GetServiceDataDsn; Type:Success; Value:168; ErrorCode:40417048; ErrorInfo:

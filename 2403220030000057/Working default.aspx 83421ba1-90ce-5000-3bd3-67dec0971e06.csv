@@ -1,0 +1,469 @@
+Level,Message
+Medium,Name=Request (POST:https://colliers.sharepoint.com/_forms/default.aspx<scrubbed>)
+Medium,The request is for a root site - get the redirect URL directly colliers.sharepoint.com - colliers.sharepoint.com
+Monitorable,Unknown SPSkuType types for [639dec6b-bb19-468b-871c-c5c441c4b0cb][be9f9771-1c64-4618-9907-244325141096][61902246-d7cb-453e-85cd-53ee28eec138]
+Medium,"Initial: FileOperationType = [_Unknown], OperationId = [Authentication_FormsDefaultAuthPage], ComponentId = [AuthenticationApi]"
+Medium,Intializing RpsContextCookie.
+Medium,Extracting sign-in previous correlation ID from the rps context cookie. Value: '83421ba1-c01e-4000-ff0a-2473d9a6bb07'.
+Medium,Using the Source element for sign-in target path.
+Medium,Creating claims operaton scope with sign-in target.
+Medium,Skip the cookie authentication for this request.
+High,There are no tasks to execute asynchronously.
+Medium,Site=/
+Medium,"DGCache [2024-04-02 20:23:10Z] : 8916, 17896, 0x0000000000000000, 0, CSPRequest::HrRunMondoSproc, VdbSubweb::setDomainGroupCache
+"
+Medium,Using the Source element for sign-in target path.
+Medium,No groups on windows token.
+Medium,"SyntexPAYGEnabled:'False', Is setting valid:'False', Features enabled:'None'."
+Medium,Checking for MSA tenant.
+Medium,Tested site for MSA context. Value: 'False'.
+Medium,The site configuration environment is null.
+Medium,MsaTenant: SPOAuthHelper NOT configuring for MsaTenant because MsaTenantUtils.IsMsaTenant() is false.
+Medium,This default auth mode is set. Value: 'OpenIdConnect'.
+Medium,Request has an OpenID Connect state element in the query string. Key: 'state'.
+Medium,Page is not sign-out page load.
+Medium,Page is not sign-out page load.
+Medium,The OpenID Connect request elements were calculated. RequestElement: 'IdToken | NonceCookie | OpenIDConnectState'.
+Medium,Request does not have element. Value: 'False'.
+Medium,Request does not have element. Value: 'False'.
+Medium,Request has element. Value: 'False'.
+Medium,Request has element. Value: 'False'.
+Medium,Request has element. Value: 'False'.
+Medium,This OpenID Connect request is for sign-in and has all the needed request elements potentially.
+Medium,"Request initialized. RequestAuthenticationMode: 'OpenIdConnect', RequestType: 'IdentityProviderSignInSuccessReturnRequest'."
+Medium,EvoStsAuthenticationPipeline Start: My Scenario Start
+Medium,Entering authentication pipeline...
+Medium,Not an invitation acceptance request.
+Medium,This is a return from an identity provider. The pre-sign in correlation id: '83421ba1-c01e-4000-ff0a-2473d9a6bb07'.
+Medium,This is a sign-in request.
+Medium,Trying to sign in with the token returning from authentication provider.
+Medium,Using IRPSSignInCallback2 for TryToAuthenticateFromRequest.
+Medium,Request has element. Value: 'False'.
+Medium,Trying to sign-in by building an SPOAuthToken from the request.
+Medium,Attempting to build an SPOAuthToken from request.
+Medium,Getting OpenID Connect token string from HTTP POST body. Key: 'id_token'.
+Medium,Found a value with the key. Adding key prefix to value. Key: 'id_token'.
+High,The HTTP context info accessor does not have cached IP address.
+Medium,The request is made with a token with key identifier 'q-23falevZhhD3hm9CQbkP5MQyU' and thumbprint 'ABEDB77DA95EBD98610F7866F4241B90FE4C4325'.
+Medium,Successfully built an OpenID Connect JSON token object from the raw ticket.
+Medium,Audience Guid matches current App Id Guid. Audience: '00000003-0000-0ff1-ce00-000000000000'.
+Medium,Audience Guid matches current App Id Guid. Audience: '00000003-0000-0ff1-ce00-000000000000'.
+Medium,Successfully validated OpenID Connect JSON token.
+Medium,Getting OpenID Connect code string from form. Key: 'code'.
+Medium,Found a value with the key. Key: 'code'.
+Medium,"Id token: '{""typ"":""JWT"",""alg"":""RS256"",""x5t"":""q-23falevZhhD3hm9CQbkP5MQyU"",""kid"":""q-23falevZhhD3hm9CQbkP5MQyU""}.{""aud"":""00000003-0000-0ff1-ce00-000000000000"",""iss"":""https://sts.windows.net/049e3382-8cdc-477b-9317-951b04689668/"",""iat"":1712114288,""nbf"":1712114288,""exp"":1712118188,""acrs"":[""urn:user:registersecurityinfo""],""aio"":""AUQAu/8WAAAAVxuwgV8ADVI4cEXkf+mFxVunVz9bqRNOj0lFwNdvg3MDummx4WaCiCjOgmXoFQXuTWIYsHpUkcxCeKcweY7xTg=="",""altsecid"":""5::10032002CC6815D0"",""amr"":[""pwd""],""auth_time"":1706733039,""c_hash"":""OI3fq0hYUaBUHHMmaIe6PQ"",""e_exp"":262798,""email"":""*@twgroup.co.nz"",""idp"":""https://sts.windows.net/07e47c7e-9339-473b-8138-adb77559c551/"",""ipaddr"":""203.97.64.20"",""name"":""*"",""nonce"":""C394A2889538CCB075EB6A6105F3422F099774D7F10DAD64-394A1EF663185D5C2A0E3854B36814F665BB00AB80C53E596C0E3585D418D3EF"",""oid"":""6b8caf92-2bd6-4fc6-9ba2-3462b05cfc79"",""preferred_username"":""*"",""puid"":""10032002CE038AB7"",""rh"":""0.ARsAgjOeBNyMe0eTF5UbBGiWaAMAAAAAAPEPzgAAAAAAAAAbAEg."",""sid"":""4c736738-d5c4-4075-bde6-eca7974bfa50"",""sub"":""TlRti10Ln9tEE73wJcEKPxVDl5FeaFhfATsiFdTDIOU"",""tid"":""049e3382-8cdc-477b-9317-951b04689668"",""unique_name"":""*"",""upn"":""*@colliers.onmicrosoft.com"",""uti"":""kCFQyd3egkSd2_gbztq7AA"",""ver"":""1.0"",""wids"":[""13bd1c72-6f4a-4dcf-985f-18d3b80f208a""],""xms_cc"":[""CP1""],""xms_mpci"":259200,""xms_pci"":3600}.<scrubbed>'."
+Medium,Successfully built an SPOAuthToken from the OpenID Connect JSON token and raw ticket.
+Medium,"With CCSWebV2, CachedCredentialsService is also a supported Identity Provider."
+Medium,Got identity provider. Value: 'AadEvoSts'.
+Medium,"Got the JSON token claim value as a date-time. ClaimType: 'iat', ClaimValue: '04/03/2024 03:18:08'."
+Medium,"Token audience matches the client id. ClientIdentifier: '00000003-0000-0ff1-ce00-000000000000', Audience: '00000003-0000-0ff1-ce00-000000000000'."
+Medium,"Token issuer identifier matches the current tenant identifier. TenantIdentifier: '049e3382-8cdc-477b-9317-951b04689668', IssuerIdentifier: 'https://sts.windows.net/049e3382-8cdc-477b-9317-951b04689668/'."
+Medium,Got the tenant id from the JSON token. TenantId: '049e3382-8cdc-477b-9317-951b04689668'.
+Medium,"Token tenant identifier matches the current tenant identifier. TenantIdentifier: '049e3382-8cdc-477b-9317-951b04689668', TokenTenantIdentifier: '049e3382-8cdc-477b-9317-951b04689668'."
+Medium,Leaving Monitored Scope: (Name=SPOAuthToken.ValidateReferredTokenBinding;StaticScopeId=6jnkp) Execution Time=0.0224; CPU Milliseconds=0; Managed Bytes=864; SQL Query Count=0; GCPauseMS=0; AllocBytes=2088;; Parent=Request (POST:https://colliers.sharepoint.com/_forms/default.aspx<scrubbed>)
+Medium,The token is valid for sign-in pending Nonce cookie-token validation. Status: 'ValidTimeStamps | ValidAudience | ValidIssuer | ValidTenant | ValidNonceClaimPresent | ValidIdentityProvider | ValidRpsTokenV2 | ValidTokenBinding | ValidForOpenIdConnectInvitationAcceptanceWithoutNonceCheck | ValidForOpenIdConnectSignInWithoutNonceCheck | ValidForOpenIdConnectOperationsV2 | ValidForOpenIdConnectInvitationAcceptanceWithoutNonceCheckV2 | ValidForOpenIdConnectInvitationAcceptanceWithoutNonceCheckV3 | ValidForOpenIdConnectSignInWithoutNonceCheckV2'.
+Medium,Ticket validation succeeded.
+Medium,Successfully obtained a valid SPOAuthToken from the request to sign-in with.
+Medium,Attempting to sign in with SPOAuthToken.
+Medium,Got raw user name from the JSON token. RawUserName: <name>'327420_twgroup.co.nz#EXT#@colliers.onmicrosoft.com'</name>.
+Medium,Got the identity provider from the JSON token. OriginalIdentityProvider: 'https://sts.windows.net/07e47c7e-9339-473b-8138-adb77559c551/'.
+Medium,Got wids claim from ID token. Value: '13bd1c72-6f4a-4dcf-985f-18d3b80f208a'.
+Medium,home_oid is not included in the JSON token.
+Medium,Got the alternative security id from the JSON token. AlternativeSecurityId: '5::10032002CC6815D0'.
+Medium,Using full host domain for cookie. CookieName: 'nSGt'.
+Medium,"Successfully read nonce cookie. Version: '0', Seed: '44B602FE694829F67BF8AC8D232F631C75C8BA913342E6AD', Identifier: 'C394A2889538CCB075EB6A6105F3422F099774D7F10DAD64'."
+Medium,Successfully read the Nonce cookie and validated it against the token Nonce claim value.
+Medium,The JSON token nonce is valid because it has matching nonce cookie.
+Medium,Trying to map user.
+Medium,Trying to find connected account for tenant OpenID Connect token.
+Medium,Got the puid from the JSON token. PUID: '10032002CE038AB7'.
+Medium,The JSON token is for a tenant user.
+Medium,"Connected account lookup for tenant user. UserName: <name>'327420_twgroup.co.nz#EXT#@colliers.onmicrosoft.com'</name>, Puid: '10032002CE038AB7',  AlternateSecurityId: '5::10032002CC6815D0'."
+Medium,[SPOAuthSPODSAccessor.GetSPODSMode]: Got current SPODS Mode. Value: 'ADOnly'.
+Medium,"Initializing ActiveDirectoryResolver from context was SUCCESSFUL for SPSite. Value: 'https://colliers.sharepoint.com/sites/NZ-EXT-TWG/Colliers360 Documents/Forms/AllItems.aspx?newTargetListUrl=/sites/NZ-EXT-TWG/Colliers360 Documents&viewpath=/sites/NZ-EXT-TWG/Colliers360 Documents/Forms/AllItems.aspx&id=/sites/NZ-EXT-TWG/Colliers360 Documents/0TWG1061/TWGL1536&viewid=de2e8716-31d2-4176-9035-16ecb9d966bd&sw=auth<scrubbed>', UsedValue: 'https://colliers.sharepoint.com/sites/NZ-EXT-TWG/Colliers360 Documents/Forms/AllItems.aspx?newTargetListUrl=/sites/NZ-EXT-TWG/Colliers360 Documents&viewpath=/sites/NZ-EXT-TWG/Colliers360 Documents/Forms/AllItems.aspx&id=/sites/NZ-EXT-TWG/Colliers360 Documents/0TWG1061/TWGL1536&viewid=de2e8716-31d2-4176-9035-16ecb9d966bd&sw=auth<scrubbed>'."
+Medium,[ActiveDirectoryResolver]: In GetUserFromDirectoryAsProcess
+Medium,"SetSpodsCredentialIfNeeded: Using custom credentials for Spods. Server 'LDAP://spd192625-054.spods192624.msft.net/OU=049e3382-8cdc-477b-9317-951b04689668,OU=Tenants,OU=MSOnline,DC=SPODS192624,DC=msft,DC=net', UserName: 'SPODS192624.msft.net\_DS192624_RD_7'."
+Medium,Skipping load shedding evaluation for scope SPODS_ActiveDirectory
+Medium,Leaving Monitored Scope: (Name=QueryDirectoryServices with high availability for login;StaticScopeId=6jnk9) Execution Time=5.9221; CPU Milliseconds=4; Managed Bytes=116264; SQL Query Count=0; GCPauseMS=0; AllocBytes=117616;; Parent=GuestHelper.TryFindUserInSPODS: SPOAuthSPODSAccessor.GetUser
+Medium,userSearchResult = System.DirectoryServices.SearchResult
+Medium,User search resulted in MsoAccountEnabled being true.
+Medium,This is a new guest user: 327420_twgroup.co.nz#EXT#@colliers.onmicrosoft.com.
+Medium,GetUtcDateTimeProperty: Received property as a DateTime instance. Property name: 'msOnline-StsRefreshTokensValidFrom' Incoming value: '8/1/2023 3:50:29 AM' Incoming kind: 'Unspecified'.
+Medium,GetUtcDateTimeProperty: Received property as a DateTime instance. Property name: 'msOnline-StsRefreshTokensValidFrom' Value: '8/1/2023 3:50:29 AM' Kind: 'Utc'.
+Medium,Leaving Monitored Scope: (Name=GuestHelper.TryFindUserInSPODS: SPOAuthSPODSAccessor.GetUser;StaticScopeId=6jnku) Execution Time=7.068; CPU Milliseconds=5; Managed Bytes=278936; SQL Query Count=0; GCPauseMS=0; AllocBytes=280416;; Parent=GuestHelper.TryFindConnectedAccount
+Medium,TryFindConnectedAccount: found user '327420_twgroup.co.nz#EXT#@colliers.onmicrosoft.com' by PUID in SPODS. Ignoring.
+Medium,Leaving Monitored Scope: (Name=GuestHelper.TryFindConnectedAccount;StaticScopeId=6jnkt) Execution Time=7.2992; CPU Milliseconds=5; Managed Bytes=299472; SQL Query Count=0; GCPauseMS=0; AllocBytes=301080;; Parent=Request (POST:https://colliers.sharepoint.com/_forms/default.aspx<scrubbed>)
+Medium,Have not found connected account. UserName: <name>'327420_twgroup.co.nz#EXT#@colliers.onmicrosoft.com'</name>.
+Medium,The JSON token is valid for tenant user sign-in.
+Medium,All sign-in policy checks passed.
+Medium,Using the Source element for sign-in target path.
+High,context does not match contextUri. Not obtaining settings for context from cache.
+Medium,Caching tenant user.
+High,context does not match contextUri. Not obtaining settings for context from cache.
+Medium,Access control claim is null or empty. ClaimType: 'controls'.
+Medium,The ABT timeout property is returning computed value. Value: 'Null'.
+Medium,"Got the JSON token claim value as a long. ClaimType: 'xms_pci', ClaimValue: '3600'."
+Medium,Got the JSON token policy check interval. PolicyCheckInterval: '3600'.
+Medium,Got the next CA policy check time. NextCAPolicyCheckTime: 04/03/2024 04:23:10.
+Medium,"Got the JSON token claim value as a long. ClaimType: 'xms_mpci', ClaimValue: '259200'."
+Medium,Got the JSON token policy check interval. MaxPolicyCheckInterval: '259200'.
+Medium,Got the extended CA policy check time. ExtendedCAPolicyCheckTime: 04/06/2024 03:23:10.
+Medium,The device id is not included in the JSON token so using the empty string.
+Medium,The capolids_latebind claim is not included in the JSON token so using the empty string.
+Medium,"Got the xms_cc claim from the JSON token. ClientCapabilities: '[""CP1""]'."
+Medium,The xms_ssm claim is not included in the JSON token so using the empty string.
+Medium,The xms_caechecks claim is not included in the JSON token.
+Medium,The xms_rp_ipaddr claim is not included in the JSON token so using the empty string.
+Medium,The tenant restrictions policy id claim is not included in the JSON token so using the empty string.
+Medium,"Got the AuthContext claim from the JSON token: '[""urn:user:registersecurityinfo""]'."
+Medium,Got the preferred_username claim from the JSON token. Value: <name>'327420@twgroup.co.nz'</name>.
+Medium,Got the unique token id from the JSON token. Value: 'kCFQyd3egkSd2_gbztq7AA'.
+Medium,Got the object id from the JSON token. ObjectId: '6b8caf92-2bd6-4fc6-9ba2-3462b05cfc79'.
+Medium,Leaving Monitored Scope: (Name=SPSiteInfoData.Serialize;StaticScopeId=6gu6l) Execution Time=0.0289; CPU Milliseconds=0; Managed Bytes=5392; SQL Query Count=0; GCPauseMS=0; AllocBytes=6616;; Parent=FormsSignInPage.AuthenticateEventHandler: Retrieve security token and establish session.
+Medium,SecurityTokenServiceReceiveRequest: Calling correlation id. Value: '83421ba1-90ce-5000-3bd3-67dec0971e06'.
+Medium,The user key provider instance is created and set on the thread context.
+Medium,STS Call: Creating Claims Operations Scope for Applies To Uri: 'https://colliers.sharepoint.com/sites/NZ-EXT-TWG/Colliers360 Documents/Forms/AllItems.aspx?newTargetListUrl=/sites/NZ-EXT-TWG/Colliers360 Documents&viewpath=/sites/NZ-EXT-TWG/Colliers360 Documents/Forms/AllItems.aspx&id=/sites/NZ-EXT-TWG/Colliers360 Documents/0TWG1061/TWGL1536&viewid=de2e8716-31d2-4176-9035-16ecb9d966bd&sw=auth<scrubbed><scrubbed>'.
+Medium,Leaving Monitored Scope: (Name=SPSiteInfoData.Deserialize;StaticScopeId=6gu6k) Execution Time=0.0315; CPU Milliseconds=0; Managed Bytes=856; SQL Query Count=0; GCPauseMS=0; AllocBytes=2080;; Parent=SPSecurityTokenService.Issue
+Medium,Created claims operation context with values passed from the content application pool.
+Medium,SetupUserValidationType: Sign-in operation. Username: <name>327420_twgroup.co.nz#EXT#@colliers.onmicrosoft.com</name>.
+Medium,Using SPClaimsOperationContext without HttpContext. Scope: '7669dc6c-1c61-4add-918e-c7e4843aec7c'.
+Medium,Checking for MSA tenant.
+Medium,Tested site subscription for MSA context. Value: 'False'.
+Medium,The site configuration environment is null.
+Medium,MsaTenant: SPOAuthHelper NOT configuring for MsaTenant because MsaTenantUtils.IsMsaTenant() is false.
+Medium,Attempting to get a SPOAuthToken from raw ticket.
+Medium,Obtained update lock and refreshed the value.
+Unexpected,The authentication request context or the logging events are null.
+Medium,The request is made with a token with key identifier 'q-23falevZhhD3hm9CQbkP5MQyU' and thumbprint 'ABEDB77DA95EBD98610F7866F4241B90FE4C4325'.
+Medium,Successfully built an OpenID Connect JSON token object from the raw ticket.
+Medium,Audience Guid matches current App Id Guid. Audience: '00000003-0000-0ff1-ce00-000000000000'.
+Medium,Audience Guid matches current App Id Guid. Audience: '00000003-0000-0ff1-ce00-000000000000'.
+Unexpected,Failed to get current subscription id.
+Medium,Successfully validated OpenID Connect JSON token.
+Medium,"Id token: '{""typ"":""JWT"",""alg"":""RS256"",""x5t"":""q-23falevZhhD3hm9CQbkP5MQyU"",""kid"":""q-23falevZhhD3hm9CQbkP5MQyU""}.{""aud"":""00000003-0000-0ff1-ce00-000000000000"",""iss"":""https://sts.windows.net/049e3382-8cdc-477b-9317-951b04689668/"",""iat"":1712114288,""nbf"":1712114288,""exp"":1712118188,""acrs"":[""urn:user:registersecurityinfo""],""aio"":""AUQAu/8WAAAAVxuwgV8ADVI4cEXkf+mFxVunVz9bqRNOj0lFwNdvg3MDummx4WaCiCjOgmXoFQXuTWIYsHpUkcxCeKcweY7xTg=="",""altsecid"":""5::10032002CC6815D0"",""amr"":[""pwd""],""auth_time"":1706733039,""c_hash"":""OI3fq0hYUaBUHHMmaIe6PQ"",""e_exp"":262798,""email"":""*@twgroup.co.nz"",""idp"":""https://sts.windows.net/07e47c7e-9339-473b-8138-adb77559c551/"",""ipaddr"":""203.97.64.20"",""name"":""*"",""nonce"":""C394A2889538CCB075EB6A6105F3422F099774D7F10DAD64-394A1EF663185D5C2A0E3854B36814F665BB00AB80C53E596C0E3585D418D3EF"",""oid"":""6b8caf92-2bd6-4fc6-9ba2-3462b05cfc79"",""preferred_username"":""*"",""puid"":""10032002CE038AB7"",""rh"":""0.ARsAgjOeBNyMe0eTF5UbBGiWaAMAAAAAAPEPzgAAAAAAAAAbAEg."",""sid"":""4c736738-d5c4-4075-bde6-eca7974bfa50"",""sub"":""TlRti10Ln9tEE73wJcEKPxVDl5FeaFhfATsiFdTDIOU"",""tid"":""049e3382-8cdc-477b-9317-951b04689668"",""unique_name"":""*"",""upn"":""*@colliers.onmicrosoft.com"",""uti"":""kCFQyd3egkSd2_gbztq7AA"",""ver"":""1.0"",""wids"":[""13bd1c72-6f4a-4dcf-985f-18d3b80f208a""],""xms_cc"":[""CP1""],""xms_mpci"":259200,""xms_pci"":3600}.<scrubbed>'."
+Medium,Successfully built an SPOAuthToken from the OpenID Connect JSON token and raw ticket.
+Medium,"With CCSWebV2, CachedCredentialsService is also a supported Identity Provider."
+Medium,Got identity provider. Value: 'AadEvoSts'.
+Medium,"Got the JSON token claim value as a date-time. ClaimType: 'iat', ClaimValue: '04/03/2024 03:18:08'."
+Medium,"Token audience matches the client id. ClientIdentifier: '00000003-0000-0ff1-ce00-000000000000', Audience: '00000003-0000-0ff1-ce00-000000000000'."
+Medium,"Token issuer identifier matches the current tenant identifier. TenantIdentifier: '049e3382-8cdc-477b-9317-951b04689668', IssuerIdentifier: 'https://sts.windows.net/049e3382-8cdc-477b-9317-951b04689668/'."
+Medium,Got the tenant id from the JSON token. TenantId: '049e3382-8cdc-477b-9317-951b04689668'.
+Medium,"Token tenant identifier matches the current tenant identifier. TenantIdentifier: '049e3382-8cdc-477b-9317-951b04689668', TokenTenantIdentifier: '049e3382-8cdc-477b-9317-951b04689668'."
+Medium,Leaving Monitored Scope: (Name=SPOAuthToken.ValidateReferredTokenBinding;StaticScopeId=6jnkp) Execution Time=0.0238; CPU Milliseconds=0; Managed Bytes=784; SQL Query Count=0; GCPauseMS=0; AllocBytes=2008;; Parent=SPSecurityTokenService.Issue
+Medium,The token is valid for sign-in pending Nonce cookie-token validation. Status: 'ValidTimeStamps | ValidAudience | ValidIssuer | ValidTenant | ValidNonceClaimPresent | ValidIdentityProvider | ValidRpsTokenV2 | ValidTokenBinding | ValidForOpenIdConnectInvitationAcceptanceWithoutNonceCheck | ValidForOpenIdConnectSignInWithoutNonceCheck | ValidForOpenIdConnectOperationsV2 | ValidForOpenIdConnectInvitationAcceptanceWithoutNonceCheckV2 | ValidForOpenIdConnectInvitationAcceptanceWithoutNonceCheckV3 | ValidForOpenIdConnectSignInWithoutNonceCheckV2'.
+Medium,Ticket validation succeeded.
+Medium,Got wids claim from ID token. Value: '13bd1c72-6f4a-4dcf-985f-18d3b80f208a'.
+Medium,home_oid is not included in the JSON token.
+Medium,Trying to map user.
+Medium,Trying to find connected account for tenant OpenID Connect token.
+Medium,Got the alternative security id from the JSON token. AlternativeSecurityId: '5::10032002CC6815D0'.
+Medium,Got raw user name from the JSON token. RawUserName: <name>'327420_twgroup.co.nz#EXT#@colliers.onmicrosoft.com'</name>.
+Medium,Got the puid from the JSON token. PUID: '10032002CE038AB7'.
+Medium,The JSON token is for a tenant user.
+Medium,"Connected account lookup for tenant user. UserName: <name>'327420_twgroup.co.nz#EXT#@colliers.onmicrosoft.com'</name>, Puid: '10032002CE038AB7',  AlternateSecurityId: '5::10032002CC6815D0'."
+Medium,[SPOAuthSPODSAccessor.GetSPODSMode]: Got current SPODS Mode. Value: 'ADOnly'.
+Medium,"Initializing ActiveDirectoryResolver from context was SUCCESSFUL for SPSite. Value: 'https://colliers.sharepoint.com/sites/NZ-EXT-TWG/Colliers360 Documents/Forms/AllItems.aspx?newTargetListUrl=/sites/NZ-EXT-TWG/Colliers360 Documents&viewpath=/sites/NZ-EXT-TWG/Colliers360 Documents/Forms/AllItems.aspx&id=/sites/NZ-EXT-TWG/Colliers360 Documents/0TWG1061/TWGL1536&viewid=de2e8716-31d2-4176-9035-16ecb9d966bd&sw=auth<scrubbed>', UsedValue: 'https://colliers.sharepoint.com/sites/NZ-EXT-TWG/Colliers360 Documents/Forms/AllItems.aspx?newTargetListUrl=/sites/NZ-EXT-TWG/Colliers360 Documents&viewpath=/sites/NZ-EXT-TWG/Colliers360 Documents/Forms/AllItems.aspx&id=/sites/NZ-EXT-TWG/Colliers360 Documents/0TWG1061/TWGL1536&viewid=de2e8716-31d2-4176-9035-16ecb9d966bd&sw=auth<scrubbed>'."
+Medium,[ActiveDirectoryResolver]: In GetUserFromDirectoryAsProcess
+Medium,"SetSpodsCredentialIfNeeded: Using custom credentials for Spods. Server 'LDAP://spd192625-054.spods192624.msft.net/OU=049e3382-8cdc-477b-9317-951b04689668,OU=Tenants,OU=MSOnline,DC=SPODS192624,DC=msft,DC=net', UserName: 'SPODS192624.msft.net\_DS192624_RD_7'."
+Unexpected,The argument does not have the encoding separator. Argument name : 'encodedValue'.
+Medium,Leaving Monitored Scope: (Name=QueryDirectoryServices with high availability for login;StaticScopeId=6jnk9) Execution Time=5.3678; CPU Milliseconds=3; Managed Bytes=119408; SQL Query Count=0; GCPauseMS=0; AllocBytes=120760;; Parent=GuestHelper.TryFindUserInSPODS: SPOAuthSPODSAccessor.GetUser
+Medium,userSearchResult = System.DirectoryServices.SearchResult
+Medium,User search resulted in MsoAccountEnabled being true.
+Medium,This is a new guest user: 327420_twgroup.co.nz#EXT#@colliers.onmicrosoft.com.
+Medium,GetUtcDateTimeProperty: Received property as a DateTime instance. Property name: 'msOnline-StsRefreshTokensValidFrom' Incoming value: '8/1/2023 3:50:29 AM' Incoming kind: 'Unspecified'.
+Medium,GetUtcDateTimeProperty: Received property as a DateTime instance. Property name: 'msOnline-StsRefreshTokensValidFrom' Value: '8/1/2023 3:50:29 AM' Kind: 'Utc'.
+Medium,Leaving Monitored Scope: (Name=GuestHelper.TryFindUserInSPODS: SPOAuthSPODSAccessor.GetUser;StaticScopeId=6jnku) Execution Time=11.3738; CPU Milliseconds=5; Managed Bytes=320568; SQL Query Count=0; GCPauseMS=0; AllocBytes=322048;; Parent=GuestHelper.TryFindConnectedAccount
+Medium,TryFindConnectedAccount: found user '327420_twgroup.co.nz#EXT#@colliers.onmicrosoft.com' by PUID in SPODS. Ignoring.
+Medium,Leaving Monitored Scope: (Name=GuestHelper.TryFindConnectedAccount;StaticScopeId=6jnkt) Execution Time=12.1128; CPU Milliseconds=6; Managed Bytes=357920; SQL Query Count=0; GCPauseMS=0; AllocBytes=359528;; Parent=SPSecurityTokenService.Issue
+Medium,Have not found connected account. UserName: <name>'327420_twgroup.co.nz#EXT#@colliers.onmicrosoft.com'</name>.
+Medium,The JSON token is valid for tenant user sign-in.
+Medium,"Got the JSON token claim value as a date-time. ClaimType: 'auth_time', ClaimValue: '01/31/2024 20:30:39'."
+Medium,Got the JSON token autenticaiton time. AuthInstant: '01/31/2024 20:30:39'.
+Medium,"Got the JSON token claim value as a date-time. ClaimType: 'iat', ClaimValue: '04/03/2024 03:18:08'."
+Medium,Got ValidFrom property from Json token. Result: '2024-04-03 03:23:08'.
+Medium,Got the identity provider from the JSON token. OriginalIdentityProvider: 'https://sts.windows.net/07e47c7e-9339-473b-8138-adb77559c551/'.
+Medium,Got the session id from the JSON token. SessionId: '4c736738-d5c4-4075-bde6-eca7974bfa50'.
+Medium,"PopulatePropertiesForValidateUser: Adding the following claims for potential partner user. Idp: 'https://sts.windows.net/07e47c7e-9339-473b-8138-adb77559c551/', Email: '327420@twgroup.co.nz'."
+Medium,"Token Handler: Claims Forms Sign-In: Enhanced username-password check for user succeeded. MembershipProvider: 'membership', UserName: <name>'327420_twgroup.co.nz#EXT#@colliers.onmicrosoft.com'</name>."
+Medium,"AddClaimFromProperties: Found valid claim. ClaimType: 'http://schemas.microsoft.com/office/2017/03/SessionId', Value: '4c736738-d5c4-4075-bde6-eca7974bfa50'."
+Medium,"AddClaimFromProperties: Found valid claim. ClaimType: 'http://schemas.microsoft.com/office/2017/05/HomeTenantId', Value: 'https://sts.windows.net/07e47c7e-9339-473b-8138-adb77559c551/'."
+Medium,"AddClaimFromProperties: Found valid claim. ClaimType: 'http://schemas.microsoft.com/office/2017/05/PartnerUserEmail', Value: '327420@twgroup.co.nz'."
+Medium,"AddClaimFromProperties: Found valid claim. ClaimType: 'http://schemas.microsoft.com/sharepoint/online/2021/10/claims/originalidentityprovider', Value: 'https://sts.windows.net/07e47c7e-9339-473b-8138-adb77559c551/'."
+Medium,AddIncomingValidFromTimeClaim: This is a sign in request. Not adding this claim because we will get a new value from the token.
+Medium,"No identity provider claim on the identity. ClaimType: 'http://schemas.microsoft.com/sharepoint/2009/08/claims/identityprovider', IdentityName: <name>'IIS APPPOOL\SharePoint Content Services'</name>."
+Medium,"No identity provider claim on the identity. ClaimType: 'http://schemas.microsoft.com/sharepoint/2009/08/claims/identityprovider', IdentityName: <name>'327420_twgroup.co.nz#EXT#@colliers.onmicrosoft.com'</name>."
+Medium,Initialized session revocation members. Auth instant: '01/31/2024 20:30:39' AVF: ''. IssuedAt: '04/03/2024 03:23:08'. NotBefore: '04/03/2024 03:23:08'. Form operation type: ''.
+Medium,Initialize session attributes: Success from request properties: 'IsBrowser'.
+Medium,TryInitializeSessionIdForForms: Success. Value: '4c736738-d5c4-4075-bde6-eca7974bfa50'
+Medium,Initialize next CA policy check time. Value: '133565917909687932'.
+Medium,Initialize extended CA policy check time. Value: '133568473909687932'.
+Medium,TryInitializeInitialIpAddressForFormsSignIn: Initialized InitialIpAddress. Value: '<name>203.97.64.20</name>'.
+Medium,TryInitializeDeviceIdForAadFormsSignIn: Initialized DeviceId. Value: ''.
+Medium,TryInitializeAadClaimsForFormsSignIn: Initialized AAD claims. '3' claims were found.
+Medium,TryInitializeObjectIdForFormsSignIn: Initialized ObjectId. Value: '6b8caf92-2bd6-4fc6-9ba2-3462b05cfc79'.
+Medium,TryInitializeUserHexCid: GetSingleClaim did not return a UserHexCid claim.
+Unexpected,TryInitializeGranularDelegatedAdminPermissionsMembersForFormsOperation fails to get well known role ids.
+Medium,STS Call: Adding partner resolver related claims to the SPClaimsOperationContext.
+Medium,STS Call: Adding identity provider claim. Value: 'https://sts.windows.net/07e47c7e-9339-473b-8138-adb77559c551/'
+Medium,STS Call: Adding email claim. Value: '<name>327420@twgroup.co.nz</name>'
+Medium,Not creating SPClaimsOperationContext since there is one on the thread already. Uri: 'https://colliers.sharepoint.com/sites/NZ-EXT-TWG/Colliers360 Documents/Forms/AllItems.aspx?newTargetListUrl=/sites/NZ-EXT-TWG/Colliers360 Documents&viewpath=/sites/NZ-EXT-TWG/Colliers360 Documents/Forms/AllItems.aspx&id=/sites/NZ-EXT-TWG/Colliers360 Documents/0TWG1061/TWGL1536&viewid=de2e8716-31d2-4176-9035-16ecb9d966bd&sw=auth<scrubbed><scrubbed>'.
+Medium,The membership provider user cache instance is null or not of an expected type.
+Unexpected,The argument does not have the encoding separator. Argument name : 'encodedValue'.
+Medium,"FillClaims [context: 'https://colliers.sharepoint.com/sites/NZ-EXT-TWG/Colliers360 Documents/Forms/AllItems.aspx?newTargetListUrl=/sites/NZ-EXT-TWG/Colliers360 Documents&viewpath=/sites/NZ-EXT-TWG/Colliers360 Documents/Forms/AllItems.aspx&id=/sites/NZ-EXT-TWG/Colliers360 Documents/0TWG1061/TWGL1536&viewid=de2e8716-31d2-4176-9035-16ecb9d966bd&sw=auth<scrubbed><scrubbed>'] [entity: value: <name>0#.f|membership|327420_twgroup.co.nz#ext#@colliers.onmicrosoft.com</name>, type: 'http://schemas.microsoft.com/sharepoint/2009/08/claims/userid']"
+Medium,CreateNativeFedUserInfoFromClaimsContext detects no native fed members on claims operation context. Not a native fed user.
+Medium,CreateGranularDelegatedAdminPermissionsInfoFromClaimsContext detects no GDAP identity on the current thread.
+Medium,"The license groups are refreshed after the last tenant provisioning. Last provisioning time : '4/2/2024 10:20:51 PM', Last cached time: '4/3/2024 3:22:30 AM'."
+High,"The tenant license groups for tenant '7669dc6c-1c61-4add-918e-c7e4843aec7c' retrieved from the cache. Groups : 'SPO_SYS_CloudBIUsers,SPO_SYS_CopilotUsers,SPO_SYS_ProjectUsers,SPO_SYS_WACEditUsers,SPO_SYS_DesklessUsers,SPO_SYS_StandardUsers,SPO_SYS_ClipchampUsers,SPO_SYS_EnterpriseUsers,SPO_SYS_ProjectTeamUsers,SPO_SYS_VivaAmplifyUsers,SPO_SYS_OneDriveBasicUsers,SPO_SYS_VisioOnlineEditUsers,SPO_SYS_VivaConnectionsPremiumUsers'."
+Medium,Leaving Monitored Scope: (Name=SPTenantLicenseGroupAccessor.GetTenantLicenseGroupsOrStartAsyncFetch;StaticScopeId=6h5rh) Execution Time=0.0742; CPU Milliseconds=0; Managed Bytes=5248; SQL Query Count=0; GCPauseMS=0; AllocBytes=6472;; Parent=SPClaimProvider.FillClaimsForEntity() : Tenant
+Medium,[ActiveDirectoryResolver]: In GetUserFromDirectoryAsProcess
+Medium,"SetSpodsCredentialIfNeeded: Using custom credentials for Spods. Server 'LDAP://spd192625-055.spods192624.msft.net/cn=6b8caf92-2bd6-4fc6-9ba2-3462b05cfc79,OU=049e3382-8cdc-477b-9317-951b04689668,OU=Tenants,OU=MSOnline,DC=SPODS192624,DC=msft,DC=net', UserName: 'SPODS192624.msft.net\_DS192624_RD_7'."
+Medium,Leaving Monitored Scope: (Name=QueryDirectoryServices with high availability for login;StaticScopeId=6jnk9) Execution Time=4.6701; CPU Milliseconds=3; Managed Bytes=91376; SQL Query Count=0; GCPauseMS=0; AllocBytes=92728;; Parent=SPClaimProvider.FillClaimsForEntity() : Tenant
+Medium,userSearchResult = System.DirectoryServices.SearchResult
+Medium,User search resulted in MsoAccountEnabled being true.
+Medium,This is a new guest user: 327420_twgroup.co.nz#EXT#@colliers.onmicrosoft.com.
+Medium,The total groups retrieved for the user. Count: '4'.
+Medium,The license group value does not exist in the license groups set. Parsed Token Group : 'Users'.
+Medium,The license group value does not exist in the license groups set. Parsed Token Group : 'Domain Users'.
+Medium,"Total security groups user is part of : '2', total license groups user is part of : '0'."
+Medium,"The security groups retrieved using the token group names property. Security groups count : '2', license groups count : '0'."
+Medium,GetUtcDateTimeProperty: Received property as a DateTime instance. Property name: 'msOnline-StsRefreshTokensValidFrom' Incoming value: '8/1/2023 3:50:29 AM' Incoming kind: 'Unspecified'.
+Medium,GetUtcDateTimeProperty: Received property as a DateTime instance. Property name: 'msOnline-StsRefreshTokensValidFrom' Value: '8/1/2023 3:50:29 AM' Kind: 'Utc'.
+Medium,"Insert the user info into cache. user principal name: '<name>327420_twgroup.co.nz#ext#@colliers.onmicrosoft.com</name>, puid: '10032002CE038AB7@live.com'."
+Medium,The user information is successfully retrieved using the object identifier. Object identifier : '6b8caf92-2bd6-4fc6-9ba2-3462b05cfc79'.
+Medium,No groups on windows token.
+Medium,"DGCache [2024-04-02 20:23:11Z] : 6728, 6324, 0x0000000000000000, 0, CSPRequest::HrRunMondoSproc, VdbSubweb::setDomainGroupCache
+"
+Medium,"SPPolicyUtility.IsEnableMIPLabelEnabled: The value of the AAD unified setting for label, 'EnableMIPLabels', is 'True'."
+Medium,External user [327420_twgroup.co.nz#EXT#@colliers.onmicrosoft.com] is attempting to authenticate on a site collection with external sharing turned on.
+Unexpected,The user license groups are null or empty.
+Unexpected,The user license groups information cannot be updated.
+Medium,External user attempting to authenticate on a site collection with external sharing turned on. User: '327420_twgroup.co.nz#EXT#@colliers.onmicrosoft.com'.
+Medium,No groups on windows token.
+Medium,No groups on windows token.
+Medium,"SyntexPAYGEnabled:'False', Is setting valid:'False', Features enabled:'None'."
+Medium,"There already is a current context and we do not allow nesting. Current: 'Source: SiteWithSiteSubscription, SiteSubscriptionId: 7669dc6c-1c61-4add-918e-c7e4843aec7c, WebApplicationId: 10800b65-bc76-4f3a-a071-cda25c7dcb38, SiteId: c45a015b-4830-44ba-a5bf-edfa6d89241b, UrlZone: Default, ContextUri: https://colliers.sharepoint.com/sites/NZ-EXT-TWG/Colliers360 Documents/Forms/AllItems.aspx?newTargetListUrl=/sites/NZ-EXT-TWG/Colliers360 Documents&viewpath=/sites/NZ-EXT-TWG/Colliers360 Documents/Forms/AllItems.aspx&id=/sites/NZ-EXT-TWG/Colliers360 Documents/0TWG1061/TWGL1536&viewid=de2e8716-31d2-4176-9035-16ecb9d966bd&sw=auth<scrubbed>.', New: 'Source: SiteSubscription, SiteSubscriptionId: 7669dc6c-1c61-4add-918e-c7e4843aec7c, WebApplicationId: 00000000-0000-0000-0000-000000000000, SiteId: 00000000-0000-0000-0000-000000000000, UrlZone: , ContextUri: .'."
+Medium,"VqueryEngine invoked for SiteId:'{B8E9C752-B862-48F6-9D47-1269AE9A6475}', ListId:'{FD6E8630-1974-4BAE-8D14-0B5E7713185A}'"
+High,Leaving Monitored Scope: (Name=SPRequest.GetListItemDataWithCallback2;StaticScopeId=6jm5v) Execution Time=11.5326; CPU Milliseconds=6; Managed Bytes=432128; SQL Query Count=3; GCPauseMS=0; AllocBytes=433864;; Parent=EnsureListItemsData
+High,Leaving Monitored Scope: (Name=EnsureListItemsData;StaticScopeId=6jmxh) Execution Time=12.4109; CPU Milliseconds=7; Managed Bytes=541840; SQL Query Count=3; GCPauseMS=0; AllocBytes=544216;; Parent=SPClaimProvider.FillClaimsForEntity() : Tenant
+Medium,User is external guest.
+Medium,"Returing property from site subscription. Key: 'AllUserClaimEnabled', Value: 'False'."
+Medium,Skipping the add of the forms user claim.
+Medium,"Returing property from site subscription. Key: 'EveryoneClaimEnabled', Value: 'True'."
+Medium,Adding the global everyone claim.
+Medium,Skipping addition of valid-from time for guest user. Value: '8/1/2023 3:50:29 AM'.
+Medium,"AddSPOSuiteNavClaim: SuiteNav claim is not augmented for user: 'UserType: 'RegularExtranetUser', Username: <name>'327420_twgroup.co.nz#EXT#@colliers.onmicrosoft.com'</name>, DisplayName: <name>'Thomas Sturgess'</name>, Puid: '10032002CE038AB7@live.com''. IsOldGuestUser: 'False', AltSecIdPresent:'True'."
+Medium,"AddUserEmailDomainClaim: Augmenting UserEmailDomain claim twgroup.co.nz for the guest: 'UserType: 'RegularExtranetUser', Username: <name>'327420_twgroup.co.nz#EXT#@colliers.onmicrosoft.com'</name>, DisplayName: <name>'Thomas Sturgess'</name>, Puid: '10032002CE038AB7@live.com''."
+Medium,CreateGranularDelegatedAdminPermissionsInfoFromClaimsContext detects no GDAP identity on the current thread.
+Medium,AugmentGranularDelegatedAdminPermissionIdentityClaims: User is not GDAP user or has null wids claim from claims context.
+Medium,CreateNativeFedUserInfoFromClaimsContext detects no native fed members on claims operation context. Not a native fed user.
+Medium,"AugmentNativeFedIdentityClaims: User is not Native Fed User: 'UserType: 'RegularExtranetUser', Username: <name>'327420_twgroup.co.nz#EXT#@colliers.onmicrosoft.com'</name>, DisplayName: <name>'Thomas Sturgess'</name>, Puid: '10032002CE038AB7@live.com''."
+Medium,AugmentOriginalIdentityProviderClaim: Augmenting OriginalIdentityProvider claim for user.
+Medium,"AllowedSecurityGroupsForBlockDownloadPolicyAccessor: Creating accessor for AllowedSecurityGroupsForBlockDownloadPolicy Attributes with site subscription ID:7669dc6c-1c61-4add-918e-c7e4843aec7c, BlockDownloadFileTypePolicy: False, exemptionSGsList: "
+Medium,The site subscription setting value is null or empty.
+Medium,The allowed security groups site subscription settings for the ODB policy retrieved from the cache and forcing the site subscription load is not required.
+Medium,Accessor claim list is empty. Not processing. Accessor: 'AllowedSecurityGroupsForODBPolicyAccessor'.
+Medium,Accessor claim list is empty. Not processing. Accessor: 'AllowedSecurityGroupsForBlockDownloadPolicyAccessor'.
+Medium,The site subscription setting value is null or empty.
+Medium,[DeniedSecurityGroupsForODBPolicyAccessor].[Claims]:The denied security groups site subscription settings for the ODB policy retrieved from the cache and forcing the site subscription load is not required.
+Medium,Accessor claim list is empty. Not processing. Accessor: 'DeniedSecurityGroupsForODBPolicyAccessor'.
+Medium,"Augmenting user policy attributes claims. User: 'UserType: 'RegularExtranetUser', Username: <name>'327420_twgroup.co.nz#EXT#@colliers.onmicrosoft.com'</name>, DisplayName: <name>'Thomas Sturgess'</name>, Puid: '10032002CE038AB7@live.com''."
+Medium,CreateNativeFedUserInfoFromClaimsContext detects no native fed members on claims operation context. Not a native fed user.
+Medium,Augmenting token with policy attributes. Claim: 'Type: 'http://schemas.microsoft.com/sharepoint/online/2017/12/claims/spuserpolicyattributes' Value: '4' ValueType: 'http://www.w3.org/2001/XMLSchema#string' OriginalIssuer: 'SecurityTokenService''.
+Medium,AddAcceptedAsClaim: Augmenting AccptedAs claim for user: <name>327420@twgroup.co.nz</name>
+Medium,CreateNativeFedUserInfoFromClaimsContext detects no native fed members on claims operation context. Not a native fed user.
+Medium,CreateGranularDelegatedAdminPermissionsInfoFromClaimsContext detects no GDAP identity on the current thread.
+Medium,"Augmenting UserEmail claim for tenant user. Email: '<name>327420@twgroup.co.nz</name>', User: 'UserType: 'RegularExtranetUser', Username: <name>'327420_twgroup.co.nz#EXT#@colliers.onmicrosoft.com'</name>, DisplayName: <name>'Thomas Sturgess'</name>, Puid: '10032002CE038AB7@live.com''"
+Medium,CreateNativeFedUserInfoFromClaimsContext detects no native fed members on claims operation context. Not a native fed user.
+Medium,CreateGranularDelegatedAdminPermissionsInfoFromClaimsContext detects no GDAP identity on the current thread.
+Medium,"Augmenting UserDisplayName claim for tenant user. User: 'UserType: 'RegularExtranetUser', Username: <name>'327420_twgroup.co.nz#EXT#@colliers.onmicrosoft.com'</name>, DisplayName: <name>'Thomas Sturgess'</name>, Puid: '10032002CE038AB7@live.com''"
+High,Leaving Monitored Scope: (Name=SPClaimProvider.FillClaimsForEntity() : Tenant;StaticScopeId=6jmux) Execution Time=123.1277; CPU Milliseconds=48; Managed Bytes=7772080; SQL Query Count=12; GCPauseMS=0; AllocBytes=7777912;; Parent=SPClaimProviderOperations.ClaimsForEntity()
+High,Leaving Monitored Scope: (Name=SPClaimProviderOperations.ClaimsForEntity();StaticScopeId=6jmul) Execution Time=123.7355; CPU Milliseconds=48; Managed Bytes=7838744; SQL Query Count=12; GCPauseMS=0; AllocBytes=7845216;; Parent=SPSecurityTokenService.GetOutputClaimsIdentity()
+Medium,STS Call: Cookie lifetime expires: '04/04/2024 03:23:11'.
+Medium,RpsCookieValueV2: Initializing new cookie to build from scratch.
+Medium,AuthenticationCookieAuthTime: Using authentication instant time: '2024-01-31 20:30:39.
+Medium,No token AVF claim in output claims.
+Medium,Read token AVF from output claims. Token AVF: '' Result: 'False'.
+Medium,No AVF time on the token. Not setting outgoing AVF.
+Medium,Outgoing cookie AVF initialized. Operation type: 'FormsSignIn' Incoming AVF: '' New token AVF: '' Outgoing AVF: ''.
+Medium,TrySetInitialIp: Success. Value: '<name>203.97.64.20</name>'.
+Medium,Bit flags for the new cookie: 'IsBrowser | IsDirectoryGuestUser'.
+Medium,TrySetSessionId: Success: '4c736738-d5c4-4075-bde6-eca7974bfa50'.
+Medium,"TrySetNextCAPolicyCheckTime: Build or renew success. Previous: '0', New: '133565917909687932'."
+Medium,"TrySetExtendedCAPolicyCheckTime: Build or renew success. Previous: '0', New: '133568473909687932'."
+Medium,TrySetTokenBindingId: TokenBindingId in security token request context is null.
+Medium,TrySetDeviceId: There is no explicit device id available.
+Medium,TrySetAuthContextExpiration: The authContext is not present in the Aad claims.
+Medium,TrySetTokenIssuedAtTime: Build or renew success. Value: '133565881880000000'.
+Medium,TrySetObjectId: Success. Value: '6b8caf92-2bd6-4fc6-9ba2-3462b05cfc79'.
+Medium,TrySetHomePuid: There is no explicit home puid available.
+Medium,TrySetUniqueName: There is no explicit unique name available.
+Medium,TrySetOriginalIdentityProvider: Success. Value: 'https://sts.windows.net/07e47c7e-9339-473b-8138-adb77559c551/'.
+Medium,TrySetFarmId: Success. Value: '192679'.
+Medium,TrySetX5t: Success. Value: 'DaDAfjQQmpyOXx2RrK_W5lvoLZ4'.
+Medium,Building cookie signature.
+Medium,Leaving Monitored Scope: (Name=SPSessionSecurityTokenCookieValue.BuildSignature;StaticScopeId=6jnd0) Execution Time=3.576; CPU Milliseconds=3; Managed Bytes=12128; SQL Query Count=0; GCPauseMS=0; AllocBytes=13352;; Parent=SPSecurityTokenService.GetOutputClaimsIdentity()
+Medium,STS Call Claims Forms: Successfully requested sign-in claim identity on behalf of user '327420_twgroup.co.nz#EXT#@colliers.onmicrosoft.com'.
+Medium,Validating the requestor based on the token after augmentation.
+Medium,AVF claim not present. Claim type: 'http://schemas.microsoft.com/sharepoint/online/2014/06/claims/authenticationvalidfromutc'.
+Medium,No token AVF in output claims identity.
+Medium,Post augmentation validation success! Proceeding with token generation.
+High,Leaving Monitored Scope: (Name=SPSecurityTokenService.GetOutputClaimsIdentity();StaticScopeId=6jnei) Execution Time=128.1161; CPU Milliseconds=52; Managed Bytes=7912704; SQL Query Count=12; GCPauseMS=0; AllocBytes=7919432;; Parent=SPSecurityTokenService.Issue
+Medium,"The logon token will be created. Token valid from  : '4/3/2024 3:23:11 AM', token valid to : '4/3/2024 1:23:11 PM'."
+High,The claim type does not have mapping for encoding. Claim Type : 'http://schemas.microsoft.com/sharepoint/online/2014/06/claims/AuthenticationInstantutc'.
+High,The claim type does not have mapping for encoding. Claim Type : 'http://schemas.microsoft.com/sharepoint/online/2012/11/claims/license'.
+High,The claim type does not have mapping for encoding. Claim Type : 'http://schemas.microsoft.com/sharepoint/online/2009/11/claims/SPOUserType'.
+High,The claim type does not have mapping for encoding. Claim Type : 'http://schemas.microsoft.com/sharepoint/online/2016/06/claims/UserEmailDomain'.
+High,The claim type does not have mapping for encoding. Claim Type : 'http://schemas.microsoft.com/sharepoint/online/2021/10/claims/originalidentityprovider'.
+High,The claim type does not have mapping for encoding. Claim Type : 'http://schemas.microsoft.com/sharepoint/online/2023/05/claims/AcceptedAs'.
+High,The claim type does not have mapping for encoding. Claim Type : 'http://schemas.microsoft.com/sharepoint/online/2023/04/claims/displayname'.
+High,The claim type does not have mapping for encoding. Claim Type : 'http://sharepoint.microsoft.com/claims/2009/08/tokenreference'.
+Medium,The bootstrap token is not requested and therefore there is no need to serialized the protobuf claims identity since protobuf session security token will have the protobuf claims identity.
+High,Leaving Monitored Scope: (Name=SPSecurityTokenService.Issue;StaticScopeId=6jnej) Execution Time=145.1152; CPU Milliseconds=64; Managed Bytes=8840216; SQL Query Count=12; GCPauseMS=0; AllocBytes=8848224;; Parent=ExecuteSecurityTokenServiceOperationServer
+Medium,Leaving Monitored Scope: (Name=ExecuteSecurityTokenServiceOperationServer;StaticScopeId=6h8ie) Execution Time=145.8577; CPU Milliseconds=64; Managed Bytes=8940976; SQL Query Count=12; GCPauseMS=0; AllocBytes=8954640;; Parent=None
+Unexpected,"Tenant SiteSubscription object is null, returning without tracking people manager api."
+High,"[Forced due to logging gap, cached 141 ms earlier, Original Level: Verbose] SPRequestSecurityToken: SerializeProperty() serializing elementname:{0}, with value:{1}."
+High,"[Forced due to logging gap, Original Level: VerboseEx] SPMonitoredScope ExecuteSecurityTokenServiceOperationCaller:http://docs.oasis-open.org/ws-sx/ws-trust/200512/RST/Issue dispose is starting"
+High,Leaving Monitored Scope: (Name=ExecuteSecurityTokenServiceOperationCaller:http://docs.oasis-open.org/ws-sx/ws-trust/200512/RST/Issue;StaticScopeId=6jmt6) Execution Time=154.3817; CPU Milliseconds=0; Managed Bytes=76920; SQL Query Count=0; GCPauseMS=0; AllocBytes=78144;; Parent=FormsSignInPage.AuthenticateEventHandler: Retrieve security token and establish session.
+Medium,The security token issued successfully.
+Medium,"The protobuf session security token has valid session. Valid from : '4/3/2024 3:23:11 AM', Valid to : '4/3/2024 1:23:11 PM'."
+Medium,Leaving Monitored Scope: (Name=SPFederationAuthenticationModule.AuthenticateUser;StaticScopeId=6jnew) Execution Time=0.1768; CPU Milliseconds=0; Managed Bytes=9504; SQL Query Count=0; GCPauseMS=0; AllocBytes=10728;; Parent=FormsSignInPage.AuthenticateEventHandler: Retrieve security token and establish session.
+Medium,Request endpoint type set to default sign-in page.
+Medium,Initialized for default sign-in page with browser.
+Medium,Deleted smart client cookie. CookieName: 'SPOIDCRL'
+Medium,Token Cache RPS: Writing a gatekeeper cookie.
+Medium,Token Cache RPS: Issuing a gatekeeper cookie.
+Medium,Writing a version six Gatekeeper cookie.
+Medium,"Getting unhashed value. unHashedValueOfPartOne: GATEKEEPER#0H.F|MEMBERSHIP|10032002CE038AB7@LIVE.COM#4C736738-D5C4-4075-BDE6-ECA7974BFA50#7669DC6C-1C61-4ADD-918E-C7E4843AEC7C, unHashedValueOfPartTwo: &7669dc6c-1c61-4add-918e-c7e4843aec7c#133565881911406883#83421ba1-90ce-5000-3bd3-67dec0971e06#327420%40twgroup.co.nz#192679#vtGCbeTGPdisQKehvEsPF-1aMJI"
+Medium,"Writing cookie with value. Name: 'rtFa', Domain: 'sharepoint.com', Path: '/', RequireSsl: 'True'."
+Medium,The browser does support Partition at revision 3 of RFC6265.
+Medium,The browser does support SameSite at revision 3 of RFC6265.
+Medium,"Writing cookie with value. Name: 'SIMI', Domain: 'sharepoint.com', Path: '/', RequireSsl: 'True'."
+Medium,"Token cache: Sign-in correlation id: '83421ba1-90ce-5000-3bd3-67dec0971e06', Renewal correlation id: '83421ba1-90ce-5000-3bd3-67dec0971e06'."
+Medium,"Setting current token issued at time. IAT: '04/03/2024 03:18:08', and adjustAADSkewTime True."
+Medium,SPTokenCache: Cookie written to browser client. CookieVersion: '13'.
+Medium,"Token Cache: Writing token out as cookie. 'Valid: 'False', Username: '0#.f|membership|327420_twgroup.co.nz#ext#@colliers.onmicrosoft.com', UserKey: '0h.f|membership|10032002ce038ab7@live.com', Expires: '04/04/2024 03:23:11', SiteSubscriptionId: '7669dc6c-1c61-4add-918e-c7e4843aec7c', IsPersistent: 'False', IsSmartClient: 'False', ClientType: 'Browser', BitFlags: 'IsBrowser, IsDirectoryGuestUser'. AudienceUri: ''. SessionId: '4c736738-d5c4-4075-bde6-eca7974bfa50'. SignIn: '83421ba1-90ce-5000-3bd3-67dec0971e06'. Renewal: '83421ba1-90ce-5000-3bd3-67dec0971e06'. SharingSessionId: ''. LastAttestation: '0'.'."
+Medium,InitializeValidFromTime: No valid from claim present.
+Medium,"Token is valid from: 4/3/2024 3:23:11 AM, Token is valid to: 4/3/2024 1:23:11 PM, Current Time: 04/03/2024 03:23:11, Clock skew: 00:05:00."
+Medium,InitializeValidFromTime: No valid from claim present.
+Medium,The logon token retriever is cleared before caching into the memory cache.
+Medium,The logon token will be added to the distributed cache from a different task.
+Medium,Leaving Monitored Scope: (Name=SPTokenCache.AddCachedToken;StaticScopeId=6jndz) Execution Time=0.1755; CPU Milliseconds=0; Managed Bytes=19816; SQL Query Count=0; GCPauseMS=0; AllocBytes=21040;; Parent=FormsSignInPage.AuthenticateEventHandler: Retrieve security token and establish session.
+Medium,"Leaving the latency tracker scope for 'RpsSessionSecurityTokenHandler.WriteAuthCookieAndToken', Latency: '5' milliseconds."
+Medium,This is a request to try to add an entry from the custom cache.
+Medium,Site is in readOnlyIntent mode
+Medium,Leaving Monitored Scope: (Name=GetRolesForUser;StaticScopeId=6jmpu) Execution Time=0.0719; CPU Milliseconds=0; Managed Bytes=9472; SQL Query Count=0; GCPauseMS=0; AllocBytes=10696;; Parent=Loading Site In Service Context Setup
+Medium,Get Service Context from claims operation scope. SiteId: 'c45a015b-4830-44ba-a5bf-edfa6d89241b'.
+Medium,auditRecord AppAccessContext field is not initalized
+High,Leaving Monitored Scope: (Name=FormsSignInPage.AuthenticateEventHandler: Retrieve security token and establish session.;StaticScopeId=6jngi) Execution Time=165.1926; CPU Milliseconds=11; Managed Bytes=897256; SQL Query Count=0; GCPauseMS=0; AllocBytes=900272;; Parent=Request (POST:https://colliers.sharepoint.com/_forms/default.aspx<scrubbed>)
+High,Could not fetch current user principal name.
+Medium,Extracted nameid value from NameId claim. Value: '10032002CE038AB7'.
+Medium,Identity Object ID. Value: '6b8caf92-2bd6-4fc6-9ba2-3462b05cfc79'.
+Monitorable,Setting[client type = SharePointTokenEndpoint] in AppCredentials
+Monitorable,Setting [client type = SharePointTokenEndpoint] in ActAsUserCredentials
+Medium,Leaving Monitored Scope: (Name=SPOAuthTokenProviderUtilities::CreateDirectorySessionForCurrentIdentity;StaticScopeId=6jmrb) Execution Time=0.5363; CPU Milliseconds=0; Managed Bytes=51048; SQL Query Count=0; GCPauseMS=0; AllocBytes=52272;; Parent=SPDelegationTokenServiceProvider::AcquireRefreshTokenByAuthorizationCode
+Medium,Acquired authentication session id. Value: '4c736738-d5c4-4075-bde6-eca7974bfa50'.
+Medium,Acquired authentication session attributes. Value: 'IsBrowser | IsDirectoryGuestUser'.
+Medium,Validated that user is supported. NameId: <name>'10032002CE038AB7'</name>. Type: 'RegularExtranetUser'.
+Medium,Leaving Monitored Scope: (Name=SPDelegationTokenServiceProvider::AcquireRefreshTokenByAuthorizationCode;StaticScopeId=6jmrq) Execution Time=0.7569; CPU Milliseconds=0; Managed Bytes=74800; SQL Query Count=0; GCPauseMS=0; AllocBytes=76152;; Parent=Request (POST:https://colliers.sharepoint.com/_forms/default.aspx<scrubbed>)
+Medium,[UpdateTenantStoreForCaeAdoption] The IsContinuousAccessEvaluationAdopted property in tenant store is 'True'.
+Medium,[UpdateTenantStoreForCaeAdoption] The IsContinuousAccessEvaluationAdoptedExpirationTime property in tenant store is '2024-04-06 11:47:42Z'.
+Medium,RPSHelper: Initializing site subscription settings using SPSite: 'c45a015b-4830-44ba-a5bf-edfa6d89241b'.
+Medium,DoesIdlePolicyApplyToRequest: This is an OpenID Connect based sign-in attempt and device is unmanaged and persistence is not set. Result: 'True'.
+Unexpected,"SPTaskUsageMonitoredScope was created inside of another SPMonitoredScope, this will impact how data is reported for telemetry."
+High,returnUri is empty. Falling back to 'https://colliers.sharepoint.com/_forms/default.aspx<scrubbed>'.
+Medium,Added workload 'Unknown' for WCF request. AppTitle = 'Unknown'
+Medium,Added workload 'w3wp' for WCF request. AppTitle = 'Unknown-w3wp'
+Medium,[SPApplicationSecurityTokenService] V1 App Verification cert thumbprint: '0DA0C07E34109A9C8E5F1D91ACAFD6E65BE82D9E'.
+Medium,"SPOIdleSessionCookie.WriteCookie: Writing idle session cookie. Value: 'True,3300,3600,1712117891140,1712118191140'."
+Medium,"Writing cookie with value. Name: 'isso', Domain: '.sharepoint.com', Path: '/', RequireSsl: 'True'."
+Medium,Leaving Monitored Scope: (Name=SPJsonWebSecurityBaseTokenHandler:WriteTokenAsStringWithx5c: Sign Token With x5c Header;StaticScopeId=6h4zq) Execution Time=0.8062; CPU Milliseconds=0; Managed Bytes=19136; SQL Query Count=0; GCPauseMS=0; AllocBytes=20360;; Parent=SPJsonWebSecurityBaseTokenHandler:WriteTokenAsStringWithx5c: Create Token Header / Payload / Sign
+Medium,Leaving Monitored Scope: (Name=SPJsonWebSecurityBaseTokenHandler:WriteTokenAsStringWithx5c: Create Token Header / Payload / Sign;StaticScopeId=6h4zn) Execution Time=0.9542; CPU Milliseconds=0; Managed Bytes=88008; SQL Query Count=0; GCPauseMS=0; AllocBytes=89360;; Parent=SelfIssuedTokenResponse
+Medium,Obtained token with x5c header.
+Medium,Obtained client app assertion with x5c header using signing credentials.
+Monitorable,Legacy Idle Session Sign Out policy evaluated as enabled.
+Medium,Leaving Monitored Scope: (Name=SelfIssuedTokenResponse;StaticScopeId=6jnfo) Execution Time=1.0989; CPU Milliseconds=1; Managed Bytes=102840; SQL Query Count=0; GCPauseMS=0; AllocBytes=104320;; Parent=ExecuteWcfServerOperation (net.pipe://usr192679-314.dprodmgd105.msft.net/SecurityTokenServiceApplication/appsts.svc)
+Medium,Leaving Monitored Scope: (Name=ExecuteWcfServerOperation (net.pipe://usr192679-314.dprodmgd105.msft.net/SecurityTokenServiceApplication/appsts.svc);StaticScopeId=6h8ie) Execution Time=1.417; CPU Milliseconds=1; Managed Bytes=134968; SQL Query Count=0; GCPauseMS=0; AllocBytes=136896;; Parent=None
+Unexpected,"Tenant SiteSubscription object is null, returning without tracking people manager api."
+Medium,Tenant property lookup is not done in beginRequestHandler
+Monitorable,Unknown SPSkuType types for [639dec6b-bb19-468b-871c-c5c441c4b0cb][be9f9771-1c64-4618-9907-244325141096][61902246-d7cb-453e-85cd-53ee28eec138]
+Unexpected,"Disposing SPMemoryData [43a38a91-33dd-4bee-b7b9-92f2b8761fe0] is not active on this thread [Active: 00000000-0000-0000-0000-000000000000] [LastActive: 00000000-0000-0000-0000-000000000000] StackTrace:   at Microsoft.SharePoint.Utilities.SPMemoryData.Dispose()
+   at Microsoft.SharePoint.Administration.SPRequestUsageMonitoredScope.OnDisposing()
+   at Microsoft.SharePoint.Utilities.SPMonitoredScope.Dispose(Boolean disposing)
+   at Microsoft.SharePoint.SPServiceContextBehavior.SPServiceContextCorrelationState.Dispose()
+   at Microsoft.SharePoint.SPServiceContextBehavior.System.ServiceModel.Dispatcher.ICallContextInitializer.AfterInvoke(Object correlationState)
+   at System.ServiceModel.Dispatcher.DispatchOperationRuntime.UninitializeCallContextCore(MessageRpc& rpc)
+   at System.ServiceModel.Dispatcher.DispatchOperationRuntime.InvokeBegin(MessageRpc& rpc)
+   at System.ServiceModel.Dispatcher.ImmutableDispatchRuntime.ProcessMessage5(MessageRpc& rpc)
+   at System.ServiceModel.Dispatcher.ImmutableDispatchRuntime.ProcessMessage11(MessageRpc& rpc)
+   at System.ServiceModel.Dispatcher.MessageRpc.Process(Boolean isOperationContextSet)
+   at System.ServiceModel.Dispatcher.ChannelHandler.DispatchAndReleasePump(RequestContext request, Boolean cleanThread, OperationContext currentOperationContext)
+   at System.ServiceModel.Dispatcher.ChannelHandler.HandleRequest(RequestContext request, OperationContext currentOperationContext)
+   at System.ServiceModel.Dispatcher.ChannelHandler.AsyncMessagePump(IAsyncResult result)
+   at System.ServiceModel.Dispatcher.ChannelHandler.OnAsyncReceiveComplete(IAsyncResult result)
+   at System.Runtime.Fx.AsyncThunk.UnhandledExceptionFrame(IAsyncResult result)
+   at System.Runtime.AsyncResult.Complete(Boolean completedSynchronously)
+   at System.ServiceModel.Channels.TransportDuplexSessionChannel.TryReceiveAsyncResult.OnReceive(IAsyncResult result)
+   at System.Runtime.Fx.AsyncThunk.UnhandledExceptionFrame(IAsyncResult result)
+   at System.Runtime.AsyncResult.Complete(Boolean completedSynchronously)
+   at System.ServiceModel.Channels.SynchronizedMessageSource.ReceiveAsyncResult.OnReceiveComplete(Object state)
+   at System.ServiceModel.Channels.SessionConnectionReader.OnAsyncReadComplete(Object state)
+   at System.ServiceModel.Channels.PipeConnection.OnAsyncReadComplete(Boolean haveResult, Int32 error, Int32 numBytes)
+   at System.ServiceModel.Channels.OverlappedContext.CompleteCallback(UInt32 error, UInt32 numBytes, NativeOverlapped* nativeOverlapped)
+   at System.Runtime.Fx.IOCompletionThunk.UnhandledExceptionFrame(UInt32 error, UInt32 bytesRead, NativeOverlapped* nativeOverlapped)
+   at System.Threading._IOCompletionCallback.PerformIOCompletionCallback(UInt32 errorCode, UInt32 numBytes, NativeOverlapped* pOVERLAP)
+"
+Medium,Deleted nonce cookie if present. Identifier: 'C394A2889538CCB075EB6A6105F3422F099774D7F10DAD64'.
+Medium,Successfully deleted the Nonce cookie if present.
+Medium,EvoStsAuthenticationPipeline Success: My Scenario Success
+Medium,The security token issued successfully from the application security token service.
+Medium,Leaving Monitored Scope: (Name=SPOAuth2SecurityTokenManager::AcquireAssertionToken;StaticScopeId=6jmr2) Execution Time=5.2478; CPU Milliseconds=1; Managed Bytes=90320; SQL Query Count=0; GCPauseMS=0; AllocBytes=91800;; Parent=SPOAuth2SecurityTokenManager::AcquireAccessTokenByAuthorizationCode
+Medium,The HTTP context read-only accessor is null.
+Medium,SPOAuth2ESTSClient.UploadData : SPO Proactive Token Refresh Telemetry is not added to Request header as Telemetry Type was found with value : None
+Medium,Sign-in attempt resulted in thread abort exception with a redirect.
+Medium,Disposing token.
+Medium,Deleting nonce cookie if present as part disposing token handler.
+Medium,Deleted nonce cookie if present. Identifier: 'C394A2889538CCB075EB6A6105F3422F099774D7F10DAD64'.
+Unexpected,SPDirectSharingUrlRedirect.ServerTransfer: Internal Server Transfer failed with exception Invalid URI: The format of the URI could not be determined.
+Medium,"includeResponseStatsHeader is FALSE. UserAgent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+Medium,"Sending response headers to client [s=302,ct=text/html; charset=utf-8]"
+Medium,Leaving Monitored Scope: (Name=Request (POST:https://colliers.sharepoint.com/_forms/default.aspx<scrubbed>);StaticScopeId=6jmmy) Execution Time=212.2848; CPU Milliseconds=51; Managed Bytes=4959864; SQL Query Count=3; GCPauseMS=0; AllocBytes=4970888;; Parent=None
+Medium,"Final: FileOperationType = [_Unknown], OperationId = [Authentication_FormsDefaultAuthPage], ComponentId = [AuthenticationApi]"
+Unexpected,"Disposing SPMemoryData [2fcc8ed6-1c5c-42ed-b18c-a719912ec538] is not active on this thread [Active: 111c7ec8-225e-4498-932d-dd799b0a5da6] [LastActive: 00000000-0000-0000-0000-000000000000] StackTrace:   at Microsoft.SharePoint.Utilities.SPMemoryData.Dispose()
+   at Microsoft.SharePoint.Administration.SPRequestUsageMonitoredScope.OnDisposing()
+   at Microsoft.SharePoint.Utilities.SPMonitoredScope.Dispose(Boolean disposing)
+   at Microsoft.SharePoint.ApplicationRuntime.SPRequestModule.EndRequestHandler(Object oSender, EventArgs ea)
+   at Microsoft.SharePoint.ApplicationRuntime.RequestInstrumentationScopeManager.<>c__DisplayClass17_0.<WrapEndRequestEventHandler>b__0(Object oSender, EventArgs ea)
+   at System.Web.HttpApplication.SyncEventExecutionStep.System.Web.HttpApplication.IExecutionStep.Execute()
+   at System.Web.HttpApplication.ExecuteStepImpl(IExecutionStep step)
+   at System.Web.HttpApplication.ExecuteStep(IExecutionStep step, Boolean& completedSynchronously)
+   at System.Web.HttpApplication.PipelineStepManager.ResumeSteps(Exception error)
+   at System.Web.HttpApplication.BeginProcessRequestNotification(HttpContext context, AsyncCallback cb)
+   at System.Web.HttpRuntime.ProcessRequestNotificationPrivate(IIS7WorkerRequest wr, HttpContext context)
+   at System.Web.Hosting.PipelineRuntime.ProcessRequestNotificationHelper(IntPtr rootedObjectsPointer, IntPtr nativeRequestContext, IntPtr moduleData, Int32 flags)
+   at System.Web.Hosting.PipelineRuntime.ProcessRequestNotification(IntPtr rootedObjectsPointer, IntPtr nativeRequestContext, IntPtr moduleData, Int32 flags)
+   at System.Web.Hosting.UnsafeIISMethods.MgdIndicateCompletion(IntPtr pHandler, RequestNotificationStatus& notificationStatus)
+   at System.Web.Hosting.UnsafeIISMethods.MgdIndicateCompletion(IntPtr pHandler, RequestNotificationStatus& notificationStatus)
+   at System.Web.Hosting.PipelineRuntime.ProcessRequestNotificationHelper(IntPtr rootedObjectsPointer, IntPtr nativeRequestContext, IntPtr moduleData, Int32 flags)
+   at System.Web.Hosting.PipelineRuntime.ProcessRequestNotification(IntPtr rootedObjectsPointer, IntPtr nativeRequestContext, IntPtr moduleData, Int32 flags)
+"
+Unexpected,The logon token added to the distributed cache successfully.
+Medium,Leaving Monitored Scope: (Name=SPSessionAuthenticationModule.WaitLogonTokenAsyncPut;StaticScopeId=6ie7a) Execution Time=0.0357; CPU Milliseconds=0; Managed Bytes=1184; SQL Query Count=0; GCPauseMS=0; AllocBytes=2352;; Parent=None
+Medium,The authentication settings retrieval will be evaluated on a separate task.
+Medium,The task to execute the authentication code blocks asynchronously started.
+Medium,Disposing of the claims operation scope.
+Medium,"SPOIdleSessionCookie.WriteCookie: Writing idle session cookie. Value: 'True,3300,3600,1712117891156,1712118191156'."
+Medium,"Writing cookie with value. Name: 'isso', Domain: '.sharepoint.com', Path: '/', RequireSsl: 'True'."
+High,Leaving Monitored Scope: (Name=SPOAuth2ESTSClient::AcquireAccessTokenByAuthorizationCode;StaticScopeId=6jmsw) Execution Time=1908.695; CPU Milliseconds=1; Managed Bytes=191856; SQL Query Count=0; GCPauseMS=25; AllocBytes=193080;; Parent=SPOAuth2SecurityTokenManager::AcquireAccessTokenByAuthorizationCode
+High,Leaving Monitored Scope: (Name=SPOAuth2SecurityTokenManager::AcquireAccessTokenByAuthorizationCode;StaticScopeId=6jmrz) Execution Time=1914.2138; CPU Milliseconds=2; Managed Bytes=307272; SQL Query Count=0; GCPauseMS=25; AllocBytes=309008;; Parent=SPDelegationTokenServiceProvider::AcquireRefreshTokenByAuthorizationCodeInternal
+Medium,TrySaveRefreshTokenToVelocity: Successfully saved refresh token to Velocity cache.
+Medium,Leaving Monitored Scope: (Name=SPOAuthTokenProviderStorage::TrySaveRefreshTokenToVelocity;StaticScopeId=6jmrg) Execution Time=2.3879; CPU Milliseconds=0; Managed Bytes=54808; SQL Query Count=0; GCPauseMS=0; AllocBytes=56032;; Parent=SPOAuthTokenProviderStorage::SaveRefreshToken
+Medium,Successfully saved token to Velocity.
+Medium,"TrySaveRawRefreshTokenToSessionStore: Updating RefreshToken for user <name>'6b8caf92-2bd6-4fc6-9ba2-3462b05cfc79'</name>, SessionId: '4c736738-d5c4-4075-bde6-eca7974bfa50'"
+Medium,Leaving Monitored Scope: (Name=UserSessionDataStore.SetData.Execute;StaticScopeId=6jogc) Execution Time=2.9294; CPU Milliseconds=0; Managed Bytes=58088; SQL Query Count=1; GCPauseMS=0; AllocBytes=59312;; Parent=UserSessionDataStore.SetData
+Medium,Leaving Monitored Scope: (Name=UserSessionDataStore.SetData;StaticScopeId=6jogb) Execution Time=3.6511; CPU Milliseconds=1; Managed Bytes=115520; SQL Query Count=1; GCPauseMS=0; AllocBytes=116872;; Parent=SPOAuthTokenProviderStorage::TrySaveRawRefreshTokenToSessionStore
+Medium,Leaving Monitored Scope: (Name=SPOAuthTokenProviderStorage::TrySaveRawRefreshTokenToSessionStore;StaticScopeId=6jmri) Execution Time=3.7543; CPU Milliseconds=1; Managed Bytes=126848; SQL Query Count=1; GCPauseMS=0; AllocBytes=128328;; Parent=SPOAuthTokenProviderStorage::SaveRefreshToken
+Medium,Successfully saved token to session store.
+Medium,Leaving Monitored Scope: (Name=SPOAuthTokenProviderStorage::SaveRefreshToken;StaticScopeId=6jmrc) Execution Time=6.388; CPU Milliseconds=2; Managed Bytes=213296; SQL Query Count=1; GCPauseMS=0; AllocBytes=215032;; Parent=SPDelegationTokenServiceProvider::AcquireRefreshTokenByAuthorizationCodeInternal
+Medium,Successfully acquired delegation token.
+High,Leaving Monitored Scope: (Name=SPDelegationTokenServiceProvider::AcquireRefreshTokenByAuthorizationCodeInternal;StaticScopeId=6jmru) Execution Time=1920.7836; CPU Milliseconds=5; Managed Bytes=547776; SQL Query Count=1; GCPauseMS=25; AllocBytes=550280;; Parent=Task (SPDelegationTokenServiceProvider::StartAsyncTask)
+Medium,Leaving Monitored Scope: (Name=Task (SPDelegationTokenServiceProvider::StartAsyncTask);StaticScopeId=6h8ie) Execution Time=1921.2781; CPU Milliseconds=6; Managed Bytes=635080; SQL Query Count=1; GCPauseMS=25; AllocBytes=637856;; Parent=SPDelegationTokenServiceProvider::AcquireRefreshTokenByAuthorizationCode
