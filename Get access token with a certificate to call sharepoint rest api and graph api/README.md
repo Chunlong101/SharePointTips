@@ -49,6 +49,10 @@ Then, use the client_assertion in Postman to obtain the token:
 
 ![alt text](image-1.png)
 
+Note, the client_assertion in the above image is actually a JWT token generated according to certain rules, consisting of three main parts: header, payload, and signature. 
+
+![alt text](image-3.png)
+
 #### Pls note, technically now you have another option to get access token and call SharePoint REST API, which is ACS. But ACS is legacy：[SharePoint Add-In retirement in Microsoft 365 | Microsoft Learn](https://learn.microsoft.com/en-us/sharepoint/dev/sp-add-ins/retirement-announcement-for-add-ins), SharePoint Add-Ins will stop working for new tenants as of November 1st, 2024 and they will stop working for existing tenants and will be fully retired as of April 2nd, 2026. Which means, if you want to call SharePoint REST API, then before 2026 yes you can still use ACS to get the access token then use it to call SharePoint REST API, however I recommend using Certificate way (introduced in this article) to get the access token and call SharePoint REST API.
 
 ![alt text](image-2.png)
@@ -107,6 +111,10 @@ https://github.com/Chunlong101/SharePointTips/blob/master/Get%20access%20token%2
 ![alt text](image.png)
 
 ![alt text](image-1.png)
+
+注，上图的client_assertion其实就是按照一定规则来攒一个JWT token，主要三部分：header, payload, signature：
+
+![alt text](image-3.png)
 
 #### 请注意，从技术上讲，您现在有另一个选项可以获取访问令牌并调用 SharePoint REST API，即 ACS。但是 ACS 已经过时：[SharePoint Add-In retirement in Microsoft 365 | Microsoft Learn](https://learn.microsoft.com/en-us/sharepoint/dev/sp-add-ins/retirement-announcement-for-add-ins)，SharePoint Add-Ins 将于 2024 年 11 月 1 日停止为新的租户提供服务，并将于 2026 年 4 月 2 日停止为现有租户提供服务并完全停用。这意味着，如果您想调用 SharePoint REST API，在 2026 年之前，您仍然可以使用 ACS 获取访问令牌，然后使用该令牌调用 SharePoint REST API，但我建议使用证书方式（在本文中介绍）获取访问令牌并调用 SharePoint REST API。
 
