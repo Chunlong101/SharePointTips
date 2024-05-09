@@ -31,9 +31,9 @@ function GetSiteOwnerInfo ($SiteUrl, $GlobalAdminUserName, $CvsPath) {
             $siteAdminsEmails += $_.Trim() 
         } 
     }
-    # Check if there's one whose title contains "Everyone"
+    # Check if there's one whose title contains "Everyone", for example "Everyone except external users"
     $everyoneAdmin = $siteAdmins | Where-Object { $_.Title -like "*Everyone*" }
-    # If there's an "Everyone" then add its title to the siteAdminsEmails
+    # If there's an "Everyone" then add its title to the siteAdminsEmails as it doesn't have an email
     if ($everyoneAdmin) {
         $siteAdminsEmails += $everyoneAdmin.Title
     }
@@ -44,9 +44,9 @@ function GetSiteOwnerInfo ($SiteUrl, $GlobalAdminUserName, $CvsPath) {
             $siteOwnersEmails += $_.Trim() 
         } 
     }
-    # Cehck if there's an "Everyone" in the site owners
+    # Cehck if there's an "Everyone" in the site owners, for example "Everyone except external users"
     $everyoneOwner = $siteOwners | Where-Object { $_.Title -like "*Everyone*" }
-    # If there's an "Everyone" then add its title to the siteOwnersEmails
+    # If there's an "Everyone" then add its title to the siteOwnersEmails as it doesn't have an email
     if ($everyoneOwner) {
         $siteOwnersEmails += $everyoneOwner.Title
     }
@@ -57,9 +57,9 @@ function GetSiteOwnerInfo ($SiteUrl, $GlobalAdminUserName, $CvsPath) {
             $siteMembersEmails += $_.Trim() 
         } 
     }
-    # Check if there's an "Everyone" in the site members
+    # Check if there's an "Everyone" in the site members, for example "Everyone except external users"
     $everyoneMember = $siteMembers | Where-Object { $_.Title -like "*Everyone*" }
-    # If there's an "Everyone" then add its title to the siteMembersEmails
+    # If there's an "Everyone" then add its title to the siteMembersEmails as it doesn't have an email
     if ($everyoneMember) {
         $siteMembersEmails += $everyoneMember.Title
     }
@@ -67,13 +67,12 @@ function GetSiteOwnerInfo ($SiteUrl, $GlobalAdminUserName, $CvsPath) {
     $siteVisitors = Get-PnPGroupMember -Group $siteVisitorsGroup
     $siteVisitors | Select-Object -ExpandProperty Email | foreach { 
         if ($_.Trim() -ne "") {
-     
             $siteVisitorsEmails += $_.Trim() 
         } 
     }
-    # Check if there's an "Everyone" in the site visitors
+    # Check if there's an "Everyone" in the site visitors, for example "Everyone except external users"
     $everyoneVisitor = $siteVisitors | Where-Object { $_.Title -like "*Everyone*" }
-    # If there's an "Everyone" then add its title to the siteVisitorsEmails
+    # If there's an "Everyone" then add its title to the siteVisitorsEmails as it doesn't have an email
     if ($everyoneVisitor) {
         $siteVisitorsEmails += $everyoneVisitor.Title
     }

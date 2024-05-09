@@ -2,6 +2,8 @@
 
 ![alt text](image.png)
 
+![alt text](image-1.png)
+
 This script retrieves the ownership/membership of a or multiple SharePoint site(s) and exports the information to a CSV file. You can modify the variables `$SiteUrl`, `$GlobalAdminUserName`, and `$CsvPath` to fit your environment.
 
 ## Prerequisites
