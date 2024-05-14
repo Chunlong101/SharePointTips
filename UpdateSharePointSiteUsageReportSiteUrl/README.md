@@ -1,6 +1,6 @@
 # SharePoint Site Usage Report URL Updation Script
 
-Recently, due to security concerns, Microsoft has concealed the site URL information in the SharePoint site usage report. Consequently, we need an alternative method to retrieve site URL information for the site usage report. This article demonstrates how to utilize PowerShell to obtain SharePoint Site Usage Report's site URL information.
+Recently, due to security concerns, Microsoft has concealed the site URL information in the SharePoint site usage report. Consequently, we need an alternative method to retrieve site URL information for the site usage report. This article demonstrates how to utilize PowerShell to obtain SharePoint Site Usage Report's site URL information. See our official article here: https://learn.microsoft.com/en-us/microsoft-365/admin/activity-reports/resolve-site-urls?view=o365-worldwide#update-report-powershell-script
 
 ![Export site usage report](image.png)
 
@@ -155,7 +155,7 @@ To use this script, follow these steps:
 
 # SharePoint站点使用报告URL更新脚本
 
-最近，由于安全方面的考虑，微软已经隐藏了SharePoint站点使用报告中的站点URL信息。因此，我们需要一种替代方法来检索站点使用报告的站点URL信息。本文演示了如何使用PowerShell获取SharePoint站点使用报告的站点URL信息。
+最近，由于安全方面的考虑，微软已经隐藏了SharePoint站点使用报告中的站点URL信息。因此，我们需要一种替代方法来检索站点使用报告的站点URL信息。本文演示了如何使用PowerShell获取SharePoint站点使用报告的站点URL信息。请参考我们官方原文：https://learn.microsoft.com/en-us/microsoft-365/admin/activity-reports/resolve-site-urls?view=o365-worldwide#update-report-powershell-script
 
 ![导出站点使用报告](image.png)
 
