@@ -26,4 +26,4 @@ Web间歇性问题检测器是一个用于检测间歇性问题的工具，旨�
 1. 下载并安装工具: https://github.com/Chunlong101/SharePointTips/blob/master/IntermittentIssueDetector/IntermittentIssueDetector/IntermittentIssueDetector.zip。
 ![alt text](image-1.png)
 2. 打开工具并配置参数，包括页面URL、刷新频率等。例如，在上图中，我们设置了每隔60秒刷新一次页面“https://5xxsz0.sharepoint.com/sites/test”，如果刷出来的页面的内容中出现了“Learn more about your Communication site”的字样，那么工具将会记录一条成功加载页面的日志；反之，将记录一条加载页面失败的日志。
-3. 结合Fiddler的使用可以更好地分析问题：https://learn.microsoft.com/en-us/power-query/web-connection-fiddler，how to set filter in fiddler: https://www.youtube.com/watch?v=DtTBLa0SeM8
+3. 结合Fiddler的使用可以更好地分析问题：[Web Connection with Fiddler](https://learn.microsoft.com/en-us/power-query/web-connection-fiddler), how to set a filter in Fiddler: [YouTube Tutorial](https://www.youtube.com/watch?v=DtTBLa0SeM8)。
