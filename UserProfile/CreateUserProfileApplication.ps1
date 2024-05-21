@@ -1,4 +1,4 @@
-﻿##
+##
 #This script will Create the User Profile Service Application
 #This script also ensures all dependent services are started
 #
@@ -30,7 +30,7 @@ function PollService
 Write-Progress -Activity "Provisioning User Profile Service Application" -Status "Creating Script Variables"
 
 #This is the server where the user profile sync service runs
-$ProfileSyncServer = "PC_Name"
+$ProfileSyncServer = "AllInOne"
 
 #This is the display name of the User Profile Database
 $UserProfileDB = "UserProfile"
@@ -42,16 +42,16 @@ $UserProfileSyncDB = "UserProfile_Sync"
 $UserProfileSocialDB = "UserProfile_Social"
 
 #This is the User Name of the User Profile Service Application App Pool
-$UserProfileApplicationPoolManagedAccount = "China\Chunlong"
+$UserProfileApplicationPoolManagedAccount = "Chunlong\SpAdmin"
 
 #This is the Password of the User Profile Service Application App Pool Account
-$UserProfileApplicationPoolPassword = "***."
+$UserProfileApplicationPoolPassword = "microsoft1."
 
 #This is the User Name of the Server Farm Account
-$SPFarmAccount = "China\Chunlong"
+$SPFarmAccount = "Chunlong\SpAdmin"
 
 #This Is the Password of the Server Farm Account
-$FarmAccountPassword = "***."
+$FarmAccountPassword = "microsoft1."
 
 #This Is the Display name for the User Profile Service Application, The Application Pool Name has been set to match, for simplicity purposes
 $UserProfileServiceApplicationName = "User Profile"
@@ -101,7 +101,7 @@ $UserProfileServiceApplicationPool = New-SPServiceApplicationPool -Name ($UserPr
 Write-Progress -Activity "Provisioning User Profile Service Application" -Status "Starting User Profile Service"
 
 $UPSI = get-spserviceinstance | where {$_.server -like "*" + $ProfileSyncServer -and $_.Typename -eq "User Profile Service"} | Start-SPServiceInstance # Pls check the service instance first
-$UserProfileSyncServiceInstance = get-spserviceinstance | where {$_.server -like "*" + $ProfileSyncServer -and $_.Typename -eq "User Profile Synchronization Service"}
+$UserProfileSyncServiceInstance = get-spserviceinstance | where {$_.Typename -match "User Profile"}
 
 ##
 #Create the User Profile Service Application
@@ -116,7 +116,7 @@ $UserProfileSA = New-SPProfileServiceApplication -Name $UserProfileServiceApplic
 
 Write-Progress -Activity "Provisioning User Profile Service Application" -Status "Setting User Profile Service Application Properties"
 $SPUserprofileMachine = get-spserver $ProfileSyncServer
-$UserProfileSA.SetSynchronizationMachine($ProfileSyncServer, $UserProfileSyncServiceInstance.id, $UserProfileSyncAccount.username, $FarmAccountPassword)
+#$UserProfileSA.SetSynchronizationMachine($ProfileSyncServer, $UserProfileSyncServiceInstance.id, $UserProfileSyncAccount.username, $FarmAccountPassword)
 
 ##
 #Create the User Profile Service Application Proxy
