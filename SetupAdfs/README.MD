@@ -134,11 +134,18 @@ Set-AdfsProperties -EnableIdPInitiatedSignonPage $true
 ![添加 Relying Party Trust](image-1.png)
 ![配置 SharePoint URL](image-3.png)
 
+URN to be used during SharePoint configuration: 
+
+![URN](image-4.png)
+
+
 ### 步骤 3: 添加声明规则
 
 添加必要的声明规则。
 
 ![添加声明规则](image-5.png)
+![Claim Rule Example](image-6.png)
+![Claim Rule Settings](image-7.png)
 
 ### 步骤 4: 在 SharePoint 上配置令牌颁发者
 
@@ -167,13 +174,22 @@ $TrustedIdentity = New-SPTrustedIdentityTokenIssuer -Name "Trusted IDP (ADFS)" -
 
 如果遇到 `PartialChain: A certificate chain could not be built to a trusted root authority` 的错误，按照以下步骤解决：
 
-- 获取 “SharePoint Root Authority” 证书作为物理文件 (.cer)。
-  ```powershell
-  $rootCert = (Get-SPCertificateAuthority).RootCertificate
-  $rootCert.Export("Cert") | Set-Content C:\SPRootAuthority.cer -Encoding byte
-  ```
+![Error](image-8.png)
 
-- 将 “SharePoint Root Authority” 证书导入到所有 SharePoint 2013 服务器的 Trusted Root Certification 存储中。
+   ```powershell
+   # Obtain the “SharePoint Root Authority” certificate as a physical (.cer) file
+   $rootCert = (Get-SPCertificateAuthority).RootCertificate
+   $rootCert.Export("Cert") | Set-Content C:\SPRootAuthority.cer -Encoding byte
+
+   # Import the “SharePoint Root Authority” certificate to the Trusted Root Certification store on all SharePoint 2013 servers.
+   # Steps for importing certificate to the Trusted Root Certification Authorities:
+   # 1. Start > Run > MMC > Enter
+   # 2. File > Add/Remove Snap-in
+   # 3. Certificates > Add > Computer account > Next > Local computer > Finish > OK
+   # 4. Expand Certificates (Local Computer), expand Trusted Root Certification Authorities
+   # 5. Right-click Certificates > All tasks > Import
+   # 6. Next > Browse > navigate to and select C:\SPRootAuthority.cer > Open > Next > Next > Finish > OK
+   ```
 
 参考文档：[https://docs.microsoft.com/en-us/archive/blogs/josrod/partialchain-a-certificate-chain-could-not-be-built-to-a-trusted-root-authority](https://docs.microsoft.com/en-us/archive/blogs/josrod/partialchain-a-certificate-chain-could-not-be-built-to-a-trusted-root-authority)
 
