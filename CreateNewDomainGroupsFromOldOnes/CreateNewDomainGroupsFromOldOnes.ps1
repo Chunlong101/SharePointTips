@@ -2,9 +2,9 @@
 # This script requires the farm account running on a sharepoint server, pls just replace below 4 variables to meet your environment 
 #
 $workSpace = "C:\Users\chunlonl\source\repos\Scripts\21651008" # Where this script is stored
-$siteUrl = "http://sp-joint-uat.bsp.shell.bn/sites/IMIT-Projects"
-$oldDomainName = "ASIA-PAC"
-$newDomainName = "BSJV"
+$siteUrl = "https://xxx/sites/xxx"
+$oldDomainName = "OldDomainName"
+$newDomainName = "NewDomainName"
 $groupInfoCsv = ".\GroupInfo.csv"
 
 #

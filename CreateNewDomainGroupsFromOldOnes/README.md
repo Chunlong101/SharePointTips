@@ -1,6 +1,8 @@
 ## Issue 
 
-Your organization is replicating all the Users and Groups from domainA to domainB, and will disconnect from domainA, you want to make sure all the users can keep their access to sharepoint. (Some users were given permissions by security group)
+Your organization is replicating all the Users and Groups from domainA to domainB, and will disconnect from domainA, you want to make sure all the users can keep their access to sharepoint. (Users were given permissions by security group, security group in new domain will have the same name as the old domain).
+
+Additionally, you can also try move-spuser, which can help migrate users/groups from domainA to domainB, but in this article we only try to grant permissions to the new domain security group.
 
 ## Assessments 
 
@@ -43,5 +45,3 @@ Get-SPUser -Web http://wfe | ? {$_.DisplayName -match "chunlongshanghaigroup"} |
 ## Pls note 
 
 Microsoft doesn't provide production ready scripts, customers need to test/verify/extend this script by themselves. And this script is out of the support scope. 
-
-## Additionally, move-spuser can also help migrate users/groups from domainA to domainB. 
