@@ -1,0 +1,6 @@
+curl --location --request POST 'https://login.microsoftonline.com/xxx/oauth2/v2.0/token' \
+--header 'Content-Type: application/x-www-form-urlencoded' \
+--data-urlencode 'grant_type=client_credentials' \
+--data-urlencode 'client_id=xxx' \
+--data-urlencode 'client_secret=xxx' \
+--data-urlencode 'scope=https://graph.microsoft.com/.default'
