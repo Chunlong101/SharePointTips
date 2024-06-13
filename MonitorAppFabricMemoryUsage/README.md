@@ -34,3 +34,4 @@ If the logging dll is blocked, you can the following to unblock the files first:
 
 # How to run task scheduler with this script? 
 
+https://github.com/Chunlong101/SharePointTips/tree/master/SetupWindowsTaskScheduler
