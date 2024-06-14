@@ -7,7 +7,7 @@ products:
   - azure-active-directory  
 name: Sign in a user in an ASP.NET Web App with OpenID Connect and the Microsoft identity platform
 urlFragment: AppModelv2-WebApp-OpenIDConnect-DotNet
-description: "This sample demonstrates a ASP.NET Web App application that authenticates users against Azure AD"
+description: "This sample demonstrates a ASP.NET Web App application that authenticates users against Azure AD, for oauth code flow pls refer to "20211201""
 ---
 # Sign in a user in an ASP.NET Web App with OpenID Connect and the Microsoft identity platform, for oauth code flow pls refer to "20211201". 
 
