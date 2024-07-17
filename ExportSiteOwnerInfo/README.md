@@ -16,7 +16,7 @@ This script retrieves the ownership/membership of a or multiple SharePoint site(
 
 ## Usage example: 
 ```powershell
-Connect-PnPOnline -Url "https://xxx.sharepoint.com" -Interactive
+Connect-PnPOnline -Url "https://xxx-admin.sharepoint.com" -Interactive
 $GlobalAdminUserName = "SpAdmin@xxx.onmicrosoft.com"
 $CvsPath = "C:\Users\xxx\Downloads\SiteInfo.csv"
 $AllSites = Get-PnPTenantSite -Filter "Url -like 'test'"
