@@ -1,0 +1,32 @@
+Name                             : 2407020030004770
+Email                            :
+Notes                            :
+LoginName                        : c:0-.t|trusted idp (adfs)|2407020030004770
+Groups                           : {}
+OwnedGroups                      : {}
+ID                               : 52
+Xml                              : <User ID="52" Sid="" Name="2407020030004770" LoginName="c:0-.t|trusted idp (adfs)|2407020030004770" Email="" Notes=""
+                                   IsSiteAdmin="False" IsDomainGroup="True" Flags="0" IsShareByEmailGuestUser="False" IsShareByLinkGuestUser="False" />
+RawSid                           :
+Sid                              :
+SystemUserKey                    : c:0-.t|trusted idp (adfs)|2407020030004770
+UserId                           :
+IsSiteAdmin                      : False
+IsSiteAuditor                    : False
+IsDomainGroup                    : True
+IsApplicationPrincipal           : False
+IsShareByLinkGuestUser           : False
+IsHiddenInUI                     : False
+IsShareByEmailGuestUser          : False
+IsEmailAuthenticationGuestUser   : False
+RequireRequestToken              : False
+AllowBrowseUserInfo              : True
+IsUserSettingsSyncedWithProvider : False
+Alerts                           : {}
+UserToken                        : Microsoft.SharePoint.SPUserToken
+RegionalSettings                 :
+LanguageSettings                 : Microsoft.SharePoint.SPLanguageSettings
+ParentWeb                        : Test
+Roles                            : {Read}
+UserLogin                        : c:0-.t|trusted idp (adfs)|2407020030004770
+DisplayName                      : 2407020030004770
