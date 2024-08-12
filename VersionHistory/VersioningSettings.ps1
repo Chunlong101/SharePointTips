@@ -1,3 +1,5 @@
+# This script enables you to configure versioning settings for SharePoint libraries in bulk, including the ability to set limits for major and minor versions, among other options. Pls just replace the parameters like $TenantName...$MinorVersionLimit with yours. 
+
 # Initialize parameters
 $TenantName = "xxx"
 $MajorVersions = $true
