@@ -152,6 +152,10 @@ To use this script, follow these steps:
         Write-Host "Report updated: $($outputPath)" -ForegroundColor Cyan
         ```
 
+6. If you see site id or user display name is blurred, then pls try below settings: 
+
+    ![alt text](image-7.png)
+
 ----- 
 ----- 
 ----- 
@@ -309,3 +313,7 @@ To use this script, follow these steps:
         Write-Host "Processed $($rowCount) rows"
         Write-Host "Report updated: $($outputPath)" -ForegroundColor Cyan
         ```
+
+6. 如果你看到站点ID或用户显示名称被模糊化，请尝试以下设置：
+
+    ![alt text](image-7.png)
