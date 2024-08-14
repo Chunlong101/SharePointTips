@@ -1,7 +1,12 @@
+# 在我磁盘上有大量的重复的文件，请你帮忙写一个powershell脚本，要求：
+# 1. 将这些重复的文件找出来。如果大小相同，名字一样，就说明是重复的文件。
+# 2. 将重复的文件移动到一个新的文件夹。
+# 3. 请添加一个参数，当其为true的时候才执行文件移动，当其为false的时候只打印重复文件信息。
+
 # 指定要扫描的目录
-$sourceFolder = "D:\待剪辑的生活"
+$sourceFolder = "C:\xxx"
 # 指定用于存放重复文件的目标目录
-$destinationFolder = "D:\待剪辑的生活\Duplicate"
+$destinationFolder = "C:\xxx\Duplicate"
 # 设置是否移动重复文件
 $moveFiles = $false  # 设置为 $false 只打印重复文件信息
 
