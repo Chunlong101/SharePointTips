@@ -1,5 +1,9 @@
 See the source code from: https://github.com/Chunlong101/MicrosoftGraphApiDemo/tree/master/20211201
 
+See the video: 
+
+[![Video Title](https://user-images.githubusercontent.com/9314578/143471539-d08da3ce-6b23-457a-b04a-27480d47800f.png)](https://www.youtube.com/watch?v=wm1X0ShoCwQ)
+
 ![image](https://user-images.githubusercontent.com/9314578/143559490-0f49efdb-3b98-4120-9832-0751ab34a821.png)
 
 In this session, we’re going to demo (see "Microsoft Graph Api Training 20211201.docx" for more details): 
