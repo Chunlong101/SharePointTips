@@ -8,8 +8,12 @@ The Web Intermittent Issue Detector is a tool designed to detect intermittent is
 
 1. Download and install the tool: [IntermittentIssueDetector.zip](https://github.com/Chunlong101/SharePointTips/blob/master/IntermittentIssueDetector/IntermittentIssueDetector/IntermittentIssueDetector.zip).
 ![alt text](image-1.png)
+
 2. Open the tool and configure parameters, including the page URL and refresh frequency. For example, in the image above, we set the tool to refresh the page "https://5xxsz0.sharepoint.com/sites/test" every 60 seconds. If the page content contains the phrase "Learn more about your Communication site" the tool will log a successful page load; otherwise, it will log a failed page load.
-3. Combining the use of Fiddler can enhance issue analysis: [Web Connection with Fiddler](https://learn.microsoft.com/en-us/power-query/web-connection-fiddler), how to set a filter in Fiddler: [YouTube Tutorial](https://www.youtube.com/watch?v=DtTBLa0SeM8).
+
+3. Enhancing Issue Analysis with Additional Tools:
+   - **Fiddler**: Learn how to capture logs using Fiddler [here](https://learn.microsoft.com/en-us/power-query/web-connection-fiddler). For setting filters, refer to this [YouTube tutorial](https://www.youtube.com/watch?v=DtTBLa0SeM8). Alternatively, press `F12` to open the developer tools inside this detector and capture a HAR network trace. For more details, see [How to Capture a Browser Trace](https://learn.microsoft.com/en-us/azure/azure-portal/capture-browser-trace).
+   - **Network Monitoring**: You can collect network traces using Network Monitor. Learn how [here](https://learn.microsoft.com/en-us/troubleshoot/windows-client/networking/collect-data-using-network-monitor). Alternatively, consider using [Wireshark](https://www.wireshark.org) to capture network traffic.
 
 ----- 
 ----- 
@@ -25,5 +29,9 @@ Web间歇性问题检测器是一个用于检测间歇性问题的工具，旨�
 
 1. 下载并安装工具: https://github.com/Chunlong101/SharePointTips/blob/master/IntermittentIssueDetector/IntermittentIssueDetector/IntermittentIssueDetector.zip。
 ![alt text](image-1.png)
-2. 打开工具并配置参数，包括页面URL、刷新频率等。例如，在上图中，我们设置了每隔60秒刷新一次页面“https://5xxsz0.sharepoint.com/sites/test”，如果刷出来的页面的内容中出现了“Learn more about your Communication site”的字样，那么工具将会记录一条成功加载页面的日志；反之，将记录一条加载页面失败的日志。
-3. 结合Fiddler的使用可以更好地分析问题：[Web Connection with Fiddler](https://learn.microsoft.com/en-us/power-query/web-connection-fiddler), how to set a filter in Fiddler: [YouTube Tutorial](https://www.youtube.com/watch?v=DtTBLa0SeM8)。
+
+2. 打开工具并配置参数，包括页面URL、刷新频率等。例如，在上图中，我们设置了每隔60秒刷新一次页面"https://5xxsz0.sharepoint.com/sites/test", 如果刷出来的页面的内容中出现了"Learn more about your Communication site"的字样, 那么工具将会记录一条成功加载页面的日志；反之，将记录一条加载页面失败的日志。
+   
+3. 使用其他工具增强问题分析：
+   - **Fiddler**：了解如何使用Fiddler捕获日志，[点击这里](https://learn.microsoft.com/en-us/power-query/web-connection-fiddler)。关于如何设置过滤器，请参考这个[YouTube教程](https://www.youtube.com/watch?v=DtTBLa0SeM8)。或者，您可以按 `F12` 键打开检测器的的开发者工具，捕获HAR网络追踪。详细信息请参见[如何捕获浏览器追踪](https://learn.microsoft.com/en-us/azure/azure-portal/capture-browser-trace)。
+   - **网络监控**：您可以使用Network Monitor收集网络追踪数据，[点击这里了解更多](https://learn.microsoft.com/en-us/troubleshoot/windows-client/networking/collect-data-using-network-monitor)。或者，您可以使用[Wireshark](https://www.wireshark.org)来捕获网络流量。
