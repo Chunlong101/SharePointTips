@@ -2,13 +2,13 @@
 
 This script helps to clear the SharePoint Timer cache files, which can resolve various issues within a SharePoint farm.
 
-## How to Use
+## How to Use (Option 1 - Run the script)
 
 1. **Download** the `SPCacheCleaner.zip` file.
 2. **Unzip** it to one of your SharePoint servers.
 3. **Run** the `SPCacheCleaner.cmd` script.
 
-## Manual Cache Clearing Steps
+## How to Use (Option 2 - Manual Cache Clearing Steps)
 
 You can manually clear the SharePoint configuration cache by following the steps below.
 
