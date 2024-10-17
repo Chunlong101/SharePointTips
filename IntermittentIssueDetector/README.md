@@ -40,4 +40,4 @@ Web间歇性问题检测器是一个用于检测间歇性问题的工具，旨�
       - 或者[使用Fiddler捕获日志](https://learn.microsoft.com/en-us/power-query/web-connection-fiddler),[设置Fiddler过滤器](https://www.youtube.com/watch?v=DtTBLa0SeM8)。
    - **网络监控**：
       - 您可以使用[Wireshark](https://www.wireshark.org)来捕获网络流量。
-      - 或者，您可以使用[Network Monitor](https://learn.microsoft.com/en-us/troubleshoot/windows-client/networking/collect-data-using-network-monitor)收集网络追踪数据，。
+      - 或者，您可以使用[Network Monitor](https://learn.microsoft.com/en-us/troubleshoot/windows-client/networking/collect-data-using-network-monitor)收集网络追踪数据。
