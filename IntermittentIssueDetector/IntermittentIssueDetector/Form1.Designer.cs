@@ -43,8 +43,10 @@
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openLogButton = new MetroFramework.Controls.MetroButton();
             this.stopButton = new MetroFramework.Controls.MetroButton();
+            this.panel1 = new System.Windows.Forms.Panel();
             ((System.ComponentModel.ISupportInitialize)(this.webView21)).BeginInit();
             this.metroContextMenu1.SuspendLayout();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // timer1
@@ -58,7 +60,7 @@
             // 
             // 
             this.urlTextBox.CustomButton.Image = null;
-            this.urlTextBox.CustomButton.Location = new System.Drawing.Point(874, 2);
+            this.urlTextBox.CustomButton.Location = new System.Drawing.Point(374, 2);
             this.urlTextBox.CustomButton.Name = "";
             this.urlTextBox.CustomButton.Size = new System.Drawing.Size(39, 39);
             this.urlTextBox.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
@@ -68,7 +70,7 @@
             this.urlTextBox.CustomButton.Visible = false;
             this.urlTextBox.Lines = new string[] {
         "Pls input your web url here, for example: https://github.com/Chunlong101"};
-            this.urlTextBox.Location = new System.Drawing.Point(23, 113);
+            this.urlTextBox.Location = new System.Drawing.Point(3, 17);
             this.urlTextBox.MaxLength = 32767;
             this.urlTextBox.Name = "urlTextBox";
             this.urlTextBox.PasswordChar = '\0';
@@ -77,12 +79,13 @@
             this.urlTextBox.SelectionLength = 0;
             this.urlTextBox.SelectionStart = 0;
             this.urlTextBox.ShortcutsEnabled = true;
-            this.urlTextBox.Size = new System.Drawing.Size(916, 44);
+            this.urlTextBox.Size = new System.Drawing.Size(652, 44);
             this.urlTextBox.TabIndex = 2;
             this.urlTextBox.Text = "Pls input your web url here, for example: https://github.com/Chunlong101";
             this.urlTextBox.UseSelectable = true;
             this.urlTextBox.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
             this.urlTextBox.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
+            this.urlTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.urlTextBox_KeyDown);
             // 
             // frequencyTextBox
             // 
@@ -100,7 +103,7 @@
             this.frequencyTextBox.CustomButton.Visible = false;
             this.frequencyTextBox.Lines = new string[] {
         "Frequency"};
-            this.frequencyTextBox.Location = new System.Drawing.Point(1287, 114);
+            this.frequencyTextBox.Location = new System.Drawing.Point(767, 18);
             this.frequencyTextBox.MaxLength = 32767;
             this.frequencyTextBox.Name = "frequencyTextBox";
             this.frequencyTextBox.PasswordChar = '\0';
@@ -132,7 +135,7 @@
             this.SuccessTagTextBox.CustomButton.Visible = false;
             this.SuccessTagTextBox.Lines = new string[] {
         "SuccessTag"};
-            this.SuccessTagTextBox.Location = new System.Drawing.Point(945, 114);
+            this.SuccessTagTextBox.Location = new System.Drawing.Point(661, 18);
             this.SuccessTagTextBox.MaxLength = 32767;
             this.SuccessTagTextBox.Name = "SuccessTagTextBox";
             this.SuccessTagTextBox.PasswordChar = '\0';
@@ -141,7 +144,7 @@
             this.SuccessTagTextBox.SelectionLength = 0;
             this.SuccessTagTextBox.SelectionStart = 0;
             this.SuccessTagTextBox.ShortcutsEnabled = true;
-            this.SuccessTagTextBox.Size = new System.Drawing.Size(336, 44);
+            this.SuccessTagTextBox.Size = new System.Drawing.Size(100, 44);
             this.SuccessTagTextBox.TabIndex = 6;
             this.SuccessTagTextBox.Text = "SuccessTag";
             this.SuccessTagTextBox.UseSelectable = true;
@@ -150,7 +153,7 @@
             // 
             // goButton
             // 
-            this.goButton.Location = new System.Drawing.Point(1389, 113);
+            this.goButton.Location = new System.Drawing.Point(867, 17);
             this.goButton.Name = "goButton";
             this.goButton.Size = new System.Drawing.Size(114, 43);
             this.goButton.TabIndex = 7;
@@ -163,9 +166,10 @@
             this.webView21.AllowExternalDrop = true;
             this.webView21.CreationProperties = null;
             this.webView21.DefaultBackgroundColor = System.Drawing.Color.White;
-            this.webView21.Location = new System.Drawing.Point(23, 163);
+            this.webView21.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.webView21.Location = new System.Drawing.Point(20, 100);
             this.webView21.Name = "webView21";
-            this.webView21.Size = new System.Drawing.Size(1765, 748);
+            this.webView21.Size = new System.Drawing.Size(1270, 309);
             this.webView21.TabIndex = 9;
             this.webView21.ZoomFactor = 1D;
             // 
@@ -212,7 +216,7 @@
             // 
             // openLogButton
             // 
-            this.openLogButton.Location = new System.Drawing.Point(1629, 113);
+            this.openLogButton.Location = new System.Drawing.Point(1107, 17);
             this.openLogButton.Name = "openLogButton";
             this.openLogButton.Size = new System.Drawing.Size(159, 43);
             this.openLogButton.TabIndex = 10;
@@ -222,7 +226,7 @@
             // 
             // stopButton
             // 
-            this.stopButton.Location = new System.Drawing.Point(1509, 113);
+            this.stopButton.Location = new System.Drawing.Point(987, 17);
             this.stopButton.Name = "stopButton";
             this.stopButton.Size = new System.Drawing.Size(114, 43);
             this.stopButton.TabIndex = 11;
@@ -230,20 +234,30 @@
             this.stopButton.UseSelectable = true;
             this.stopButton.Click += new System.EventHandler(this.stopButton_Click);
             // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.urlTextBox);
+            this.panel1.Controls.Add(this.frequencyTextBox);
+            this.panel1.Controls.Add(this.stopButton);
+            this.panel1.Controls.Add(this.SuccessTagTextBox);
+            this.panel1.Controls.Add(this.openLogButton);
+            this.panel1.Controls.Add(this.goButton);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel1.Location = new System.Drawing.Point(20, 100);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(1270, 78);
+            this.panel1.TabIndex = 12;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1811, 934);
-            this.Controls.Add(this.stopButton);
-            this.Controls.Add(this.openLogButton);
+            this.ClientSize = new System.Drawing.Size(1310, 429);
+            this.Controls.Add(this.panel1);
             this.Controls.Add(this.webView21);
-            this.Controls.Add(this.goButton);
-            this.Controls.Add(this.SuccessTagTextBox);
-            this.Controls.Add(this.frequencyTextBox);
-            this.Controls.Add(this.urlTextBox);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form1";
+            this.Padding = new System.Windows.Forms.Padding(20, 100, 20, 20);
             this.Text = "Intermittent Issue Dectector";
             this.TextAlign = MetroFramework.Forms.MetroFormTextAlign.Center;
             this.Theme = MetroFramework.MetroThemeStyle.Dark;
@@ -251,6 +265,7 @@
             this.Resize += new System.EventHandler(this.Form1_Resize);
             ((System.ComponentModel.ISupportInitialize)(this.webView21)).EndInit();
             this.metroContextMenu1.ResumeLayout(false);
+            this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -270,6 +285,7 @@
         private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem;
         private MetroFramework.Controls.MetroButton openLogButton;
         private MetroFramework.Controls.MetroButton stopButton;
+        private System.Windows.Forms.Panel panel1;
     }
 }
 

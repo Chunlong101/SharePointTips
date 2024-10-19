@@ -15,8 +15,7 @@ namespace IntermittentIssueDetector
         {
             InitializeComponent();
             InitializeLogger();
-            // Don''t allow maximize the form
-            MaximizeBox = false;
+            this.StartPosition = FormStartPosition.CenterScreen; // 设置表单初始位置为屏幕中央
         }
 
         private void InitializeLogger()
@@ -252,6 +251,16 @@ namespace IntermittentIssueDetector
         {
             // Open the log file with the default text editor
             Process.Start("log.csv");
+        }
+
+        private void urlTextBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                goButton_Click(this, new EventArgs()); // 调用goButton_Click方法
+                e.Handled = true;
+                e.SuppressKeyPress = true; // 防止“叮”声
+            }
         }
     }
 }
