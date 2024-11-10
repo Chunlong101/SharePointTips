@@ -67,6 +67,11 @@ namespace IntermittentIssueDetector
             webView21.CoreWebView2.WebMessageReceived += webView21_WebMessageReceived;
         }
 
+        /// <summary>
+        /// Handle the event when a navigation operation in the WebView2 control is completed. It stops a stopwatch to measure the load time, logs the load time and URL, executes a JavaScript snippet to find a specific element on the page, and logs the results. If any errors occur, they are caught and logged.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void CoreWebView2_NavigationCompleted(object sender, CoreWebView2NavigationCompletedEventArgs e)
         {
             try
@@ -82,7 +87,7 @@ namespace IntermittentIssueDetector
                 //    "var tag = document.getElementsByClassName('xxx');".Replace("xxx", SuccessTagTextBox.Text) +
                 //    "window.chrome.webview.postMessage(tag.length.toString());");
 
-                // Execute JavaScript to find the element with the text, and send the element to native with postMessage, as long as the page contains the text
+                // Execute JavaScript to find the element with the text, and send the element to native with postMessage, as long as the page contains the text, thie will triggerr the WebMessageReceived event
                 webView21.CoreWebView2.ExecuteScriptAsync("" +
                     "const targetText = 'xxx';".Replace("xxx", SuccessTagTextBox.Text) +
                     "const element = Array.from(document.querySelectorAll('*')).find(el => el.textContent.includes(targetText));" +
@@ -99,6 +104,11 @@ namespace IntermittentIssueDetector
             }
         }
 
+        /// <summary>
+        /// Handle messages received from the web content in the WebView2 control. It logs the received message and checks if the message indicates a successful page load or a failure, logging appropriate messages for each case. If an error occurs during this process, it logs the error details. This event is triggered by the JavaScript code executed in the CoreWebView2_NavigationCompleted event.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void webView21_WebMessageReceived(object sender, CoreWebView2WebMessageReceivedEventArgs e)
         {
             try
@@ -113,11 +123,11 @@ namespace IntermittentIssueDetector
                 //    // If the number is greater than 0, the page is loaded
                 //    if (result > 0)
                 //    {
-                //        Logger.Info("Page loaded successfully");
+                //        Logger.Debug("Page loaded successfully");
                 //    }
                 //    else
                 //    {
-                //        Logger.Error("Page failed to load");
+                //        Logger.Debug("Page failed to load");
                 //    }
                 //}
                 //else
@@ -128,7 +138,7 @@ namespace IntermittentIssueDetector
                 // Check if the message is not empty and not "Element not found", as long as the page contains the text
                 if (!string.IsNullOrEmpty(message) && message != "Element not found")
                 {
-                    Logger.Info($"Page loaded successfully, url: {webView21.CoreWebView2.Source}, tag: {SuccessTagTextBox.Text}");
+                    Logger.Debug($"Page loaded successfully, url: {webView21.CoreWebView2.Source}, tag: {SuccessTagTextBox.Text}");
                 }
                 else
                 {
@@ -175,6 +185,11 @@ namespace IntermittentIssueDetector
             Logger.Debug("Timer stopped");
         }
 
+        /// <summary>
+        /// Handle the Tick event of the timer1 control. When the timer interval elapses, this method is triggered. It starts a new Stopwatch to measure the time taken for the navigation operation, navigates the WebView2 control to the URL specified in the urlTextBox, and logs the entry and exit of the method. If any errors occur, they are caught and logged. This event is triggered by the timer1 control.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void timer1_Tick(object sender, EventArgs e)
         {
             try
