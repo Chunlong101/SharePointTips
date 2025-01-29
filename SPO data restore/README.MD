@@ -4,7 +4,7 @@ This document offers various methods and steps for recovering files and data tha
 
 ## Cloud Data Recovery
 
-1. **Confirm Last Visibility Time of File in Cloud**: If the last visible time of the file/folder in the cloud exceeds 14 days, attempt to recover it from the relevant SharePoint site's recycle bin. If the file is not in the recycle bin, it might indicate that the file was never in the cloud or has been permanently deleted. (If the data is stored in OneDrive, end-users can try using the OneDrive Restore feature themselves. For more information and instructions, please refer to the following link: https://support.microsoft.com/en-us/office/restore-your-onedrive-fa231298-759d-41cf-bcd0-25ac53eb8a15)
+1. **Confirm Last Visibility Time of File in Cloud**: If the last visible time of the file/folder in the cloud exceeds 14 days, attempt to recover it from the relevant SharePoint site's recycle bin. If the file is not in the recycle bin, it might indicate that the file was never in the cloud or has been permanently deleted. (If the data is stored in OneDrive, end-users can try using the OneDrive Restore feature themselves. For more information and instructions, please refer to the following link: https://support.microsoft.com/en-us/office/restore-your-onedrive-fa231298-759d-41cf-bcd0-25ac53eb8a15 and https://support.microsoft.com/en-us/office/restore-your-onedrive-5a3dc200-3537-49b6-9f51-09cd74bc962a)
 
 2. **Data Recovery within 14 Days**: If the file was lost less than 14 days ago, Microsoft backend services can help recover data from this period. For instance, the entire site can be restored to the state it was in on a specific previous date. Note that this will result in the loss of new data added after that date.
 
@@ -44,7 +44,7 @@ Please note, the success rate of file recovery depends on several factors, such 
 
 ## 云端数据恢复
 
-1. **确认文件在云端的最后可见时间**：如果文件/文件夹在云端最后一次可见的时间超过14天，可以尝试在相关SharePoint站点的回收站中查找并恢复。如果回收站中找不到，可能意味着文件未曾出现在云端，或者被永久删除。（如果数据是在OneDrive里面，那么可以让终端用户自行尝试OneDrive的Restore功能：https://support.microsoft.com/en-us/office/restore-your-onedrive-fa231298-759d-41cf-bcd0-25ac53eb8a15）
+1. **确认文件在云端的最后可见时间**：如果文件/文件夹在云端最后一次可见的时间超过14天，可以尝试在相关SharePoint站点的回收站中查找并恢复。如果回收站中找不到，可能意味着文件未曾出现在云端，或者被永久删除。（如果数据是在OneDrive里面，那么可以让终端用户自行尝试OneDrive的Restore功能：https://support.microsoft.com/en-us/office/restore-your-onedrive-fa231298-759d-41cf-bcd0-25ac53eb8a15 and https://support.microsoft.com/en-us/office/restore-your-onedrive-5a3dc200-3537-49b6-9f51-09cd74bc962a）
 
 2. **14天内数据恢复**：如果文件丢失时间小于14天，可以通过微软后台恢复这段时间内的数据。例如，可以将整个站点恢复到之前某个特定日期的状态。注意，这样做会导致该日期之后的新数据丢失。
 
