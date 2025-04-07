@@ -35,6 +35,17 @@ Not all code-level functions that are no longer actively developed will be publi
 
 Pls note, I'm just trying to give you a general idea, the actual table may not be accurate.  
 
+### 2.3 Recommendations for Customers Using Legacy Code/Features
+Some designs, though developed a decade ago, still maintain high usability. These codes have served effectively for up to 10 years, and while bugs may have emerged over time, they've been consistently maintained. We acknowledge the contributions of legacy code, but architectural evolution necessitates redevelopment.
+
+For customers using legacy code:
+1. **Modern Alternatives**: We recommend adopting newly developed replacements (Technologies that are generally deprecated are usually replaced or succeeded by newer ones)
+2. When issues arise in legacy code:
+   - Engineers will make best efforts to assist (including providing workarounds)
+   - Present all applicable technical solutions for customer selection
+   - Code-level bug fixes cannot be guaranteed
+3. For legacy features without alternatives, we do not recommend attempting to modify or reverse-engineer behavior through hacking methods in production/UAT environments
+
 ## 3. Staying Updated with Official Tech Updates  
 
 ### Real-Time Tracking Channels  
@@ -93,6 +104,14 @@ Take action now to keep your technology stack agile! 🚀
 
 请注意，我只是想给你一个大概念，实际表格可能不准确。  
 
+### 2.3 对使用老代码客户的建议
+有些设计虽是10年前开发的，但这些代码的可用性依然很高，有些代码已经效力了长达10年，虽然中途可能出现过bug但一直被维护到了现在，这些老代码都很有功劳，不过只是时代有了新的设计，需要重新开发，并且随着开发架构的改变，老代码退出历史舞台也在所难免。
+
+针对与正在使用老代码的客户：
+1. 我们肯定是建议使用新开发的平替方案（一般被deprecated的技术都会有更新的技术来替代或继任）
+2. 如果老代码出了问题我们工程师会尝试Best Efforts来协助客户解决问题，包括且不限于提供Workaround、将所有适用的技术方案摆上桌，让客户自己选择，但我们很难保证Bug会在Code-Level上修复
+3. 有些老旧的功能，当我们没有替代技术方案时，若客户想要通过hacking方式在prod/uat环境修改或逆向这些功能的行为，这是不推荐的
+
 ## 三、获取官方技术动态  
 
 ### 实时追踪渠道  
@@ -105,4 +124,4 @@ https://github.com/MicrosoftDocs/OfficeDocs-SharePoint/blob/public/SharePoint/Sh
 ## 结语  
 技术革新不是对过去的否定，而是为了构建更强大的数字未来。我们理解企业级系统迁移的复杂性，微软工程师团队始终准备通过快速支持计划为您提供架构评估、数据迁移和混合模式过渡支持。  
 
-立即行动，让您的技术栈保持敏捷！ 🚀  
+立即行动，让您的技术栈保持敏捷！ 🚀
