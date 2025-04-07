@@ -10,6 +10,7 @@ This article explores lifecycle management strategies for deprecated features an
 Legacy features (e.g., SharePoint Classic Views, legacy authentication) often come with critical limitations:  
 - **Performance Bottlenecks**: Inability to leverage modern hardware architecture (e.g., Expensive Queries in Classic pages)  
 - **Feature Gaps**: Lack of deep integration capabilities with emerging technologies  
+- **Investment Discontinuation**: The Product Group has stopped further investment  
 
 ### 1.2 Core Advantages of Modern Solutions  
 Modern implementations like SharePoint Modern experience:  
@@ -79,6 +80,7 @@ Take action now to keep your technology stack agile! 🚀
 老旧功能（如 SharePoint 经典视图、旧版身份验证等）往往存在以下局限性：  
 - **性能瓶颈**：无法充分利用现代硬件架构，老技术的设计瓶颈导致无法满足现代用户的需求（如Classic Expierence页面的Expensive Queries）  
 - **功能缺失**：无法拓展与新技术的深度集成  
+- **停止投入**：产品组已停止对老旧功能的进一步投资  
 
 ### 1.2 现代方案的核心优势  
 以 SharePoint 现代站点为例，它提供：  
