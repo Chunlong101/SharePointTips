@@ -15,7 +15,7 @@ Legacy features (e.g., SharePoint Classic Views, legacy authentication) often co
 Modern implementations like SharePoint Modern experience:  
 - **Enhanced UX**: Responsive design and a more contemporary user experience  
 - **Scalability**: Modern development standards that support broader integration and extensibility  
-- **Code Level Enhancements**: Continuous updates and improvements to the underlying codebase
+- **Code Level Enhancements**: Continuous updates and improvements to the underlying codebase, code-level technical support
 
 ## 2. Microsoft's Support Policy for Deprecated Features  
 
@@ -25,7 +25,7 @@ Modern implementations like SharePoint Modern experience:
 - **Feature Development**: All enhancements cease upon deprecation announcement  
 
 ### 2.2 Hidden Technical Debt  
-Not all unmaintained code receives official deprecation notices:  
+Not all code-level functions that are no longer actively developed will be publicly declared, which means Microsoft may not announce all code-level deprecated functions:  
 
 | Characteristic | Explicitly Deprecated | Hidden Tech Debt |  
 |----------------|-----------------------|------------------|  
@@ -73,6 +73,7 @@ Take action now to keep your technology stack agile! 🚀
 以 SharePoint 现代站点为例，它提供：  
 - **增强体验**：响应式设计、更现代的用户体验  
 - **可扩展性**：符合最新的开发标准，支持更广泛的集成和扩展 
+- **代码级别的增强**：持续更新和改进底层代码库，代码级别的技术支持
 
 ## 二、微软对已弃用功能的支持政策  
 
@@ -87,8 +88,10 @@ Take action now to keep your technology stack agile! 🚀
 | 特征 | 显性弃用功能 | 隐性技术债务 |  
 |-------|--------------|--------------|  
 | 官方公告 | ✅ 明确发布 | ❌ 无公告 |  
-| 代码活跃度 | 近1年无提交 | 近2年无维护 |  
+| 代码活跃度 | 近1年无提交 | 近1年无维护 |  
 | 替代方案 | 提供平替或者建议 | 需主动调研 |  
+
+请注意，我只是想给你一个大概念，实际表格可能不准确。  
 
 ## 三、获取官方技术动态  
 
