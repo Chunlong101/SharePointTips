@@ -26,7 +26,7 @@ Modern implementations like SharePoint Modern experience:
 - **Feature Development**: All enhancements cease upon deprecation announcement  
 
 ### 2.2 Hidden Technical Debt  
-Not all code-level functions that are no longer actively developed will be publicly declared, which means Microsoft may not announce all code-level deprecated functions:  
+Not all code-level functions that are no longer actively developed will be publicly declared, which means Microsoft may not announce all code-level deprecated functions. For instance, some customers are using Classic View features that haven't been officially deprecated but have been encouraged to transition to Modern View for a long time. During usage, if issues arise in Classic View, we may find that the code has indeed stopped receiving development investment:  
 
 | Characteristic | Explicitly Deprecated | Hidden Tech Debt |  
 |----------------|-----------------------|------------------|  
@@ -93,10 +93,10 @@ Take action now to keep your technology stack agile! 🚀
 ### 2.1 技术支持边界  
 - **代码级修复**：仅针对符合以下条件的已弃用功能：  
 ![alt text](image.png)
-- **功能增强**：自宣布弃用之日起，停止所有新功能开发  
+- **功能增强**：自宣布弃用之日起，停止所有的开发投入  
 
 ### 2.2 隐藏的技术债务  
-不是所有代码级别不再追加投入的类目都会被公开声明：  
+不是所有代码级别不再追加投入的类目都会被公开声明，也就是说，微软可能不会宣布所有代码级别的弃用。例如，有客户正在使用一些Classic View的功能（还未被官宣正式弃用的，但微软很早就鼓励使用Modern View的，这些未被官宣的代码也或被停止开发投入），在使用过程中发现Classic View当中有些小的问题，经调试和调查之后我们确定和证实了该段代码已经停止开发投入：  
 
 | 特征 | 显性弃用功能 | 隐性技术债务 |  
 |-------|--------------|--------------|  
