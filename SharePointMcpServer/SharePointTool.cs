@@ -4,7 +4,7 @@ namespace SharePointMcpServer
 {
     public class SharePointTool
     {
-        [McpTool(name: "get_sharepoint_lists", Description = "获取SharePoint站点的所有列表")]
+        [McpTool(name: "get_sharepoint_lists", Description = "Get SharePoint site lists")]
         public static async Task<string> GetSharePointLists()
         {
             try
@@ -25,7 +25,7 @@ namespace SharePointMcpServer
             }
         }
 
-        [McpTool(name: "get_sharepoint_listitems", Description = "获取SharePoint站点列表中的所有项目")]
+        [McpTool(name: "get_sharepoint_listitems", Description = "Get SharePoint list items")]
         public static async Task<string> GetSharePointListItems([McpParameter(required: true, description: "SharePoint list id")] string ListId)
         {
             try
