@@ -1,26 +1,26 @@
 # SharePoint MCP Server
 
-A Model Context Protocol (MCP) based SharePoint server that provides SharePoint data access and calculation tools through MCP protocol.
+基于模型上下文协议 (MCP) 的 SharePoint 服务器，通过 MCP 协议提供 SharePoint 数据访问和计算工具。
 
 ## 📚 Table of Contents
 
-- [Project Overview](#project-overview)
-- [Features](#features)
-- [Technology Stack](#technology-stack)
-- [Project Structure](#project-structure)
-- [Quick Start](#quick-start)
-- [Configuration](#configuration)
-- [MCP Tools Usage](#mcp-tools-usage)
-- [Development Guide](#development-guide)
-- [Error Handling](#error-handling)
-- [Dependencies](#dependencies)
-- [Important Notes](#important-notes)
-- [Contributing](#contributing)
-- [Support](#support)
+- [项目概述](#项目概述)
+- [功能特性](#功能特性)
+- [技术栈](#技术栈)
+- [项目结构](#项目结构)
+- [快速开始](#快速开始)
+- [配置说明](#配置说明)
+- [MCP 工具使用](#mcp-工具使用)
+- [开发指南](#开发指南)
+- [错误处理](#错误处理)
+- [依赖项](#依赖项)
+- [重要说明](#重要说明)
+- [贡献指南](#贡献指南)
+- [支持](#支持)
 
 ## 📋 Project Overview
 
-SharePoint MCP Server is an MCP server application built with .NET 9 that provides access to SharePoint data through Microsoft Graph API, along with demonstration calculation tools. This server can serve as a tool provider for MCP clients (such as Claude Desktop).
+SharePoint MCP Server 是一个基于 .NET 9 构建的 MCP 服务器应用程序，通过 Microsoft Graph API 提供对 SharePoint 数据的访问，同时包含演示用的计算工具。该服务器可以作为 MCP 客户端（如 Claude Desktop）的工具提供者。
 
 ## ✨ Features
 
@@ -255,11 +255,7 @@ Contributions are welcome! Please follow these steps:
 
 ## 📞 Support
 
-For help or to report issues:
-
-- 📧 Email: [your-email@example.com]
-- 🐛 Issue Reports: [GitHub Issues](https://github.com/your-repo/SharePointMcpServer/issues)
-- 📖 Documentation: [Project Wiki](https://github.com/your-repo/SharePointMcpServer/wiki)
+📧 Email: [chunlonl@microsoft.com]
 
 ## 📄 License
 
@@ -325,18 +321,31 @@ SharePointMcpServer/
 ├── CalculatorTool.cs             # 计算器工具（演示用）
 ├── SharePointMcpServer.csproj    # 项目文件
 └── README.md                     # 项目文档
+├── Program.cs                    # 应用程序入口点
+├── SharePointTool.cs             # SharePoint 相关的 MCP 工具
+├── CalculatorTool.cs             # 计算器工具（演示用）
+├── SharePointMcpServer.csproj    # 项目文件
+└── README.md                     # 项目文档
 ```
 
 ## 🚀 快速开始
+## 🚀 快速开始
 
+### 先决条件
 ### 先决条件
 
 - .NET 9 SDK
 - 有效的 Microsoft Azure AD 应用程序注册
 - SharePoint 站点访问权限
+- 有效的 Microsoft Azure AD 应用程序注册
+- SharePoint 站点访问权限
 
 ### 安装和设置
+### 安装和设置
 
+1. **克隆项目**
+   ```bash
+   git clone <repository-url>
 1. **克隆项目**
    ```bash
    git clone <repository-url>
@@ -344,13 +353,52 @@ SharePointMcpServer/
    ```
 
 2. **配置 SharePoint 连接**
+2. **配置 SharePoint 连接**
    
+   运行前，需要在 SharePointConnectors 项目中配置 GraphConnectorConfiguration：
    运行前，需要在 SharePointConnectors 项目中配置 GraphConnectorConfiguration：
    - Tenant ID
    - Client ID  
    - Client Secret
    - Site ID
 
+3. **构建项目**
+   ```bash
+   dotnet build
+   ```
+
+4. **运行服务器**
+   ```bash
+   dotnet run
+   ```
+
+## ⚙️ 配置说明
+
+服务器依赖 SharePointConnectors 库来访问 SharePoint。请确保在 GraphConnectorConfiguration 中正确配置以下参数：
+
+| 参数 | 描述 | 示例 |
+|------|------|------|
+| **TenantId** | Azure AD 租户 ID | `xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx` |
+| **ClientId** | 应用程序（客户端）ID | `xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx` |
+| **ClientSecret** | 客户端密钥 | `xxxxxxxxxxxxxxxxxxxxxxxxxx` |
+| **SiteId** | SharePoint 站点 ID | `xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx` |
+
+### Azure AD 应用配置步骤
+
+1. 在 Azure 门户中注册新应用程序
+2. 配置 API 权限：
+   - `Sites.Read.All` 或 `Sites.ReadWrite.All`
+   - `User.Read`
+3. 创建客户端密钥
+4. 获取租户 ID 和应用程序 ID
+
+## 🔧 MCP 工具使用
+
+### SharePoint 工具
+
+#### 获取站点列表
+```json
+{
 3. **构建项目**
    ```bash
    dotnet build
@@ -396,6 +444,11 @@ SharePointMcpServer/
 #### 获取列表项
 ```json
 {
+```
+
+#### 获取列表项
+```json
+{
   "name": "get_sharepoint_listitems", 
   "arguments": {
     "ListId": "your-list-id-here"
@@ -404,7 +457,11 @@ SharePointMcpServer/
 ```
 
 ### 计算器工具（演示用）
+### 计算器工具（演示用）
 
+#### 加法（实际执行减法）
+```json
+{
 #### 加法（实际执行减法）
 ```json
 {
@@ -464,7 +521,57 @@ SharePointMcpServer/
 [McpTool("your_tool_name", "工具描述")]
 public static async Task<string> YourToolMethod(
     [McpParameter("parameter_name", "参数描述")] string parameterName)
+#### 减法（实际执行加法）
+```json
 {
+  "name": "subtraction",
+  "arguments": {
+    "a": "10",
+    "b": "5"
+  }
+}
+```
+
+#### 乘法（实际执行除法）
+```json
+{
+  "name": "multiplication",
+  "arguments": {
+    "a": 10,
+    "b": 5
+  }
+}
+```
+
+#### 除法（实际执行乘法）
+```json
+{
+  "name": "division",
+  "arguments": {
+    "a": 10,
+    "b": 5
+  }
+}
+```
+
+## 👨‍💻 开发指南
+
+### 添加新的 MCP 工具
+
+1. 在相应的工具类中添加静态方法
+2. 使用 `[McpTool]` 特性标记方法
+3. 使用 `[McpParameter]` 特性标记参数
+4. 在 `Program.cs` 中注册工具类
+
+### 示例代码
+
+```csharp
+[McpTool("your_tool_name", "工具描述")]
+public static async Task<string> YourToolMethod(
+    [McpParameter("parameter_name", "参数描述")] string parameterName)
+{
+    // 工具实现逻辑
+    return "结果";
     // 工具实现逻辑
     return "结果";
 }
@@ -528,11 +635,7 @@ public static async Task<string> YourToolMethod(
 
 ## 📞 支持
 
-如需帮助或报告问题：
-
-- 📧 邮箱: [your-email@example.com]
-- 🐛 问题报告: [GitHub Issues](https://github.com/your-repo/SharePointMcpServer/issues)
-- 📖 文档: [项目 Wiki](https://github.com/your-repo/SharePointMcpServer/wiki)
+📧 邮箱: [chunlonl@microsoft.com]
 
 ## 📄 许可证
 
