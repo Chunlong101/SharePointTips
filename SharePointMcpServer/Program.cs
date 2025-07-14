@@ -6,8 +6,8 @@ namespace SharePointMcpServer
     {
         static async Task Main(string[] args)
         {
-            MCPServer.RegisterTool<CalculatorTool>();
-            MCPServer.RegisterTool<SharePointTool>();
+            MCPServer.Register<CalculatorTool>();
+            MCPServer.Register<SharePointTool>();
             await MCPServer.StartAsync("SharePoint MCP Server", "1.0.0");
         }
     }
