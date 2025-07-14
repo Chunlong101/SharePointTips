@@ -2,11 +2,29 @@
 
 A .NET library for connecting and manipulating Microsoft SharePoint through Microsoft Graph API, providing SharePoint data access functionality.
 
-## Project Overview
+## 📋 Table of Contents
+
+- [Project Overview](#project-overview)
+- [Key Features](#key-features)
+- [Technology Stack](#technology-stack)
+- [Project Structure](#project-structure)
+- [Quick Start](#quick-start)
+- [API Reference](#api-reference)
+- [Advanced Usage](#advanced-usage)
+- [Configuration Requirements](#configuration-requirements)
+- [Thread Safety](#thread-safety)
+- [Caching Mechanism](#caching-mechanism)
+- [Troubleshooting](#troubleshooting)
+- [Dependencies](#dependencies)
+- [Version History](#version-history)
+- [Contributing](#contributing)
+- [Support](#support)
+
+## 🎯 Project Overview
 
 SharePointConnectors is a .NET class library specifically designed for SharePoint integration, providing a clean, efficient, and thread-safe SharePoint data access interface. This library encapsulates the complexity of Microsoft Graph API and provides intelligent caching, automatic authentication, and error handling features.
 
-## Key Features
+## ✨ Key Features
 
 ### 🚀 Core Features
 - **Azure AD Authentication**: OAuth 2.0 client credentials flow authentication
@@ -26,27 +44,26 @@ SharePointConnectors is a .NET class library specifically designed for SharePoin
 - Smart caching mechanisms
 - Configurable request timeouts
 
-## Technology Stack
+## 🛠️ Technology Stack
 
 - **.NET 9**: Latest .NET framework
 - **RestSharp** (v112.1.0): HTTP client library
 - **System.Text.Json**: JSON serialization/deserialization
 
-## Project Structure
+## 📁 Project Structure
 SharePointConnectors/
 ├── GraphConnector.cs                    # Main connector class
 ├── SharePointConnectors.csproj          # Project file
 └── README.md                           # Project documentation
-## Quick Start
+## 🚀 Quick Start
 
 ### Installation
 
-Add project reference:<ProjectReference Include="path/to/SharePointConnectors.csproj" />
-Or install as NuGet package (if published):dotnet add package SharePointConnectors
+**Add project reference:**<ProjectReference Include="path/to/SharePointConnectors.csproj" />
+**Or install as NuGet package (if published):**dotnet add package SharePointConnectors
 ### Basic Usage
 
-#### 1. Configure Connector
-using SharePointConnectors;
+#### 1. Configure Connectorusing SharePointConnectors;
 
 // Configure connection parameters
 GraphConnector.Configure(config =>
@@ -57,8 +74,7 @@ GraphConnector.Configure(config =>
     config.SiteId = "your-site-id";
     config.RequestTimeout = TimeSpan.FromMinutes(2);
 });
-#### 2. Get Access Token
-// Get token using default configuration
+#### 2. Get Access Token// Get token using default configuration
 string token = await GraphConnector.GetAccessTokenAsync();
 
 // Or specify custom parameters
@@ -67,8 +83,7 @@ string token = await GraphConnector.GetAccessTokenAsync(
     clientId: "custom-client-id", 
     clientSecret: "custom-client-secret"
 );
-#### 3. Get SharePoint Site Lists
-// Using default configuration
+#### 3. Get SharePoint Site Lists// Using default configuration
 string listsJson = await GraphConnector.GetSiteListsAsync();
 
 // Or specify parameters
@@ -76,8 +91,7 @@ string listsJson = await GraphConnector.GetSiteListsAsync(
     accessToken: token,
     siteId: "specific-site-id"
 );
-#### 4. Get List Items
-string listItemsJson = await GraphConnector.GetListItemsAsync("list-id");
+#### 4. Get List Itemsstring listItemsJson = await GraphConnector.GetListItemsAsync("list-id");
 
 // With full parameters
 string listItemsJson = await GraphConnector.GetListItemsAsync(
@@ -85,7 +99,7 @@ string listItemsJson = await GraphConnector.GetListItemsAsync(
     accessToken: token,
     siteId: "your-site-id"
 );
-## API Reference
+## 📚 API Reference
 
 ### GraphConnectorConfiguration
 
@@ -101,27 +115,14 @@ public class GraphConnectorConfiguration
 }
 ### GraphConnector Main Methods
 
-#### Configure(Action\<GraphConnectorConfiguration\> configure)
-Configure connector settings
-
-#### GetAccessTokenAsync(string? tenantId, string? clientId, string? clientSecret)
-Get or refresh Azure AD access token
-- Returns: `Task<string>` - Access token
-
-#### GetSiteListsAsync(string? accessToken, string? siteId)  
-Get all lists in SharePoint site
-- Returns: `Task<string>` - JSON string containing list information
-
-#### GetListItemsAsync(string listId, string? accessToken, string? siteId)
-Get all items in SharePoint list
-- Parameters: `listId` - Required list ID
-- Returns: `Task<string>` - JSON string containing list items
-
-#### ClearTokenCache()
-Clear all cached access tokens
-
-#### Dispose()
-Release HTTP client resources
+| Method | Description | Returns |
+|--------|-------------|---------|
+| `Configure(Action<GraphConnectorConfiguration>)` | Configure connector settings | `void` |
+| `GetAccessTokenAsync(string?, string?, string?)` | Get or refresh Azure AD access token | `Task<string>` |
+| `GetSiteListsAsync(string?, string?)` | Get all lists in SharePoint site | `Task<string>` |
+| `GetListItemsAsync(string, string?, string?)` | Get all items in SharePoint list | `Task<string>` |
+| `ClearTokenCache()` | Clear all cached access tokens | `void` |
+| `Dispose()` | Release HTTP client resources | `void` |
 
 ### Exception Handling
 
@@ -132,14 +133,12 @@ public class GraphConnectorException : Exception
     public HttpStatusCode? StatusCode { get; }      // HTTP Status Code
     public string? ResponseContent { get; }         // HTTP Response Content
 }
-## Advanced Usage
+## 🔧 Advanced Usage
 
-### Multi-Tenant Support
-// Get tokens for different tenants
+### Multi-Tenant Support// Get tokens for different tenants
 var tenant1Token = await GraphConnector.GetAccessTokenAsync("tenant1-id", "client1-id", "secret1");
 var tenant2Token = await GraphConnector.GetAccessTokenAsync("tenant2-id", "client2-id", "secret2");
-### Error Handling Best Practices
-try
+### Error Handling Best Practicestry
 {
     var lists = await GraphConnector.GetSiteListsAsync();
     // Handle successful response
@@ -161,7 +160,7 @@ catch (ArgumentException ex)
 3. **Token Caching**: Library automatically caches tokens, no manual management needed
 4. **Resource Cleanup**: Call `GraphConnector.Dispose()` when application ends
 
-## Configuration Requirements
+## ⚙️ Configuration Requirements
 
 ### Azure AD App Registration
 
@@ -176,14 +175,14 @@ catch (ArgumentException ex)
 
 Ensure the registered application has permission to access the target SharePoint site.
 
-## Thread Safety
+## 🔐 Thread Safety
 
 This library is completely thread-safe and can be used safely in multi-threaded environments:
 - Uses `ConcurrentDictionary` to manage token cache
 - HTTP client instances are thread-safe
 - All public methods can be called concurrently
 
-## Caching Mechanism
+## 💾 Caching Mechanism
 
 ### Token Caching
 - Automatically cache access tokens
@@ -196,21 +195,15 @@ This library is completely thread-safe and can be used safely in multi-threaded 
 - Separately cache authentication client and Graph API client
 - Automatically reuse connections for better performance
 
-## Troubleshooting
+## 🔍 Troubleshooting
 
 ### Common Issues
 
-1. **Authentication Failure**
-   - Check Tenant ID, Client ID, and Client Secret
-   - Confirm application has necessary API permissions
-
-2. **Site Access Failure**
-   - Verify Site ID is correct
-   - Confirm application has access permissions to the site
-
-3. **Timeout Errors**
-   - Adjust `RequestTimeout` settings
-   - Check network connectivity
+| Issue | Solution |
+|-------|----------|
+| **Authentication Failure** | Check Tenant ID, Client ID, and Client Secret. Confirm application has necessary API permissions |
+| **Site Access Failure** | Verify Site ID is correct. Confirm application has access permissions to the site |
+| **Timeout Errors** | Adjust `RequestTimeout` settings. Check network connectivity |
 
 ### Debugging Tips
 
@@ -226,23 +219,19 @@ catch (GraphConnectorException ex)
     Console.WriteLine($"HTTP Status: {ex.StatusCode}");
     Console.WriteLine($"Response Content: {ex.ResponseContent}");
 }
-## Dependencies
+## 📦 Dependencies
 
 - **RestSharp** (112.1.0): HTTP client library
 - **.NET 9**: Target framework
 
-## Version History
+## 📝 Version History
 
 - **1.0.0**: Initial version
   - Basic SharePoint connectivity features
   - Token caching and management
   - Error handling mechanisms
 
-## License
-
-...
-
-## Contributing
+## 🤝 Contributing
 
 Contributions are welcome! Please follow these steps:
 
@@ -251,25 +240,41 @@ Contributions are welcome! Please follow these steps:
 3. Commit your changes
 4. Create a Pull Request
 
-## Support
+## 📞 Support
 
 For questions or suggestions, please contact: chunlonl@microsoft.com
 
 ---
 
-**Note**: Please keep your client secrets and other sensitive information secure and do not commit them to version control systems.
-
----
+## 中文文档
 
 # SharePointConnectors
 
 一个用于连接和操作 Microsoft SharePoint 的 .NET 库，通过 Microsoft Graph API 提供 SharePoint 数据访问功能。
 
-## 项目概述
+## 📋 目录
+
+- [项目概述](#项目概述)
+- [主要特性](#主要特性)
+- [技术栈](#技术栈-1)
+- [项目结构](#项目结构-1)
+- [快速开始](#快速开始-1)
+- [API 参考](#api-参考)
+- [高级用法](#高级用法)
+- [配置要求](#配置要求)
+- [线程安全](#线程安全)
+- [缓存机制](#缓存机制)
+- [故障排除](#故障排除)
+- [依赖项](#依赖项-1)
+- [版本历史](#版本历史)
+- [贡献](#贡献-1)
+- [支持](#支持-1)
+
+## 🎯 项目概述
 
 SharePointConnectors 是一个专为 SharePoint 集成而设计的 .NET 类库，提供了简洁、高效、线程安全的 SharePoint 数据访问接口。该库封装了 Microsoft Graph API 的复杂性，提供了智能缓存、自动认证和错误处理等功能。
 
-## 主要特性
+## ✨ 主要特性
 
 ### 🚀 核心功能
 - **Azure AD 身份验证**: OAuth 2.0 客户端凭据流认证
@@ -289,23 +294,23 @@ SharePointConnectors 是一个专为 SharePoint 集成而设计的 .NET 类库�
 - 智能缓存机制
 - 可配置的请求超时
 
-## 技术栈
+## 🛠️ 技术栈
 
 - **.NET 9**: 最新的 .NET 框架
 - **RestSharp** (v112.1.0): HTTP 客户端库
 - **System.Text.Json**: JSON 序列化/反序列化
 
-## 项目结构
+## 📁 项目结构
 SharePointConnectors/
 ├── GraphConnector.cs                    # 主要连接器类
 ├── SharePointConnectors.csproj          # 项目文件
 └── README.md                           # 项目文档
-## 快速开始
+## 🚀 快速开始
 
 ### 安装
 
-添加项目引用：<ProjectReference Include="path/to/SharePointConnectors.csproj" />
-或作为 NuGet 包安装（如果已发布）：dotnet add package SharePointConnectors
+**添加项目引用：**<ProjectReference Include="path/to/SharePointConnectors.csproj" />
+**或作为 NuGet 包安装（如果已发布）：**dotnet add package SharePointConnectors
 ### 基本使用
 
 #### 1. 配置连接器
@@ -348,7 +353,7 @@ string listItemsJson = await GraphConnector.GetListItemsAsync(
     accessToken: token,
     siteId: "your-site-id"
 );
-## API 参考
+## 📚 API 参考
 
 ### GraphConnectorConfiguration
 
@@ -364,27 +369,14 @@ public class GraphConnectorConfiguration
 }
 ### GraphConnector 主要方法
 
-#### Configure(Action\<GraphConnectorConfiguration\> configure)
-配置连接器设置
-
-#### GetAccessTokenAsync(string? tenantId, string? clientId, string? clientSecret)
-获取或刷新 Azure AD 访问令牌
-- 返回: `Task<string>` - 访问令牌
-
-#### GetSiteListsAsync(string? accessToken, string? siteId)  
-获取 SharePoint 站点中的所有列表
-- 返回: `Task<string>` - 包含列表信息的 JSON 字符串
-
-#### GetListItemsAsync(string listId, string? accessToken, string? siteId)
-获取 SharePoint 列表中的所有项目
-- 参数: `listId` - 必需的列表 ID
-- 返回: `Task<string>` - 包含列表项的 JSON 字符串
-
-#### ClearTokenCache()
-清除所有缓存的访问令牌
-
-#### Dispose()
-释放 HTTP 客户端资源
+| 方法 | 描述 | 返回值 |
+|------|------|--------|
+| `Configure(Action<GraphConnectorConfiguration>)` | 配置连接器设置 | `void` |
+| `GetAccessTokenAsync(string?, string?, string?)` | 获取或刷新 Azure AD 访问令牌 | `Task<string>` |
+| `GetSiteListsAsync(string?, string?)` | 获取 SharePoint 站点中的所有列表 | `Task<string>` |
+| `GetListItemsAsync(string, string?, string?)` | 获取 SharePoint 列表中的所有项目 | `Task<string>` |
+| `ClearTokenCache()` | 清除所有缓存的访问令牌 | `void` |
+| `Dispose()` | 释放 HTTP 客户端资源 | `void` |
 
 ### 异常处理
 
@@ -395,7 +387,7 @@ public class GraphConnectorException : Exception
     public HttpStatusCode? StatusCode { get; }      // HTTP 状态码
     public string? ResponseContent { get; }         // HTTP 响应内容
 }
-## 高级用法
+## 🔧 高级用法
 
 ### 多租户支持
 // 为不同租户获取令牌
@@ -424,7 +416,7 @@ catch (ArgumentException ex)
 3. **令牌缓存**: 库自动缓存令牌，无需手动管理
 4. **资源清理**: 应用程序结束时调用 `GraphConnector.Dispose()`
 
-## 配置要求
+## ⚙️ 配置要求
 
 ### Azure AD 应用注册
 
@@ -439,14 +431,14 @@ catch (ArgumentException ex)
 
 确保注册的应用程序具有访问目标 SharePoint 站点的权限。
 
-## 线程安全
+## 🔐 线程安全
 
 该库完全线程安全，可以在多线程环境中安全使用：
 - 使用 `ConcurrentDictionary` 管理令牌缓存
 - HTTP 客户端实例是线程安全的
 - 所有公共方法都可以并发调用
 
-## 缓存机制
+## 💾 缓存机制
 
 ### 令牌缓存
 - 自动缓存访问令牌
@@ -459,21 +451,15 @@ catch (ArgumentException ex)
 - 分别缓存认证客户端和 Graph API 客户端
 - 自动复用连接以提高性能
 
-## 故障排除
+## 🔍 故障排除
 
 ### 常见问题
 
-1. **认证失败**
-   - 检查租户 ID、客户端 ID 和客户端密钥
-   - 确认应用程序具有必要的 API 权限
-
-2. **站点访问失败**
-   - 验证站点 ID 是否正确
-   - 确认应用程序对站点的访问权限
-
-3. **超时错误**
-   - 调整 `RequestTimeout` 设置
-   - 检查网络连接
+| 问题 | 解决方案 |
+|------|----------|
+| **认证失败** | 检查租户 ID、客户端 ID 和客户端密钥。确认应用程序具有必要的 API 权限 |
+| **站点访问失败** | 验证站点 ID 是否正确。确认应用程序对站点的访问权限 |
+| **超时错误** | 调整 `RequestTimeout` 设置。检查网络连接 |
 
 ### 调试建议
 
@@ -489,23 +475,19 @@ catch (GraphConnectorException ex)
     Console.WriteLine($"HTTP 状态: {ex.StatusCode}");
     Console.WriteLine($"响应内容: {ex.ResponseContent}");
 }
-## 依赖项
+## 📦 依赖项
 
 - **RestSharp** (112.1.0): HTTP 客户端库
 - **.NET 9**: 目标框架
 
-## 版本历史
+## 📝 版本历史
 
 - **1.0.0**: 初始版本
   - 基本的 SharePoint 连接功能
   - 令牌缓存和管理
   - 错误处理机制
 
-## 许可证
-
-。。。
-
-## 贡献
+## 🤝 贡献
 
 欢迎贡献代码！请遵循以下步骤：
 
@@ -514,7 +496,7 @@ catch (GraphConnectorException ex)
 3. 提交更改
 4. 创建 Pull Request
 
-## 支持
+## 📞 支持
 
 如有问题或建议，请通过以下方式联系：chunlonl@microsoft.com
 
