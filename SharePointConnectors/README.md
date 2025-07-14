@@ -1,34 +1,6 @@
 ﻿# SharePointConnectors
 
-[![.NET](https://img.shields.io/badge/.NET-9.0-blue.svg)](https://dotnet.microsoft.com/)
-[![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
-[![RestSharp](https://img.shields.io/badge/RestSharp-112.1.0-orange.svg)](https://restsharp.dev/)
-
-一个高性能、线程安全的 .NET 库，通过 Microsoft Graph API 提供 SharePoint 数据访问功能。支持智能缓存、自动认证和完善的错误处理机制。
-
 A high-performance, thread-safe .NET library for accessing SharePoint data through Microsoft Graph API, featuring intelligent caching, automatic authentication, and comprehensive error handling.
-
-## 📋 目录 | Table of Contents
-
-**[🇨🇳 中文文档](#中文文档)**
-- [项目概述](#项目概述)
-- [主要特性](#主要特性)
-- [快速开始](#快速开始-1)
-- [API 参考](#api-参考)
-- [配置要求](#配置要求)
-- [故障排除](#故障排除)
-
-**[🇺🇸 English Documentation](#english-documentation)**
-- [Project Overview](#project-overview)
-- [Key Features](#key-features)
-- [Quick Start](#quick-start)
-- [API Reference](#api-reference)
-- [Configuration Requirements](#configuration-requirements)
-- [Troubleshooting](#troubleshooting)
-
----
-
-## 🇺🇸 English Documentation
 
 ## 🎯 Project Overview
 
@@ -364,24 +336,6 @@ For questions or suggestions, please contact: chunlonl@microsoft.com
 # SharePointConnectors
 
 一个用于连接和操作 Microsoft SharePoint 的 .NET 库，通过 Microsoft Graph API 提供 SharePoint 数据访问功能。
-
-## 📋 目录
-
-- [项目概述](#项目概述)
-- [主要特性](#主要特性)
-- [技术栈](#技术栈-1)
-- [项目结构](#项目结构-1)
-- [快速开始](#快速开始-1)
-- [API 参考](#api-参考)
-- [高级用法](#高级用法)
-- [配置要求](#配置要求)
-- [线程安全](#线程安全)
-- [缓存机制](#缓存机制)
-- [故障排除](#故障排除)
-- [依赖项](#依赖项-1)
-- [版本历史](#版本历史)
-- [贡献](#贡献-1)
-- [支持](#支持-1)
 
 ## 🎯 项目概述
 
