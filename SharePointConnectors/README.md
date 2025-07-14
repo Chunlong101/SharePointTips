@@ -296,10 +296,14 @@ SharePointConnectors 是一个专为 SharePoint 集成而设计的 .NET 类库�
 - **System.Text.Json**: JSON 序列化/反序列化
 
 ## 项目结构
+
+```
 SharePointConnectors/
 ├── GraphConnector.cs                    # 主要连接器类
 ├── SharePointConnectors.csproj          # 项目文件
 └── README.md                           # 项目文档
+```
+
 ## 快速开始
 
 ### 安装
@@ -309,6 +313,8 @@ SharePointConnectors/
 ### 基本使用
 
 #### 1. 配置连接器
+
+```csharp
 using SharePointConnectors;
 
 // 配置连接参数
@@ -320,7 +326,11 @@ GraphConnector.Configure(config =>
     config.SiteId = "your-site-id";
     config.RequestTimeout = TimeSpan.FromMinutes(2);
 });
+```
+
 #### 2. 获取访问令牌
+
+```csharp
 // 使用默认配置获取令牌
 string token = await GraphConnector.GetAccessTokenAsync();
 
@@ -330,7 +340,11 @@ string token = await GraphConnector.GetAccessTokenAsync(
     clientId: "custom-client-id", 
     clientSecret: "custom-client-secret"
 );
+```
+
 #### 3. 获取 SharePoint 站点列表
+
+```csharp
 // 使用默认配置
 string listsJson = await GraphConnector.GetSiteListsAsync();
 
@@ -339,7 +353,11 @@ string listsJson = await GraphConnector.GetSiteListsAsync(
     accessToken: token,
     siteId: "specific-site-id"
 );
+```
+
 #### 4. 获取列表项
+
+```csharp
 string listItemsJson = await GraphConnector.GetListItemsAsync("list-id");
 
 // 带完整参数
@@ -348,11 +366,15 @@ string listItemsJson = await GraphConnector.GetListItemsAsync(
     accessToken: token,
     siteId: "your-site-id"
 );
+```
+
 ## API 参考
 
 ### GraphConnectorConfiguration
 
 配置类，包含所有必要的连接参数：
+
+```csharp
 public class GraphConnectorConfiguration
 {
     public string TenantId { get; set; }           // Azure AD 租户 ID
@@ -362,6 +384,8 @@ public class GraphConnectorConfiguration
     public TimeSpan TokenCacheTimeout { get; set; } // 令牌缓存超时时间
     public TimeSpan RequestTimeout { get; set; }    // 请求超时时间
 }
+```
+
 ### GraphConnector 主要方法
 
 #### Configure(Action\<GraphConnectorConfiguration\> configure)
@@ -390,18 +414,28 @@ public class GraphConnectorConfiguration
 
 #### GraphConnectorException
 自定义异常类，提供详细的错误信息：
+
+```csharp
 public class GraphConnectorException : Exception
 {
     public HttpStatusCode? StatusCode { get; }      // HTTP 状态码
     public string? ResponseContent { get; }         // HTTP 响应内容
 }
+```
+
 ## 高级用法
 
 ### 多租户支持
+
+```csharp
 // 为不同租户获取令牌
 var tenant1Token = await GraphConnector.GetAccessTokenAsync("tenant1-id", "client1-id", "secret1");
 var tenant2Token = await GraphConnector.GetAccessTokenAsync("tenant2-id", "client2-id", "secret2");
+```
+
 ### 错误处理最佳实践
+
+```csharp
 try
 {
     var lists = await GraphConnector.GetSiteListsAsync();
@@ -417,6 +451,8 @@ catch (ArgumentException ex)
 {
     Console.WriteLine($"参数错误: {ex.Message}");
 }
+```
+
 ### 性能优化建议
 
 1. **复用连接器**: GraphConnector 是静态类，自动复用 HTTP 客户端
@@ -478,6 +514,8 @@ catch (ArgumentException ex)
 ### 调试建议
 
 启用详细日志记录以获取更多调试信息：
+
+```csharp
 try
 {
     var result = await GraphConnector.GetSiteListsAsync();
@@ -489,6 +527,8 @@ catch (GraphConnectorException ex)
     Console.WriteLine($"HTTP 状态: {ex.StatusCode}");
     Console.WriteLine($"响应内容: {ex.ResponseContent}");
 }
+```
+
 ## 依赖项
 
 - **RestSharp** (112.1.0): HTTP 客户端库

@@ -21,6 +21,7 @@ A console application that demonstrates MCP (Model Context Protocol) integration
 1. **Install dependencies:**dotnet restore
 2. **Configure server path in `Program.cs`:**var serverPath = "path/to/SharePointMcpServer.exe";
 3. **Run the application:**dotnet run
+
 ## Available Tools
 
 - **Math Operations**: `addition`, `subtraction`, `multiplication`, `division`

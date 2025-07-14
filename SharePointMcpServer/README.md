@@ -164,12 +164,16 @@ SharePoint MCP Server 是一个使用 .NET 9 构建的 MCP 服务器应用程序，它通过 Micros
 - **SharePointConnectors**: 自定义的 SharePoint 连接器库
 
 ## 项目结构
+
+```
 SharePointMcpServer/
 ├── Program.cs              # 应用程序入口点
 ├── SharePointTool.cs       # SharePoint 相关的 MCP 工具
 ├── CalculatorTool.cs       # 计算工具（演示用）
 ├── SharePointMcpServer.csproj  # 项目文件
 └── README.md              # 项目文档
+```
+
 ## 快速开始
 
 ### 前置要求
@@ -182,6 +186,8 @@ SharePointMcpServer/
 
 1. **克隆项目**git clone <repository-url>
    cd SharePointMcpServer
+   ```
+
 2. **配置 SharePoint 连接**
    
    在运行前，需要配置 SharePointConnectors 项目中的 GraphConnectorConfiguration：
@@ -206,6 +212,8 @@ SharePointMcpServer/
     "ListId": "your-list-id-here"
   }
 }
+```
+
 ### 计算工具（演示用）
 
 #### 加法（实际执行减法）{
@@ -215,6 +223,8 @@ SharePointMcpServer/
     "b": "5" 
   }
 }
+```
+
 ## 配置说明
 
 服务器依赖于 SharePointConnectors 库进行 SharePoint 访问。确保在 GraphConnectorConfiguration 中配置正确的：
@@ -252,6 +262,8 @@ public static string MyTool([McpParameter(required: true, description: "Input pa
 {
     return $"Processed: {input}";
 }
+```
+
 ## 注意事项
 
 - 计算工具中的实现是故意错误的，用于演示目的
