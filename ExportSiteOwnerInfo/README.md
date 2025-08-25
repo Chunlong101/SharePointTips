@@ -4,8 +4,7 @@
 
 ![csv-sample](image-1.png)
 
-This folder contains PowerShell tooling to export ownership and membership related data for one or all SharePoint Online site collections into a CSV file.  
-The modern (certificate‑based application) implementation lives in `GetSiteOwnerInfo.ps1` and exposes reusable functions (prefixed with `Get-SPO*` plus a backward compatible wrapper `GetSiteOwnerInfo`).
+This folder contains PowerShell tooling to export ownership and membership related data for one or all SharePoint Online site collections into a CSV file. The modern (certificate‑based application) implementation lives in `GetSiteOwnerInfo.ps1` and exposes reusable functions (prefixed with `Get-SPO*` plus a backward compatible wrapper `GetSiteOwnerInfo`).
 
 ## What the script collects
 
