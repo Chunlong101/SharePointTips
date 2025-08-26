@@ -100,8 +100,9 @@ function Get-SPOSiteMembership {
     Write-Verbose "[Get-SPOSiteMembership] Enumerating membership for $SiteUrl"
 
     # Site Collection Admins
-    $siteAdminsEmails   = @()
-    $siteAdmins         = Get-PnPSiteCollectionAdmin
+    $siteAdminsEmails        = @()
+    $siteAdminsDisplayNames  = @()
+    $siteAdmins              = Get-PnPSiteCollectionAdmin
     if ($siteAdmins) {
         Write-Verbose "[Get-SPOSiteMembership] Found $($siteAdmins.Count) site collection admin entries."
     } else {
@@ -117,7 +118,8 @@ function Get-SPOSiteMembership {
     }
 
     # Owners
-    $siteOwnersEmails = @()
+    $siteOwnersEmails        = @()
+    $siteOwnersDisplayNames  = @()
     $siteOwnersGroup  = Get-PnPGroup -AssociatedOwnerGroup
     Write-Verbose "[Get-SPOSiteMembership] Owners group: $($siteOwnersGroup.Title)"
     $siteOwners       = Get-PnPGroupMember -Group $siteOwnersGroup
@@ -132,7 +134,8 @@ function Get-SPOSiteMembership {
     }
 
     # Members
-    $siteMembersEmails = @()
+    $siteMembersEmails        = @()
+    $siteMembersDisplayNames  = @()
     $siteMembersGroup  = Get-PnPGroup -AssociatedMemberGroup
     Write-Verbose "[Get-SPOSiteMembership] Members group: $($siteMembersGroup.Title)"
     $siteMembers       = Get-PnPGroupMember -Group $siteMembersGroup
@@ -147,7 +150,8 @@ function Get-SPOSiteMembership {
     }
 
     # Visitors
-    $siteVisitorsEmails = @()
+    $siteVisitorsEmails        = @()
+    $siteVisitorsDisplayNames  = @()
     $siteVisitorsGroup  = Get-PnPGroup -AssociatedVisitorGroup
     Write-Verbose "[Get-SPOSiteMembership] Visitors group: $($siteVisitorsGroup.Title)"
     $siteVisitors       = Get-PnPGroupMember -Group $siteVisitorsGroup
@@ -161,11 +165,21 @@ function Get-SPOSiteMembership {
         $siteVisitorsEmails += $everyoneVisitor.Title
     }
 
+    # Collect display names (Titles) for each principal list
+    $siteAdmins  | ForEach-Object { if ($_.Title -and $_.Title.Trim() -ne "") { $siteAdminsDisplayNames   += $_.Title.Trim() } }
+    $siteOwners  | ForEach-Object { if ($_.Title -and $_.Title.Trim() -ne "") { $siteOwnersDisplayNames   += $_.Title.Trim() } }
+    $siteMembers | ForEach-Object { if ($_.Title -and $_.Title.Trim() -ne "") { $siteMembersDisplayNames  += $_.Title.Trim() } }
+    $siteVisitors| ForEach-Object { if ($_.Title -and $_.Title.Trim() -ne "") { $siteVisitorsDisplayNames += $_.Title.Trim() } }
+
     [pscustomobject]@{
-        SiteAdminsEmails   = $siteAdminsEmails
-        SiteOwnersEmails   = $siteOwnersEmails
-        SiteMembersEmails  = $siteMembersEmails
-        SiteVisitorsEmails = $siteVisitorsEmails
+        SiteAdminsEmails        = $siteAdminsEmails
+        SiteAdminsDisplayName   = $siteAdminsDisplayNames
+        SiteOwnersEmails        = $siteOwnersEmails
+        SiteOwnersDisplayName   = $siteOwnersDisplayNames
+        SiteMembersEmails       = $siteMembersEmails
+        SiteMembersDisplayName  = $siteMembersDisplayNames
+        SiteVisitorsEmails      = $siteVisitorsEmails
+        SiteVisitorsDisplayName = $siteVisitorsDisplayNames
     }
 }
 
@@ -184,10 +198,12 @@ function Get-SPOM365GroupInfo {
     param(
         [Parameter(Mandatory)][string]$GroupIdString
     )
-    $isM365GroupConnected = $false
-    $m365GroupDisplayName = $null
-    $m365GroupOwnersEmails = @()
-    $m365GroupMembersEmails = @()
+    $isM365GroupConnected      = $false
+    $m365GroupDisplayName      = $null
+    $m365GroupOwnersEmails     = @()
+    $m365GroupOwnersDisplayName= @()
+    $m365GroupMembersEmails    = @()
+    $m365GroupMembersDisplayName = @()
 
     if ($GroupIdString -and $GroupIdString -ne "00000000-0000-0000-0000-000000000000") {
         Write-Verbose "[Get-SPOM365GroupInfo] Group detected ($GroupIdString). Retrieving owners and members..."
@@ -198,10 +214,16 @@ function Get-SPOM365GroupInfo {
         $m365Group.Owners | Select-Object -ExpandProperty Email | ForEach-Object {
             $m365GroupOwnersEmails += $_.Trim()
         }
+        $m365Group.Owners | ForEach-Object {
+            if ($_.DisplayName -and $_.DisplayName.Trim() -ne "") { $m365GroupOwnersDisplayName += $_.DisplayName.Trim() }
+        }
         Write-Verbose "[Get-SPOM365GroupInfo] Owner count: $($m365GroupOwnersEmails.Count)"
         $m365GroupMembers = Get-PnPMicrosoft365GroupMember -Identity $GroupIdString
         $m365GroupMembers | Select-Object -ExpandProperty Email | ForEach-Object {
             $m365GroupMembersEmails += $_.Trim()
+        }
+        $m365GroupMembers | ForEach-Object {
+            if ($_.DisplayName -and $_.DisplayName.Trim() -ne "") { $m365GroupMembersDisplayName += $_.DisplayName.Trim() }
         }
         Write-Verbose "[Get-SPOM365GroupInfo] Member count: $($m365GroupMembersEmails.Count)"
     } else {
@@ -209,10 +231,12 @@ function Get-SPOM365GroupInfo {
     }
 
     [pscustomobject]@{
-        IsM365GroupConnected   = $isM365GroupConnected
-        M365GroupDisplayName   = $m365GroupDisplayName
-        M365GroupOwnersEmails  = $m365GroupOwnersEmails
-        M365GroupMembersEmails = $m365GroupMembersEmails
+        IsM365GroupConnected       = $isM365GroupConnected
+        M365GroupDisplayName       = $m365GroupDisplayName
+        M365GroupOwnersEmails      = $m365GroupOwnersEmails
+        M365GroupOwnersDisplayName = $m365GroupOwnersDisplayName
+        M365GroupMembersEmails     = $m365GroupMembersEmails
+        M365GroupMembersDisplayName= $m365GroupMembersDisplayName
     }
 }
 
@@ -237,17 +261,23 @@ function New-SPOOwnerInfoRecord {
     )
     Write-Verbose "[New-SPOOwnerInfoRecord] Building output record for $($BasicMeta.SiteUrl)"
     [pscustomobject]@{
-        SiteUrl                = $BasicMeta.SiteUrl
-        OwnerEmail             = $BasicMeta.OwnerEmail
-        IsM365GroupConnected   = $GroupInfo.IsM365GroupConnected
-        M365GroupDisplayName   = $GroupInfo.M365GroupDisplayName
-        M365GroupOwnersEmails  = $GroupInfo.M365GroupOwnersEmails -join "; "
-        M365GroupMembersEmails = $GroupInfo.M365GroupMembersEmails -join "; "
-        SiteAdminsEmails       = $AssociatedGroups.SiteAdminsEmails -join "; "
-        SiteOwnersEmails       = $AssociatedGroups.SiteOwnersEmails -join "; "
-        SiteMembersEmails      = $AssociatedGroups.SiteMembersEmails -join "; "
-        SiteVisitorsEmails     = $AssociatedGroups.SiteVisitorsEmails -join "; "
-        IsTeamsConnected       = $BasicMeta.IsTeamsConnected
+        SiteUrl                     = $BasicMeta.SiteUrl
+        OwnerEmail                  = $BasicMeta.OwnerEmail
+        IsM365GroupConnected        = $GroupInfo.IsM365GroupConnected
+        M365GroupDisplayName        = $GroupInfo.M365GroupDisplayName
+        M365GroupOwnersEmails       = $GroupInfo.M365GroupOwnersEmails -join "; "
+        M365GroupOwnersDisplayName  = $GroupInfo.M365GroupOwnersDisplayName -join "; "
+        M365GroupMembersEmails      = $GroupInfo.M365GroupMembersEmails -join "; "
+        M365GroupMembersDisplayName = $GroupInfo.M365GroupMembersDisplayName -join "; "
+        SiteAdminsEmails            = $AssociatedGroups.SiteAdminsEmails -join "; "
+        SiteAdminsDisplayName       = $AssociatedGroups.SiteAdminsDisplayName -join "; "
+        SiteOwnersEmails            = $AssociatedGroups.SiteOwnersEmails -join "; "
+        SiteOwnersDisplayName       = $AssociatedGroups.SiteOwnersDisplayName -join "; "
+        SiteMembersEmails           = $AssociatedGroups.SiteMembersEmails -join "; "
+        SiteMembersDisplayName      = $AssociatedGroups.SiteMembersDisplayName -join "; "
+        SiteVisitorsEmails          = $AssociatedGroups.SiteVisitorsEmails -join "; "
+        SiteVisitorsDisplayName     = $AssociatedGroups.SiteVisitorsDisplayName -join "; "
+        IsTeamsConnected            = $BasicMeta.IsTeamsConnected
     }
 }
 
