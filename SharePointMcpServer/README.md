@@ -1,10 +1,10 @@
 # SharePoint MCP Server
 
-基于模型上下文协议 (MCP) 的 SharePoint 服务器，通过 MCP 协议提供 SharePoint 数据访问和计算工具。
+A SharePoint server based on the Model Context Protocol (MCP), providing data access and computation tools for SharePoint through the MCP protocol.
 
 ## 📋 Project Overview
 
-SharePoint MCP Server 是一个基于 .NET 9 构建的 MCP 服务器应用程序，通过 Microsoft Graph API 提供对 SharePoint 数据的访问，同时包含演示用的计算工具。该服务器可以作为 MCP 客户端（如 Claude Desktop）的工具提供者。
+SharePoint MCP Server is an MCP server application built on .NET 9. It provides access to SharePoint data via the Microsoft Graph API and includes demo computation tools. The server can act as a tool provider for MCP clients such as GitHub Copilot.
 
 ## ✨ Features
 
@@ -257,7 +257,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 📋 项目概述
 
-SharePoint MCP Server 是一个基于 .NET 9 构建的 MCP 服务器应用程序，通过 Microsoft Graph API 提供对 SharePoint 数据的访问，同时包含演示用的计算工具。该服务器可以作为 MCP 客户端（如 Claude Desktop）的工具提供者。
+SharePoint MCP Server 是一个基于 .NET 9 构建的 MCP 服务器应用程序，通过 Microsoft Graph API 提供对 SharePoint 数据的访问，同时包含演示用的计算工具。该服务器可以作为 MCP 客户端（如 GitHub Copilot）的工具提供者。
 
 ## ✨ 功能特性
 
