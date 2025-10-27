@@ -6,6 +6,7 @@ Using **PnP PowerShell** with Entra ID, you can quickly create an app registrati
 
 ## ✅ Prerequisites
 
+*   [Install-Module PnP.PowerShell](https://pnp.github.io/powershell/articles/installation.html)
 *   You must have permission to create **App registrations** in Entra ID.
 *   Required roles:
     *   **Application Developer** (usually sufficient), or
@@ -80,6 +81,7 @@ Register-PnPEntraIDAppForInteractiveLogin -ApplicationName "PnP.PowerShell" `
 
 ## 📌 Summary
 
+*   [Install-Module PnP.PowerShell](https://pnp.github.io/powershell/articles/installation.html)
 *   Use `Register-PnPEntraIDAppForInteractiveLogin` to quickly create an app registration.
 *   Authenticate with your credentials.
 *   Optionally add custom permissions.
