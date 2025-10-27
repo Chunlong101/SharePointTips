@@ -1,6 +1,6 @@
-# 🚀 Automatically Create an App Registration for Interactive Login
+# 🚀 Automatically Create an App Registration for Interactive Login for PnP PowerShell to connect with your SharePoint Online
 
-Using **PnP PowerShell** with Entra ID, you can quickly create an app registration for interactive login using a built-in cmdlet.
+Using **PnP PowerShell** with Entra ID, you can quickly create an app registration for interactive login using a built-in cmdlet. See more details here: https://pnp.github.io/powershell/articles/registerapplication.html#automatically-create-an-app-registration-for-interactive-login
 
 ***
 
@@ -79,15 +79,7 @@ Register-PnPEntraIDAppForInteractiveLogin -ApplicationName "PnP.PowerShell" `
 
 ***
 
-## 📌 Summary
-
-*   [Install-Module PnP.PowerShell](https://pnp.github.io/powershell/articles/installation.html)
-*   Use `Register-PnPEntraIDAppForInteractiveLogin` to quickly create an app registration.
-*   Authenticate with your credentials.
-*   Optionally add custom permissions.
-*   Provide or request admin consent.
-
-This is the **easiest and fastest** way to enable interactive login with PnP PowerShell. After steps above, you're good to use Connect-PnPOnline to connect with your sharepoint online.
+This is the **easiest and fastest** way to enable interactive login with PnP PowerShell. After steps above, you're good to use [Connect-PnPOnline](https://pnp.github.io/powershell/cmdlets/Connect-PnPOnline.html) to connect with your sharepoint online.
 
 ***
 
