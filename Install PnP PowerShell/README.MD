@@ -1,34 +1,127 @@
-#### Installing SharePoint PnP PowerShell
+# 🚀 Automatically Create an App Registration for Interactive Login
 
-Some scripts in this repository utilize SharePoint PnP PowerShell. Here's how to install SharePoint PnP PowerShell for both online and on-premises environments:
+Using **PnP PowerShell** with Entra ID, you can quickly create an app registration for interactive login using a built-in cmdlet.
 
-(By the way, starting from PnP PowerShell version 2.2, it requires PowerShell 7, and Visual Studio Code is recommended)
+***
 
-#### 1. Online Installation (Machine with Internet Connection)
+## ✅ Prerequisites
+
+*   You must have permission to create **App registrations** in Entra ID.
+*   Required roles:
+    *   **Application Developer** (usually sufficient), or
+    *   **Global Administrator** (may be needed to grant consent).
+
+***
+
+## 🛠️ Steps
+
+### 1. Run the Cmdlet
 
 ```powershell
-Install-Module -Name "PnP.PowerShell" # For SharePoint Online
+Register-PnPEntraIDAppForInteractiveLogin -ApplicationName "PnP.PowerShell" -Tenant [yourtenant].onmicrosoft.com
+```
 
+*   Replace `[yourtenant]` with your actual tenant name.
+*   Example: `contoso.onmicrosoft.com`.
+
+***
+
+### 2. Authenticate
+
+*   You’ll be prompted to log in with your **username, password**, and possibly **multi-factor authentication (MFA)**.
+*   This ensures compliance with your organization’s conditional access policies.
+
+***
+
+### 3. App Registration Creation
+
+*   A new **Entra ID Application** is automatically created.
+*   By default, it includes a **limited set of permission scopes**.
+
+***
+
+### 4. (Optional) Specify Permissions
+
+You can add custom permission scopes using parameters such as:
+
+*   `-GraphApplicationPermissions`
+*   `-GraphDelegatePermissions`
+*   `-SharePointApplicationPermissions`
+*   `-SharePointDelegatePermissions`
+
+Example:
+
+```powershell
+Register-PnPEntraIDAppForInteractiveLogin -ApplicationName "PnP.PowerShell" `
+  -Tenant contoso.onmicrosoft.com `
+  -GraphDelegatePermissions "User.Read.All","Sites.Read.All"
+```
+
+***
+
+### 5. Grant Consent
+
+*   After registration, you’ll need to **grant consent** for the application.
+*   If you don’t have rights to grant consent, an administrator must do this in the **Entra ID portal**.
+
+***
+
+## 🌍 Special Case: National Cloud Environments
+
+If you’re in **US Government, Germany, or China** environments, add the `-AzureEnvironment` parameter:
+
+```powershell
+Register-PnPEntraIDAppForInteractiveLogin -ApplicationName "PnP.PowerShell" `
+  -Tenant contoso.onmicrosoft.com `
+  -AzureEnvironment USGovernment
+```
+
+***
+
+## 📌 Summary
+
+*   Use `Register-PnPEntraIDAppForInteractiveLogin` to quickly create an app registration.
+*   Authenticate with your credentials.
+*   Optionally add custom permissions.
+*   Provide or request admin consent.
+
+This is the **easiest and fastest** way to enable interactive login with PnP PowerShell. After steps above, you're good to use Connect-PnPOnline to connect with your sharepoint online.
+
+***
+
+## 🔧 Installing SharePoint PnP PowerShell for SharePoint On-Prem
+
+> Starting from PnP PowerShell version 2.2, PowerShell 7 is required, and Visual Studio Code is recommended.
+
+### 1. Online Installation (Machine with Internet Access)
+
+```powershell
 Install-Module -Name SharePointPnPPowerShell2013
-
 Install-Module -Name SharePointPnPPowerShell2016
-
 Install-Module -Name SharePointPnPPowerShell2019
 ```
 
 These commands install PnP PowerShell from the PowerShell Gallery:
 
-- [SharePointPnPPowerShell2019](https://www.powershellgallery.com/packages/SharePointPnPPowerShell2019/3.29.2101.0)
-- [Search for PnP SharePoint Modules](https://www.powershellgallery.com/packages?q=pnp+sharepoint)
+*   <https://www.powershellgallery.com/packages/SharePointPnPPowerShell2019/3.29.2101.0>
+*   <https://www.powershellgallery.com/packages?q=pnp+sharepoint>
 
-#### 2. Offline Installation (Machine without Internet Connection)
+***
 
-1. Download the appropriate version from [PnP PowerShell Modules on PowerShell Gallery](https://www.powershellgallery.com/packages?q=pnp+sharepoint).
-2. Unblock the Internet-downloaded NuGet package (.nupkg) file using the `Unblock-File -Path C:\Downloads\module.nupkg` cmdlet.
-3. Extract the contents of the NuGet package to a local folder.
-4. Delete the NuGet-specific elements from the folder.
-5. Rename the folder to the module name (remove version information). For example, `azurerm.storage.5.0.4-preview` becomes `azurerm.storage`.
-6. Copy the folder to one of the folders in the `$env:PSModulePath` value.
-7. Open a new PowerShell window, and PnP PowerShell commands should be ready.
+### 2. Offline Installation (Machine without Internet Access)
 
-Please note that Microsoft doesn't provide production-ready scripts. Customers need to test, verify, and develop scripts themselves. These scripts are outside the Microsoft support scope.
+1.  Download the appropriate version from <https://www.powershellgallery.com/packages?q=pnp+sharepoint>.
+2.  Unblock the downloaded NuGet package (.nupkg) using:
+    ```powershell
+    Unblock-File -Path C:\Downloads\module.nupkg
+    ```
+3.  Extract the contents of the NuGet package to a local folder.
+4.  Remove NuGet-specific elements from the folder.
+5.  Rename the folder to the module name (remove version info). Example:  
+    `azurerm.storage.5.0.4-preview` → `azurerm.storage`.
+6.  Copy the folder to one of the directories in `$env:PSModulePath`.
+7.  Open a new PowerShell window, and PnP PowerShell commands should be ready.
+
+***
+
+⚠️ **Note**: Microsoft does not provide production-ready scripts. Customers must test, validate, and develop scripts themselves. These scripts are outside Microsoft support scope.
