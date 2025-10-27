@@ -1,4 +1,4 @@
-# How connect your sharepoint with PnP PowerShell
+# How connect your SharePoint with PnP PowerShell
 
 ***
 
