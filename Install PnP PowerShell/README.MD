@@ -1,8 +1,8 @@
-# How connect your SharePoint with PnP PowerShell
+# How to connect your SharePoint with PnP PowerShell
 
 ***
 
-## 🚀 Automatically Create an App Registration (Azure AD/Entra Id) for Interactive Login for PnP PowerShell to connect with your SharePoint Online
+## 🚀 Automatically Create an App Registration (Azure AD/Entra Id) for PnP PowerShell to connect with your SharePoint Online
 
 Using **PnP PowerShell** with Entra ID, you can quickly create an app registration for interactive login using a built-in cmdlet. See more details here: https://pnp.github.io/powershell/articles/registerapplication.html#automatically-create-an-app-registration-for-interactive-login
 
