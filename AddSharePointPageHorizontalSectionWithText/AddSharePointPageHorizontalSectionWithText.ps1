@@ -26,7 +26,7 @@ $WebPartId = "20a69b85-529c-41f3-850e-c93458aa74eb"
 
 # Section settings
 $SectionEmphasis = "soft"
-$SectionId = "2"
+$SectionId = "0"
 $SectionLayout = "oneColumn"
 
 # Column settings
