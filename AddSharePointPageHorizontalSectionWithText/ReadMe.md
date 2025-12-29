@@ -10,7 +10,6 @@ SharePoint provides several manual approaches—such as adding a banner, inserti
 To address this gap, this script uses **Microsoft Graph API** to automatically insert a text Web Part into a SharePoint modern page.
 
 ![alt text](image.png)
-![alt text](image-1.png)
 
 ---
 
