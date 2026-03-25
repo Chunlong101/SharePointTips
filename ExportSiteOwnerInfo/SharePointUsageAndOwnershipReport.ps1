@@ -23,9 +23,9 @@
 param(
     [string]$ClientId    = "efec52de-b554-40e0-8596-27a895cb4589",
     [string]$Thumbprint  = "xxx",
-    [string]$Tenant      = "5xxsz0.onmicrosoft.com",
+    [string]$Tenant      = "chunlong101.onmicrosoft.com",
     [string]$AdminUrl,
-    [string]$InputCsv    = ".\SharePointURLs.csv",
+    [string]$InputCsv    = ".\SiteUrls.csv",
     [string]$OutputFile  = ".\SharePointUsageAndOwnershipReport.xlsx",
     [switch]$SkipPreservationHoldLibrary
 )

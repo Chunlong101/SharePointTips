@@ -24,6 +24,56 @@ Last Updated: 2025-08-24
 # Helper / Core Reusable Functions
 # -----------------------------
 
+function Connect-SPOAdminWithCertFromSiteUrl {
+    [CmdletBinding()]
+    param(
+        [Parameter(Mandatory)][string]$SiteUrl,
+        [Parameter(Mandatory)][string]$ClientId,
+        [Parameter(Mandatory)][string]$Tenant,
+        [Parameter(Mandatory)][string]$Thumbprint
+    )
+
+    Write-Verbose "Input SiteUrl: $SiteUrl"
+
+    try {
+        $uri = [System.Uri] $SiteUrl
+    }
+    catch {
+        throw "Invalid SiteUrl format: $SiteUrl"
+    }
+
+    Write-Verbose "Parsed host: $($uri.Host)"
+
+    # Already Admin URL
+    if ($uri.Host -match '\-admin\.sharepoint\.(com|cn)$') {
+        $AdminUrl = "$($uri.Scheme)://$($uri.Host)"
+        Write-Verbose "SiteUrl is already an Admin URL"
+    }
+    else {
+        if ($uri.Host -match '^(?<prefix>[^.]+)\.sharepoint\.(?<tld>com|cn)$') {
+            $tenantPrefix = $Matches.prefix
+            $tld = $Matches.tld
+
+            $AdminUrl = "$($uri.Scheme)://$tenantPrefix-admin.sharepoint.$tld"
+            Write-Verbose "Converted SiteUrl to AdminUrl"
+        }
+        else {
+            throw "Unsupported SiteUrl host: $($uri.Host)"
+        }
+    }
+
+    Write-Verbose "Final AdminUrl: $AdminUrl"
+    Write-Verbose "Connecting using certificate authentication..."
+
+    Connect-SPOWithCert `
+        -Url $AdminUrl `
+        -ClientId $ClientId `
+        -Tenant $Tenant `
+        -Thumbprint $Thumbprint
+
+    Write-Verbose "Connection completed successfully"
+}
+
 function Connect-SPOWithCert {
     <#
     .SYNOPSIS
@@ -100,12 +150,13 @@ function Get-SPOSiteMembership {
     Write-Verbose "[Get-SPOSiteMembership] Enumerating membership for $SiteUrl"
 
     # Site Collection Admins
-    $siteAdminsEmails        = @()
-    $siteAdminsDisplayNames  = @()
-    $siteAdmins              = Get-PnPSiteCollectionAdmin
+    $siteAdminsEmails = @()
+    $siteAdminsDisplayNames = @()
+    $siteAdmins = Get-PnPSiteCollectionAdmin
     if ($siteAdmins) {
         Write-Verbose "[Get-SPOSiteMembership] Found $($siteAdmins.Count) site collection admin entries."
-    } else {
+    }
+    else {
         Write-Verbose "[Get-SPOSiteMembership] No site collection admins returned."
     }
     $siteAdmins | Select-Object -ExpandProperty Email | ForEach-Object {
@@ -118,11 +169,11 @@ function Get-SPOSiteMembership {
     }
 
     # Owners
-    $siteOwnersEmails        = @()
-    $siteOwnersDisplayNames  = @()
-    $siteOwnersGroup  = Get-PnPGroup -AssociatedOwnerGroup
+    $siteOwnersEmails = @()
+    $siteOwnersDisplayNames = @()
+    $siteOwnersGroup = Get-PnPGroup -AssociatedOwnerGroup
     Write-Verbose "[Get-SPOSiteMembership] Owners group: $($siteOwnersGroup.Title)"
-    $siteOwners       = Get-PnPGroupMember -Group $siteOwnersGroup
+    $siteOwners = Get-PnPGroupMember -Group $siteOwnersGroup
     Write-Verbose "[Get-SPOSiteMembership] Owners group member count: $($siteOwners.Count)"
     $siteOwners | Select-Object -ExpandProperty Email | ForEach-Object {
         if ($_.Trim() -ne "") { $siteOwnersEmails += $_.Trim() }
@@ -134,11 +185,11 @@ function Get-SPOSiteMembership {
     }
 
     # Members
-    $siteMembersEmails        = @()
-    $siteMembersDisplayNames  = @()
-    $siteMembersGroup  = Get-PnPGroup -AssociatedMemberGroup
+    $siteMembersEmails = @()
+    $siteMembersDisplayNames = @()
+    $siteMembersGroup = Get-PnPGroup -AssociatedMemberGroup
     Write-Verbose "[Get-SPOSiteMembership] Members group: $($siteMembersGroup.Title)"
-    $siteMembers       = Get-PnPGroupMember -Group $siteMembersGroup
+    $siteMembers = Get-PnPGroupMember -Group $siteMembersGroup
     Write-Verbose "[Get-SPOSiteMembership] Members group member count: $($siteMembers.Count)"
     $siteMembers | Select-Object -ExpandProperty Email | ForEach-Object {
         if ($_.Trim() -ne "") { $siteMembersEmails += $_.Trim() }
@@ -150,11 +201,11 @@ function Get-SPOSiteMembership {
     }
 
     # Visitors
-    $siteVisitorsEmails        = @()
-    $siteVisitorsDisplayNames  = @()
-    $siteVisitorsGroup  = Get-PnPGroup -AssociatedVisitorGroup
+    $siteVisitorsEmails = @()
+    $siteVisitorsDisplayNames = @()
+    $siteVisitorsGroup = Get-PnPGroup -AssociatedVisitorGroup
     Write-Verbose "[Get-SPOSiteMembership] Visitors group: $($siteVisitorsGroup.Title)"
-    $siteVisitors       = Get-PnPGroupMember -Group $siteVisitorsGroup
+    $siteVisitors = Get-PnPGroupMember -Group $siteVisitorsGroup
     Write-Verbose "[Get-SPOSiteMembership] Visitors group member count: $($siteVisitors.Count)"
     $siteVisitors | Select-Object -ExpandProperty Email | ForEach-Object {
         if ($_.Trim() -ne "") { $siteVisitorsEmails += $_.Trim() }
@@ -166,10 +217,10 @@ function Get-SPOSiteMembership {
     }
 
     # Collect display names (Titles) for each principal list
-    $siteAdmins  | ForEach-Object { if ($_.Title -and $_.Title.Trim() -ne "") { $siteAdminsDisplayNames   += $_.Title.Trim() } }
-    $siteOwners  | ForEach-Object { if ($_.Title -and $_.Title.Trim() -ne "") { $siteOwnersDisplayNames   += $_.Title.Trim() } }
-    $siteMembers | ForEach-Object { if ($_.Title -and $_.Title.Trim() -ne "") { $siteMembersDisplayNames  += $_.Title.Trim() } }
-    $siteVisitors| ForEach-Object { if ($_.Title -and $_.Title.Trim() -ne "") { $siteVisitorsDisplayNames += $_.Title.Trim() } }
+    $siteAdmins  | ForEach-Object { if ($_.Title -and $_.Title.Trim() -ne "") { $siteAdminsDisplayNames += $_.Title.Trim() } }
+    $siteOwners  | ForEach-Object { if ($_.Title -and $_.Title.Trim() -ne "") { $siteOwnersDisplayNames += $_.Title.Trim() } }
+    $siteMembers | ForEach-Object { if ($_.Title -and $_.Title.Trim() -ne "") { $siteMembersDisplayNames += $_.Title.Trim() } }
+    $siteVisitors | ForEach-Object { if ($_.Title -and $_.Title.Trim() -ne "") { $siteVisitorsDisplayNames += $_.Title.Trim() } }
 
     [pscustomobject]@{
         SiteAdminsEmails        = $siteAdminsEmails
@@ -198,11 +249,11 @@ function Get-SPOM365GroupInfo {
     param(
         [Parameter(Mandatory)][string]$GroupIdString
     )
-    $isM365GroupConnected      = $false
-    $m365GroupDisplayName      = $null
-    $m365GroupOwnersEmails     = @()
-    $m365GroupOwnersDisplayName= @()
-    $m365GroupMembersEmails    = @()
+    $isM365GroupConnected = $false
+    $m365GroupDisplayName = $null
+    $m365GroupOwnersEmails = @()
+    $m365GroupOwnersDisplayName = @()
+    $m365GroupMembersEmails = @()
     $m365GroupMembersDisplayName = @()
 
     if ($GroupIdString -and $GroupIdString -ne "00000000-0000-0000-0000-000000000000") {
@@ -226,17 +277,18 @@ function Get-SPOM365GroupInfo {
             if ($_.DisplayName -and $_.DisplayName.Trim() -ne "") { $m365GroupMembersDisplayName += $_.DisplayName.Trim() }
         }
         Write-Verbose "[Get-SPOM365GroupInfo] Member count: $($m365GroupMembersEmails.Count)"
-    } else {
+    }
+    else {
         Write-Verbose "[Get-SPOM365GroupInfo] No connected M365 Group."
     }
 
     [pscustomobject]@{
-        IsM365GroupConnected       = $isM365GroupConnected
-        M365GroupDisplayName       = $m365GroupDisplayName
-        M365GroupOwnersEmails      = $m365GroupOwnersEmails
-        M365GroupOwnersDisplayName = $m365GroupOwnersDisplayName
-        M365GroupMembersEmails     = $m365GroupMembersEmails
-        M365GroupMembersDisplayName= $m365GroupMembersDisplayName
+        IsM365GroupConnected        = $isM365GroupConnected
+        M365GroupDisplayName        = $m365GroupDisplayName
+        M365GroupOwnersEmails       = $m365GroupOwnersEmails
+        M365GroupOwnersDisplayName  = $m365GroupOwnersDisplayName
+        M365GroupMembersEmails      = $m365GroupMembersEmails
+        M365GroupMembersDisplayName = $m365GroupMembersDisplayName
     }
 }
 
@@ -260,7 +312,7 @@ function New-SPOOwnerInfoRecord {
         [Parameter(Mandatory)]$GroupInfo
     )
     Write-Verbose "[New-SPOOwnerInfoRecord] Building output record for $($BasicMeta.SiteUrl)"
-    [pscustomobject]@{
+    return [pscustomobject]@{
         SiteUrl                     = $BasicMeta.SiteUrl
         OwnerEmail                  = $BasicMeta.OwnerEmail
         IsM365GroupConnected        = $GroupInfo.IsM365GroupConnected
@@ -328,13 +380,16 @@ function Get-SPOOwnerInfo {
     )
     Write-Host "Processing site: $SiteUrl"
     Write-Verbose "[Get-SPOOwnerInfo] Establishing site connection..."
-    Connect-SPOWithCert -Url $SiteUrl -ClientId $ClientId -Tenant $Tenant -Thumbprint $Thumbprint
 
-    $basic    = Get-SPOBasicSiteMetadata -SiteUrl $SiteUrl
-    $assoc    = Get-SPOSiteMembership -SiteUrl $SiteUrl
+    Connect-SPOAdminWithCertFromSiteUrl -SiteUrl $SiteUrl -ClientId $ClientId -Tenant $Tenant -Thumbprint $Thumbprint
+    $basic = Get-SPOBasicSiteMetadata -SiteUrl $SiteUrl
+
+    Connect-SPOWithCert -Url $SiteUrl -ClientId $ClientId -Tenant $Tenant -Thumbprint $Thumbprint
+    $assoc = Get-SPOSiteMembership -SiteUrl $SiteUrl
     $groupInf = Get-SPOM365GroupInfo -GroupIdString $basic.GroupId
+    
     Write-Verbose "[Get-SPOOwnerInfo] Record assembly complete."
-    New-SPOOwnerInfoRecord -BasicMeta $basic -AssociatedGroups $assoc -GroupInfo $groupInf
+    return New-SPOOwnerInfoRecord -BasicMeta $basic -AssociatedGroups $assoc -GroupInfo $groupInf
 }
 
 function Get-SPOOwnerInfoForAllSites {
@@ -387,7 +442,7 @@ function Get-SPOOwnerInfoForAllSites {
 
 # Optional extended owners function
 function Get-SPOM365GroupOwnersExpanded {
-<#
+    <#
 .SYNOPSIS
   Retrieve Microsoft 365 Group owners via PnP then hydrate each owner with Graph user properties.
 
@@ -409,8 +464,8 @@ function Get-SPOM365GroupOwnersExpanded {
         [string]$GroupId,
 
         [string[]]$Properties = @(
-            'id','displayName','mail','userPrincipalName','givenName','surname',
-            'jobTitle','mobilePhone','businessPhones','preferredLanguage','otherMails'
+            'id', 'displayName', 'mail', 'userPrincipalName', 'givenName', 'surname',
+            'jobTitle', 'mobilePhone', 'businessPhones', 'preferredLanguage', 'otherMails'
         ),
 
         [switch]$IncludeNonUser,
@@ -420,14 +475,16 @@ function Get-SPOM365GroupOwnersExpanded {
 
     try {
         $null = Get-PnPConnection -ErrorAction Stop
-    } catch {
+    }
+    catch {
         throw "Not connected. Run Connect-PnPOnline first (needs Group.Read.All + Directory.Read.All)."
     }
 
     try {
         Write-Verbose "[Get-SPOM365GroupOwnersExpanded] Retrieving M365 Group owners (GroupId=$GroupId)"
         $group = Get-PnPMicrosoft365Group -Identity $GroupId -IncludeOwners -ErrorAction Stop
-    } catch {
+    }
+    catch {
         throw "Unable to get group ($GroupId). Check permissions and GroupId. `n$($_.Exception.Message)"
     }
 
@@ -446,22 +503,25 @@ function Get-SPOM365GroupOwnersExpanded {
         $u = $null
         try {
             $u = Invoke-PnPGraphMethod -Url $userUrl -Method Get -ErrorAction Stop
-        } catch {
+        }
+        catch {
             if ($IncludeNonUser) {
                 try {
                     $dirObj = Invoke-PnPGraphMethod -Url "directoryObjects/$($ownerRef.Id)" -Method Get -ErrorAction Stop
                     $result.Add([pscustomobject]@{
-                        GroupId     = $group.Id
-                        OwnerId     = $dirObj.id
-                        ObjectType  = $dirObj.'@odata.type'
-                        DisplayName = $dirObj.displayName
-                        UPN         = $dirObj.userPrincipalName
-                        Email       = $dirObj.mail
-                    })
-                } catch {
+                            GroupId     = $group.Id
+                            OwnerId     = $dirObj.id
+                            ObjectType  = $dirObj.'@odata.type'
+                            DisplayName = $dirObj.displayName
+                            UPN         = $dirObj.userPrincipalName
+                            Email       = $dirObj.mail
+                        })
+                }
+                catch {
                     Write-Verbose "[Get-SPOM365GroupOwnersExpanded] Failed non-user read: $($ownerRef.Id) -> $($_.Exception.Message)"
                 }
-            } else {
+            }
+            else {
                 Write-Verbose "[Get-SPOM365GroupOwnersExpanded] Skipped non-user or inaccessible: $($ownerRef.Id)"
             }
             continue
@@ -469,38 +529,41 @@ function Get-SPOM365GroupOwnersExpanded {
 
         if ($Raw) {
             $result.Add($u)
-        } else {
+        }
+        else {
             if ($u.'@odata.type' -like '*user') {
                 $email =
-                    if ($u.mail) { $u.mail }
-                    elseif ($u.otherMails -and $u.otherMails.Count -gt 0) { $u.otherMails[0] }
-                    else { $u.userPrincipalName }
+                if ($u.mail) { $u.mail }
+                elseif ($u.otherMails -and $u.otherMails.Count -gt 0) { $u.otherMails[0] }
+                else { $u.userPrincipalName }
 
                 $result.Add([pscustomobject]@{
-                    GroupId           = $group.Id
-                    OwnerId           = $u.id
-                    ObjectType        = $u.'@odata.type'
-                    DisplayName       = $u.displayName
-                    UPN               = $u.userPrincipalName
-                    Email             = $email
-                    GivenName         = $u.givenName
-                    Surname           = $u.surname
-                    JobTitle          = $u.jobTitle
-                    MobilePhone       = $u.mobilePhone
-                    BusinessPhones    = if ($u.businessPhones) { ($u.businessPhones -join ';') } else { $null }
-                    PreferredLanguage = $u.preferredLanguage
-                })
-            } else {
+                        GroupId           = $group.Id
+                        OwnerId           = $u.id
+                        ObjectType        = $u.'@odata.type'
+                        DisplayName       = $u.displayName
+                        UPN               = $u.userPrincipalName
+                        Email             = $email
+                        GivenName         = $u.givenName
+                        Surname           = $u.surname
+                        JobTitle          = $u.jobTitle
+                        MobilePhone       = $u.mobilePhone
+                        BusinessPhones    = if ($u.businessPhones) { ($u.businessPhones -join ';') } else { $null }
+                        PreferredLanguage = $u.preferredLanguage
+                    })
+            }
+            else {
                 if ($IncludeNonUser) {
                     $result.Add([pscustomobject]@{
-                        GroupId     = $group.Id
-                        OwnerId     = $u.id
-                        ObjectType  = $u.'@odata.type'
-                        DisplayName = $u.displayName
-                        UPN         = $u.userPrincipalName
-                        Email       = $u.mail
-                    })
-                } else {
+                            GroupId     = $group.Id
+                            OwnerId     = $u.id
+                            ObjectType  = $u.'@odata.type'
+                            DisplayName = $u.displayName
+                            UPN         = $u.userPrincipalName
+                            Email       = $u.mail
+                        })
+                }
+                else {
                     Write-Verbose "[Get-SPOM365GroupOwnersExpanded] Owner not user object; skipped: $($ownerRef.Id) [$($u.'@odata.type')]"
                 }
             }

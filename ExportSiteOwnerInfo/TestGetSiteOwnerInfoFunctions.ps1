@@ -28,8 +28,8 @@ Notes:
 # Test Parameters (as requested)
 $ClientId  = "efec52de-b554-40e0-8596-27a895cb4589"
 $Thumbprint = "xxx"
-$SiteUrl  = "https://5xxsz0.sharepoint.com/sites/TestM365Group"
-$Tenant   = "5xxsz0.onmicrosoft.com"
+$SiteUrl  = "https://chunlong101.sharepoint.com/sites/TestM365Group"
+$Tenant   = "chunlong101.onmicrosoft.com"
 $CvsPath  = ".\SiteOwnersReport.csv"
 
 # Increase verbosity for the test
@@ -78,7 +78,7 @@ try {
     Write-Host "[OK] Basic metadata:"
     $basic | Format-List
 
-    $assoc = Get-SPOAssociatedGroupMembers -SiteUrl $SiteUrl
+    $assoc = Get-SPOSiteMembership -SiteUrl $SiteUrl
     Write-Host "[OK] Associated group members counts:"
     [pscustomobject]@{
         Admins   = $assoc.SiteAdminsEmails.Count
