@@ -46,7 +46,7 @@ Admin Consent 刚才添加的4个权限：
 
 ![请记录 Client Id 以及 Tenant Id](image-8.png)
 
-## 2. 创建 Container Type
+## 2. 创建 Container Type (Trial for example)
 
 ```powershell
 Connect-SPOService -Url https://xxx-admin.sharepoint.cn -Region China
@@ -63,7 +63,7 @@ Guid
 {{SPEContainerTypeId}}
 ```
 
-## 3. Admin Consent
+## 3. Admin Consent the app
 
 全局管理员浏览器打开：
 
