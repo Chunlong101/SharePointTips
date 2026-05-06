@@ -18,13 +18,13 @@ API permissions 里加（application/delegated 权限）：
 
 ![New registration 表单：填名称、选 Single tenant](image-1.png)
 
-添加权限：
-
-![添加权限](image-2.png)
-
 切到 API permissions 页面，点击 Add a permission，选择 Microsoft Graph：
 
-![API permissions → Add a permission → 选 Microsoft Graph](image-3.png)
+![切到 API permissions 页面](image-2.png)
+
+添加以下4个权限：
+
+![添加4个权限](image-3.png)
 
 Admin Consent 刚才添加的4个权限：
 
@@ -86,7 +86,7 @@ grant_type=client_credentials
 &scope=https://microsoftgraph.chinacloudapi.cn/.default
 ```
 
-使用 Postman 通过 client_credentials flow 调用 token 端点，成功后会返回 access_token。
+以 Postman 为例，通过 client_credentials flow 调用 token 端点，成功后会返回 access_token：
 
 ![Postman 调用 token 端点示例（client_credentials flow）](image-9.png)
 
@@ -132,7 +132,7 @@ Body includes the <binary>
 GET {{21VGraphBase}}/v1.0/drives/{{SPEContainerId}}/root/children
 ```
 
-查看 GET children 返回的 JSON 响应，列表里能看到 SPETest.txt 即表示上传成功。
+查看 GET children 返回的 JSON 响应，列表里能看到 SPETest.txt 即表示上传成功：以下是 Postman 调用 GET children 端点的响应示例：
 
 ![GET children 返回的 JSON 响应，能看到 SPETest.txt 即成功](image-10.png)
 
