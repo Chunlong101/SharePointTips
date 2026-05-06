@@ -10,21 +10,39 @@ API permissions 里加（application/delegated 权限）：
 
 记录 `ClientId` / `TenantId` / `ClientSecret`。
 
+进入 Entra 门户的 App registrations 列表页，点击右上角的 New registration 开始新建应用。
+
 ![Entra 门户 → App registrations 列表页，点击 New registration](image.png)
+
+在 New registration 表单中填写应用名称，账户类型选择 Single tenant，然后点击 Register。
 
 ![New registration 表单：填名称、选 Single tenant](image-1.png)
 
+注册完成后进入 App Overview 页面，复制并保存 Application (client) ID 与 Directory (tenant) ID。
+
 ![注册完成后的 App Overview，记录 Application (client) ID 与 Directory (tenant) ID](image-2.png)
+
+切到 API permissions 页面，点击 Add a permission，选择 Microsoft Graph。
 
 ![API permissions → Add a permission → 选 Microsoft Graph](image-3.png)
 
+在权限类型选择中点击 Application permissions（注意不是 Delegated permissions）。
+
 ![选择 Application permissions（不是 Delegated）](image-4.png)
+
+在搜索框输入 FileStorageContainer.Selected 并勾选该权限。
 
 ![搜索并勾选 FileStorageContainer.Selected](image-5.png)
 
+再次添加权限，搜索并勾选 FileStorageContainerTypeReg.Selected。
+
 ![搜索并勾选 FileStorageContainerTypeReg.Selected](image-6.png)
 
+四项权限全部添加完成后，点击 Grant admin consent for {tenant} 完成管理员同意。
+
 ![四项权限添加后，点 Grant admin consent for {tenant}](image-7.png)
+
+进入 Certificates & secrets 页面，点击 New client secret 生成密钥，生成后立即复制 Value 字段（页面刷新后无法再次查看）。
 
 ![Certificates & secrets → New client secret，生成后立即复制 Value](image-8.png)
 
@@ -67,6 +85,8 @@ grant_type=client_credentials
 &client_secret={{SPEClientSecret}}
 &scope=https://microsoftgraph.chinacloudapi.cn/.default
 ```
+
+使用 Postman 通过 client_credentials flow 调用 token 端点，成功后会返回 access_token。
 
 ![Postman 调用 token 端点示例（client_credentials flow）](image-9.png)
 
@@ -111,6 +131,8 @@ Body includes the <binary>
 ```http
 GET {{21VGraphBase}}/v1.0/drives/{{SPEContainerId}}/root/children
 ```
+
+查看 GET children 返回的 JSON 响应，列表里能看到 SPETest.txt 即表示上传成功。
 
 ![GET children 返回的 JSON 响应，能看到 SPETest.txt 即成功](image-10.png)
 
