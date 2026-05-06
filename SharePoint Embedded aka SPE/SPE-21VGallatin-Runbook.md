@@ -10,41 +10,41 @@ API permissions 里加（application/delegated 权限）：
 
 记录 `ClientId` / `TenantId` / `ClientSecret`。
 
-进入 Entra 门户的 App registrations 列表页，点击右上角的 New registration 开始新建应用。
+进入 Entra 门户的 App registrations 列表页，点击右上角的 New registration 开始新建应用：
 
 ![Entra 门户 → App registrations 列表页，点击 New registration](image.png)
 
-在 New registration 表单中填写应用名称，账户类型选择 Single tenant，然后点击 Register。
+在 New registration 表单中填写应用名称，然后点击 Register：
 
 ![New registration 表单：填名称、选 Single tenant](image-1.png)
 
-注册完成后进入 App Overview 页面，复制并保存 Application (client) ID 与 Directory (tenant) ID。
+添加权限：
 
-![注册完成后的 App Overview，记录 Application (client) ID 与 Directory (tenant) ID](image-2.png)
+![添加权限](image-2.png)
 
-切到 API permissions 页面，点击 Add a permission，选择 Microsoft Graph。
+切到 API permissions 页面，点击 Add a permission，选择 Microsoft Graph：
 
 ![API permissions → Add a permission → 选 Microsoft Graph](image-3.png)
 
-在权限类型选择中点击 Application permissions（注意不是 Delegated permissions）。
+Admin Consent 刚才添加的4个权限：
 
-![选择 Application permissions（不是 Delegated）](image-4.png)
+![Admin Consent 刚才添加的4个权限](image-4.png)
 
-在搜索框输入 FileStorageContainer.Selected 并勾选该权限。
+创建Client Secret：
 
-![搜索并勾选 FileStorageContainer.Selected](image-5.png)
+![创建 Client Secret](image-5.png)
 
-再次添加权限，搜索并勾选 FileStorageContainerTypeReg.Selected。
+请记住Client Secret的过期时间：
 
-![搜索并勾选 FileStorageContainerTypeReg.Selected](image-6.png)
+![请记住Client Secret的过期时间](image-6.png)
 
-四项权限全部添加完成后，点击 Grant admin consent for {tenant} 完成管理员同意。
+请记录Client Secret的值，页面刷新后无法再次查看：
 
-![四项权限添加后，点 Grant admin consent for {tenant}](image-7.png)
+![请记录Client Secret的值](image-7.png)
 
-进入 Certificates & secrets 页面，点击 New client secret 生成密钥，生成后立即复制 Value 字段（页面刷新后无法再次查看）。
+请记录 Client Id 以及 Tenant Id，后续步骤会用到：
 
-![Certificates & secrets → New client secret，生成后立即复制 Value](image-8.png)
+![请记录 Client Id 以及 Tenant Id](image-8.png)
 
 ## 2. 创建 Container Type
 
