@@ -151,28 +151,19 @@ GET {{21VGraphBase}}/v1.0/drives/{{SPEContainerId}}/root/children
 
 ---
 
-### 以上步骤跑通的话，说明我们的 21V 环境已经可以正常运行SPE了，可以使用以下步骤将之前创建的 Container Type 升级到付费模式或新建付费 Container Type
-
----
-
 # SPE 付费 Container Type 上线完整流程（21V Gallatin）
-
----
 
 ## 概览
 
 ```
-Step 0  Azure 计费资源准备（Owning Tenant 侧）
+Step 0  Azure 计费资源准备
 Step 1  连接 SPO Admin
-Step 2  二选一创建付费 CT
-        ├─ 路径 A：新建付费 CT
-        └─ 路径 B：升级 Trial CT → 付费
+Step 2  创建付费 CT
 Step 3  Consuming Tenant Admin Consent App
-Step 4  Consuming Tenant CT Registration（授 App 容器权限）
+Step 4  Consuming Tenant CT Registration
 Step 5  验证 CT 状态
 Step 6  创建 Standard Container
-Step 7  （仅路径 B）数据迁移 + 切流量 + 删 Trial 容器
-Step 8  Azure Cost Management 验证账单
+Step 7  Azure Cost Management 验证账单
 ```
 
 ---
@@ -185,11 +176,42 @@ Step 8  Azure Cost Management 验证账单
 |---|---|
 | Subscription | Active 状态，记下 `SubscriptionId` |
 | Resource Group | 选定 / 新建，记下名称 |
-| Region | 选定 Gallatin 区域，例如 `China North 3` |
+| Region | 选定 Gallatin 区域，例如 `China East 2` |
 | 权限 | 当前账户在 Sub + RG 上 **Owner / Contributor** |
 | 付款方式 | 订阅有有效付款方式 |
 
-> 升级 Trial 时，账户在**新旧订阅上都要有 Owner/Contributor**。
+### 在世纪互联 (Gallatin) 环境中配置 SharePoint Embedded Container Type Billing 的前提条件
+- 已安装 SharePoint Online Management Shell
+- 拥有世纪互联 Azure 订阅及相应权限
+
+### 步骤一：注册 Microsoft.Syntex 资源提供程序
+
+#### 方式 A：通过 Azure Portal
+
+1. 登录 Azure Portal
+2. 导航到 **订阅 (Subscriptions)**，选择用于计费的订阅
+3. 左侧菜单中选择 **资源提供程序 (Resource providers)**
+4. 搜索 `Microsoft.Syntex`
+5. 如果状态为 "NotRegistered"，点击 **注册 (Register)**
+6. 等待 5-10 分钟完成注册
+
+    ![alt text](image-11.png)
+
+#### 方式 B：通过 Azure CLI
+
+```powershell
+az cloud set --name AzureChinaCloud
+az login
+az account show  # 确认 environmentName 为 AzureChinaCloud
+az provider register --namespace Microsoft.Syntex
+az provider show -n Microsoft.Syntex --query "registrationState"
+# 等待返回 "Registered"
+```
+
+### ⚠️ 注意事项
+
+1. 资源组需事先在对应区域创建好
+2. 使用 CLI 操作完成后如需切回全球版：`az cloud set --name AzureCloud`
 
 ---
 
@@ -197,50 +219,31 @@ Step 8  Azure Cost Management 验证账单
 
 ```powershell
 Import-Module Microsoft.Online.SharePoint.PowerShell
-Connect-SPOService -Url https://{tenant}-admin.sharepoint.cn
+Connect-SPOService -Url https://{tenant}-admin.sharepoint.cn -Region China
 ```
 
-> 当前账户需为 **SharePoint Embedded Administrator**。
+> 当前账户需为至少 **SharePoint Embedded Administrator**。
 
 ---
 
-## Step 2 — 二选一创建付费 CT
-
-### 路径 A：新建付费 CT
+## Step 2 — 创建付费 CT
 
 ```powershell
-# A1) 创建 Standard CT（无计费）
+# 创建 Standard CT（无计费）
 New-SPOContainerType `
-  -ContainerTypeName "ProdCT01" `
+  -ContainerTypeName "YourContainerTypeName" `
   -OwningApplicationId <app-id>
 # → 记下返回的 ContainerTypeId
 
-# A2) 绑定计费 Profile
+# 绑定计费 Profile
 Add-SPOContainerTypeBilling `
-  -ContainerTypeId <ct-id> `
-  -AzureSubscriptionId <sub-id> `
-  -ResourceGroup "RG-SPE-Prod" `
-  -Region "China North 3"
+  -ContainerTypeId <你的ContainerTypeId> `
+  -AzureSubscriptionId <你的订阅ID> `
+  -ResourceGroup "<资源组名称>" `
+  -Region "chinaeast2"
 ```
 
-### 路径 B：升级 Trial CT → 付费
-
-```powershell
-# 直接打计费信息
-Set-SPOContainerType `
-  -ContainerTypeId <existing-trial-ct-id> `
-  -AzureSubscriptionId <sub-id> `
-  -ResourceGroup "RG-SPE-Prod"
-```
-
-> ⚠️ Trial 容器内的数据**不会**随 CT 升级保留计费豁免；建议新建 Standard 容器后再迁移数据（见 Step 7）。
-
-### 关键差异
-
-| 项 | 路径 A | 路径 B |
-|---|---|---|
-| 命令 | `New-SPOContainerType` + `Add-SPOContainerTypeBilling` | `Set-SPOContainerType` |
-| 旧数据 | 无 | 在原 Trial 容器，需迁移 |
+注意，以上步骤当中的**`-Region` 参数必须使用短名称格式**（如 `chinaeast2`），不能用 `China East 2`，否则会报 "Azure region is not supported for Microsoft.Syntex" 错误
 
 ---
 
@@ -341,21 +344,16 @@ Content-Type: application/json
 
 ---
 
-## Step 7 —（仅路径 B）数据迁移 + 切流量 + 删 Trial 容器
+## Step 7 — 验证（具体步骤同第一部分Trial）
 
-1. **枚举源容器**
+1. **枚举**
    ```
-   GET https://microsoftgraph.chinacloudapi.cn/v1.0/drives/{trialDriveId}/root/children
+   GET https://microsoftgraph.chinacloudapi.cn/v1.0/drives/{DriveId}/root/children
    ```
-2. **下载 → 上传新容器**
+2. **上传 → 下载**
    - 小文件 (<4MB)：`PUT .../content`
    - 大文件：`createUploadSession` 分片
 3. **校验**：对比 source / target 的 `size` 和 file count
-4. **切流量**：替换业务配置中的 ContainerId → 新 Standard 容器 ID，灰度发布
-5. **删除 Trial 容器**
-   ```
-   DELETE https://microsoftgraph.chinacloudapi.cn/v1.0/storage/fileStorage/containers/{trialContainerId}
-   ```
 
 ---
 
@@ -376,12 +374,12 @@ Content-Type: application/json
 
 ## 完整 Checklist
 
-- [ ] Step 0 — Azure Sub + RG 准备好（Owner / Contributor）
-- [ ] Step 1 — `Connect-SPOService` 到 Owning Tenant
-- [ ] Step 2 — 路径 A 或 B 创建 / 升级付费 CT
-- [ ] Step 3 — Consuming Tenant **Admin Consent App**（创建 SP）
+- [ ] Step 0 — Azure Sub + RG 准备好
+- [ ] Step 1 — `Connect-SPOService`
+- [ ] Step 2 — 创建付费 CT
+- [ ] Step 3 — Consuming Tenant **Admin Consent App**
 - [ ] Step 4 — Consuming Tenant **CT Registration**（PUT applicationPermissions）
 - [ ] Step 5 — `Get-SPOContainerType` 验证 Standard + 计费信息
 - [ ] Step 6 — 创建 Standard Container
-- [ ] Step 7 — （路径 B）数据迁移 + 切流量 + 删 Trial 容器
+- [ ] Step 7 — 验证
 - [ ] Step 8 — Azure Cost Management 验证账单
