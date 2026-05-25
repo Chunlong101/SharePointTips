@@ -160,10 +160,11 @@ Step 0  Azure 计费资源准备
 Step 1  连接 SPO Admin
 Step 2  创建付费 CT
 Step 3  Consuming Tenant Admin Consent App
-Step 4  Consuming Tenant CT Registration
-Step 5  验证 CT 状态
+Step 4  取 Graph App-Only Token
+Step 5  Consuming Tenant CT Registration（注册 + 验证）
 Step 6  创建 Standard Container
-Step 7  Azure Cost Management 验证账单
+Step 7  验证
+Step 8  Azure Cost Management 验证账单
 ```
 
 ---
@@ -268,23 +269,32 @@ https://login.partner.microsoftonline.cn/{consumingTenantId}/adminconsent
 
 ---
 
-## Step 4 — Consuming Tenant CT Registration
+## Step 4 — 取 Graph App-Only Token
+
+后续 Step 5 / Step 6 / Step 7 都会复用同一个 Token。
+
+```http
+POST https://login.partner.microsoftonline.cn/{consumingTenantId}/oauth2/v2.0/token
+Content-Type: application/x-www-form-urlencoded
+
+grant_type=client_credentials
+&client_id=<app-id>
+&client_secret=<app-secret>
+&scope=https://microsoftgraph.chinacloudapi.cn/.default
+```
+
+返回的 `access_token` 在后续请求中作为 `Authorization: Bearer <graph-app-only-token>` 使用。
+
+---
+
+## Step 5 — Consuming Tenant CT Registration（注册 + 验证）
 
 授予 App 对该 CT 的 Application Permissions（容器级权限）。
 
-**取 SPO App-Only Token**（client_credentials）：
-```
-POST https://login.partner.microsoftonline.cn/{consumingTenantId}/oauth2/v2.0/token
-grant_type=client_credentials
-client_id=<app-id>
-client_secret=<app-secret>
-scope=https://{consumingTenant}.sharepoint.cn/.default
-```
-
 **注册**：
 ```http
-PUT https://{consumingTenant}.sharepoint.cn/_api/v2.1/storageContainerTypes/{containerTypeId}/applicationPermissions
-Authorization: Bearer <spo-app-only-token>
+PUT https://microsoftgraph.chinacloudapi.cn/beta/storage/fileStorage/containerTypeRegistrations/{containerTypeId}
+Authorization: Bearer <graph-app-only-token>
 Content-Type: application/json
 Accept: application/json
 ```
@@ -292,11 +302,11 @@ Accept: application/json
 Body：
 ```json
 {
-  "value": [
+  "applicationPermissionGrants": [
     {
       "appId": "<your-app-id>",
-      "delegated": ["full"],
-      "appOnly": ["full"]
+      "delegatedPermissions":  ["full"],
+      "applicationPermissions": ["full"]
     }
   ]
 }
@@ -304,16 +314,15 @@ Body：
 
 > 权限可选值：`none` / `readcontent` / `writecontent` / `create` / `delete` / `read` / `write` / `enumerate` / `addpermissions` / `updatepermissions` / `deletepermissions` / `managepermissions` / `full`
 
-**验证**：
+**验证（CT Registration）**：
 ```http
-GET https://{consumingTenant}.sharepoint.cn/_api/v2.1/storageContainerTypes/{containerTypeId}/applicationPermissions
+GET https://microsoftgraph.chinacloudapi.cn/beta/storage/fileStorage/containerTypeRegistrations/{containerTypeId}
+Authorization: Bearer <graph-app-only-token>
 ```
 
-返回 `value` 数组中应包含你的 App 且权限符合预期。
+返回的 `applicationPermissionGrants` 数组中应包含你的 App 且权限符合预期。
 
----
-
-## Step 5 — 验证 CT 状态
+**验证（CT 状态）**：
 
 ```powershell
 Get-SPOContainerType -ContainerTypeId <ct-id> | Format-List
@@ -378,8 +387,8 @@ Content-Type: application/json
 - [ ] Step 1 — `Connect-SPOService`
 - [ ] Step 2 — 创建付费 CT
 - [ ] Step 3 — Consuming Tenant **Admin Consent App**
-- [ ] Step 4 — Consuming Tenant **CT Registration**（PUT applicationPermissions）
-- [ ] Step 5 — `Get-SPOContainerType` 验证 Standard + 计费信息
+- [ ] Step 4 — 取 Graph App-Only Token
+- [ ] Step 5 — Consuming Tenant **CT Registration**
 - [ ] Step 6 — 创建 Standard Container
 - [ ] Step 7 — 验证
 - [ ] Step 8 — Azure Cost Management 验证账单
