@@ -50,8 +50,6 @@ In production, customers typically assign different spending limits by user tier
 
 # CoWork Copilot Credit 用量计费模式：实战跑通与客户真实问题
 
-Internal Only
-
 ## 背景
 
 现有 Frontier 客户的计费自 7 月 1 日起正式生效。任何已在 Frontier 中使用 Cowork 的租户，在 7 月 1 日之前都不会产生费用——即便 6 月 16 日（GA）至 6 月 30 日期间已有实际用量，也不计费。
