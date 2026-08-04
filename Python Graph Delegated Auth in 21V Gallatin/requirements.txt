@@ -1,0 +1,4 @@
+requests>=2.32,<3
+python-dotenv>=1.0,<2
+pytest>=8,<9
+responses>=0.25,<1
