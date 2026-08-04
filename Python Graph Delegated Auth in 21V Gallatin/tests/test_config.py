@@ -137,6 +137,22 @@ def test_other_invalid_sharepoint_urls_mention_required_domain(
 
 
 @pytest.mark.parametrize(
+    "site_url",
+    [
+        "https://contoso.sharepoint.cn:not-a-port/sites/demo",
+        "https://[contoso.sharepoint.cn/sites/demo",
+    ],
+)
+def test_malformed_sharepoint_url_raises_config_error(
+    tmp_path: Path, site_url: str
+) -> None:
+    environ = {**VALID_ENV, "SHAREPOINT_SITE_URL": site_url}
+
+    with pytest.raises(ConfigError, match="SHAREPOINT_SITE_URL"):
+        load_settings(tmp_path / "missing.env", environ)
+
+
+@pytest.mark.parametrize(
     "redirect_uri",
     [
         "http://127.0.0.1:8400",
@@ -149,6 +165,13 @@ def test_other_invalid_redirect_uris_mention_setting(
     tmp_path: Path, redirect_uri: str
 ) -> None:
     environ = {**VALID_ENV, "REDIRECT_URI": redirect_uri}
+
+    with pytest.raises(ConfigError, match="REDIRECT_URI"):
+        load_settings(tmp_path / "missing.env", environ)
+
+
+def test_malformed_redirect_uri_raises_config_error(tmp_path: Path) -> None:
+    environ = {**VALID_ENV, "REDIRECT_URI": "http://[localhost:8400/callback"}
 
     with pytest.raises(ConfigError, match="REDIRECT_URI"):
         load_settings(tmp_path / "missing.env", environ)

@@ -84,8 +84,19 @@ def _validate_uuid(value: str, key: str) -> None:
 
 
 def _validate_and_normalize_site_url(value: str) -> str:
-    parsed = urlsplit(value)
-    hostname = parsed.hostname or ""
+    error_message = (
+        "SHAREPOINT_SITE_URL must be an HTTPS URL on a lowercase sharepoint.cn host "
+        "without a query or fragment"
+    )
+    try:
+        parsed = urlsplit(value)
+        hostname = parsed.hostname or ""
+        parsed.port
+        username = parsed.username
+        password = parsed.password
+    except ValueError as exc:
+        raise ConfigError(error_message) from exc
+
     hostname_in_url = parsed.netloc.rsplit("@", 1)[-1].split(":", 1)[0]
     valid = (
         parsed.scheme == "https"
@@ -93,20 +104,17 @@ def _validate_and_normalize_site_url(value: str) -> str:
         and hostname.endswith(".sharepoint.cn")
         and not parsed.query
         and not parsed.fragment
-        and parsed.username is None
-        and parsed.password is None
+        and username is None
+        and password is None
     )
     if not valid:
-        raise ConfigError(
-            "SHAREPOINT_SITE_URL must be an HTTPS URL on a lowercase sharepoint.cn host "
-            "without a query or fragment"
-        )
+        raise ConfigError(error_message)
     return value.removesuffix("/")
 
 
 def _validate_redirect_uri(value: str) -> str:
-    parsed = urlsplit(value)
     try:
+        parsed = urlsplit(value)
         port = parsed.port
     except ValueError as exc:
         raise ConfigError(
