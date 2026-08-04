@@ -58,6 +58,7 @@ class GraphClient:
                     headers=headers,
                     timeout=HTTP_TIMEOUT,
                     verify=True,
+                    allow_redirects=False,
                 )
             except requests.RequestException:
                 if retry_number < MAX_RETRIES:
@@ -71,6 +72,11 @@ class GraphClient:
             ):
                 self._sleep(self._retry_delay(response, retry_number))
                 continue
+
+            if 300 <= response.status_code < 400:
+                raise self._response_error(
+                    response, code="unexpected_redirect"
+                )
 
             try:
                 payload = response.json()

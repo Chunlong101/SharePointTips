@@ -64,6 +64,48 @@ def test_get_current_user_uses_gallatin_host_and_safe_transport_headers(
     assert "verify" not in kwargs or kwargs["verify"] is True
 
 
+def test_graph_json_transport_does_not_follow_cross_host_redirects():
+    class RedirectAdapter(requests.adapters.BaseAdapter):
+        def __init__(self):
+            self.requests = []
+
+        def send(self, request, **kwargs):
+            self.requests.append(request)
+            response = requests.Response()
+            response.request = request
+            response.headers["Content-Type"] = "application/json"
+            if len(self.requests) == 1:
+                response.status_code = 302
+                response.headers["Location"] = (
+                    "https://graph.microsoft.com/v1.0/me?secret=redirect-target"
+                )
+                response._content = (
+                    b'{"error":{"code":"unexpectedRedirect",'
+                    b'"message":"secret redirect body"}}'
+                )
+            else:
+                response.status_code = 200
+                response._content = b'{"id":"global-user"}'
+            return response
+
+        def close(self):
+            pass
+
+    session = requests.Session()
+    adapter = RedirectAdapter()
+    session.mount("https://", adapter)
+
+    with pytest.raises(GraphError) as exc_info:
+        GraphClient("token", session=session).get_current_user()
+
+    message = str(exc_info.value)
+    assert len(adapter.requests) == 1
+    assert "status 302" in message
+    assert "unexpected_redirect" in message
+    assert "graph.microsoft.com" not in message
+    assert "secret" not in message
+
+
 def test_get_current_user_rejects_response_without_user_id(
     fake_response, recording_session
 ):
