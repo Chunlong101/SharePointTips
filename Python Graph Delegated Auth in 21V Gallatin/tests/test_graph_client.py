@@ -5,12 +5,14 @@ from pathlib import Path
 import pytest
 import requests
 
+import src.graph_client as graph_client_module
 from src.config import Settings
 from src.errors import GraphError, LocalFileError
 from src.graph_client import (
     GRAPH_BASE_URL,
     HTTP_TIMEOUT,
     MAX_RETRIES,
+    MAX_SIMPLE_UPLOAD_SIZE,
     GraphClient,
     encode_remote_path,
 )
@@ -416,6 +418,51 @@ def test_upload_rejects_source_larger_than_250_mib_before_network(
     assert session.calls == []
 
 
+def test_upload_accepts_source_exactly_250_mib(tmp_path, fake_response, recording_session):
+    source = tmp_path / "maximum.bin"
+    with source.open("wb") as handle:
+        handle.truncate(MAX_SIMPLE_UPLOAD_SIZE)
+    session = recording_session(fake_response(payload={"id": "uploaded"}))
+
+    item = GraphClient("token", session=session).upload_file(
+        "drive-id", source, "target.bin", overwrite=True
+    )
+
+    assert item == {"id": "uploaded"}
+    assert [call[0] for call in session.calls] == ["PUT"]
+
+
+def test_upload_validates_size_from_open_file_descriptor_before_put(
+    tmp_path, fake_response, recording_session, monkeypatch
+):
+    source = tmp_path / "source.bin"
+    source.write_bytes(b"content")
+    session = recording_session(fake_response(payload={"id": "uploaded"}))
+    real_fstat = os.fstat
+    events = []
+
+    def recording_fstat(file_descriptor):
+        events.append(("fstat", file_descriptor))
+        return real_fstat(file_descriptor)
+
+    original_request = session.request
+
+    def recording_request(method, url, **kwargs):
+        data = kwargs.get("data")
+        events.append((method, data.fileno() if data is not None else None))
+        return original_request(method, url, **kwargs)
+
+    monkeypatch.setattr(graph_client_module.os, "fstat", recording_fstat)
+    session.request = recording_request
+
+    GraphClient("token", session=session).upload_file(
+        "drive-id", source, "target.bin", overwrite=True
+    )
+
+    assert [event[0] for event in events][-2:] == ["fstat", "PUT"]
+    assert events[-2][1] == events[-1][1]
+
+
 @pytest.mark.parametrize("destination", ["", "/absolute", "folder/../target.bin"])
 def test_upload_rejects_invalid_destination_before_network(
     destination, tmp_path, recording_session
@@ -472,9 +519,51 @@ def test_upload_puts_file_stream_once_with_binary_content_type(
         "/%E4%B8%AD%E6%96%87%20Folder/a%23b.bin:/content"
     )
     assert kwargs["headers"]["Content-Type"] == "application/octet-stream"
+    assert kwargs["headers"]["If-None-Match"] == "*"
     assert hasattr(kwargs["data"], "read")
     assert not isinstance(kwargs["data"], (bytes, bytearray))
     assert kwargs["data"].closed
+
+
+def test_upload_with_overwrite_skips_preflight_and_conditional_header(
+    tmp_path, fake_response, recording_session
+):
+    source = tmp_path / "source.bin"
+    source.write_bytes(b"replacement")
+    session = recording_session(fake_response(payload={"id": "uploaded"}))
+
+    GraphClient("token", session=session).upload_file(
+        "drive-id", source, "target.bin", overwrite=True
+    )
+
+    assert [call[0] for call in session.calls] == ["PUT"]
+    assert "If-None-Match" not in session.calls[0][2]["headers"]
+
+
+@pytest.mark.parametrize("status", [409, 412])
+def test_upload_maps_conditional_put_race_to_existing_target_error(
+    status, tmp_path, fake_response, recording_session
+):
+    source = tmp_path / "source.bin"
+    source.write_bytes(b"content")
+    session = recording_session(
+        fake_response(
+            status_code=404,
+            payload={"error": {"code": "itemNotFound"}},
+        ),
+        fake_response(
+            status_code=status,
+            payload={"error": {"code": "nameAlreadyExists"}},
+        ),
+    )
+
+    with pytest.raises(GraphError, match="already exists"):
+        GraphClient("token", session=session).upload_file(
+            "drive-id", source, "target.bin"
+        )
+
+    assert [call[0] for call in session.calls] == ["GET", "PUT"]
+    assert session.calls[1][2]["headers"]["If-None-Match"] == "*"
 
 
 def test_upload_does_not_retry_put_after_transport_failure(
@@ -500,10 +589,12 @@ def test_upload_does_not_retry_put_after_transport_failure(
 
 
 class StreamingResponse:
-    def __init__(self, chunks, status_code=200, headers=None):
+    def __init__(self, chunks, status_code=200, headers=None, close_error=None):
         self.status_code = status_code
         self.headers = headers or {}
         self._chunks = chunks
+        self.close_calls = 0
+        self._close_error = close_error
 
     def iter_content(self, chunk_size):
         assert chunk_size == 64 * 1024
@@ -511,6 +602,11 @@ class StreamingResponse:
 
     def json(self):
         return {"error": {"code": "downloadFailed", "message": "secret body"}}
+
+    def close(self):
+        self.close_calls += 1
+        if self._close_error is not None:
+            raise self._close_error
 
 
 def test_download_rejects_existing_target_without_overwrite_before_network(
@@ -529,25 +625,25 @@ def test_download_rejects_existing_target_without_overwrite_before_network(
     assert session.calls == []
 
 
-def test_download_streams_to_same_directory_then_atomically_replaces(
+def test_download_streams_to_same_directory_then_atomically_links_without_overwrite(
     tmp_path, monkeypatch, recording_session
 ):
     destination = tmp_path / "new" / "folder" / "download.bin"
     response = StreamingResponse([b"first", b"", b"-second"])
     session = recording_session(response)
-    real_replace = os.replace
-    replacements = []
+    real_link = os.link
+    links = []
 
-    def recording_replace(source, target):
+    def recording_link(source, target):
         source = Path(source)
         target = Path(target)
         assert source.parent == destination.parent
         assert source.read_bytes() == b"first-second"
         assert not destination.exists()
-        replacements.append((source, target))
-        real_replace(source, target)
+        links.append((source, target))
+        real_link(source, target)
 
-    monkeypatch.setattr(os, "replace", recording_replace)
+    monkeypatch.setattr(os, "link", recording_link)
 
     result = GraphClient("token", session=session).download_file(
         "drive/id", "中文 Folder/a#b.bin", destination
@@ -555,7 +651,8 @@ def test_download_streams_to_same_directory_then_atomically_replaces(
 
     assert result == destination
     assert destination.read_bytes() == b"first-second"
-    assert len(replacements) == 1
+    assert len(links) == 1
+    assert response.close_calls == 1
     method, url, kwargs = session.calls[0]
     assert method == "GET"
     assert url == (
@@ -565,28 +662,130 @@ def test_download_streams_to_same_directory_then_atomically_replaces(
     assert kwargs["stream"] is True
 
 
-def test_download_follows_https_redirect_without_forwarding_authorization(
-    tmp_path, fake_response, recording_session
+def test_download_with_overwrite_atomically_replaces_existing_target(
+    tmp_path, monkeypatch, recording_session
+):
+    destination = tmp_path / "download.bin"
+    destination.write_bytes(b"original")
+    session = recording_session(StreamingResponse([b"replacement"]))
+    real_replace = os.replace
+    replacements = []
+
+    def recording_replace(source, target):
+        replacements.append((Path(source), Path(target)))
+        real_replace(source, target)
+
+    monkeypatch.setattr(os, "replace", recording_replace)
+
+    GraphClient("token", session=session).download_file(
+        "drive-id", "remote.bin", destination, overwrite=True
+    )
+
+    assert destination.read_bytes() == b"replacement"
+    assert len(replacements) == 1
+
+
+def test_download_no_overwrite_preserves_destination_created_during_commit(
+    tmp_path, monkeypatch, recording_session
+):
+    destination = tmp_path / "download.bin"
+    session = recording_session(StreamingResponse([b"downloaded"]))
+
+    def racing_link(_source, target):
+        Path(target).write_bytes(b"concurrent winner")
+        raise FileExistsError("adapter detail")
+
+    monkeypatch.setattr(os, "link", racing_link)
+
+    with pytest.raises(LocalFileError, match="already exists") as exc_info:
+        GraphClient("token", session=session).download_file(
+            "drive-id", "remote.bin", destination
+        )
+
+    assert destination.read_bytes() == b"concurrent winner"
+    assert list(tmp_path.iterdir()) == [destination]
+    assert "adapter detail" not in str(exc_info.value)
+
+
+def test_download_redirect_uses_credential_free_session_and_effective_request(
+    tmp_path,
 ):
     download_url = "https://download.example.cn/preauthenticated?secret=opaque"
-    session = recording_session(
-        fake_response(status_code=302, headers={"Location": download_url}),
-        StreamingResponse([b"redirected content"]),
-    )
     destination = tmp_path / "download.bin"
 
-    GraphClient("graph-token", session=session).download_file(
-        "drive-id", "remote.bin", destination
+    class TrackingResponse(requests.Response):
+        def __init__(self):
+            super().__init__()
+            self.close_calls = 0
+
+        def close(self):
+            self.close_calls += 1
+            super().close()
+
+    first_response = TrackingResponse()
+    first_response.status_code = 302
+    first_response.headers["Location"] = download_url
+    first_response._content = b""
+
+    class Adapter(requests.adapters.BaseAdapter):
+        def __init__(self, response, require_first_closed=False):
+            self.response = response
+            self.require_first_closed = require_first_closed
+            self.requests = []
+            self.send_kwargs = []
+
+        def send(self, request, **kwargs):
+            if self.require_first_closed:
+                assert first_response.close_calls >= 1
+            self.requests.append(request)
+            self.send_kwargs.append(kwargs)
+            self.response.request = request
+            return self.response
+
+        def close(self):
+            pass
+
+    graph_session = requests.Session()
+    graph_session.auth = ("session-user", "session-password")
+    graph_session.headers.update(
+        {"Authorization": "Bearer session-default", "X-Api-Key": "secret-key"}
     )
+    graph_session.cookies.set("session-cookie", "secret-cookie")
+    graph_adapter = Adapter(first_response)
+    graph_session.mount("https://", graph_adapter)
+
+    redirected_response = requests.Response()
+    redirected_response.status_code = 200
+    redirected_response._content = b"redirected content"
+    redirected_response._content_consumed = True
+    redirect_session = requests.Session()
+    redirect_session.auth = ("redirect-user", "redirect-password")
+    redirect_session.headers.update(
+        {"Authorization": "Bearer redirect-default", "X-Api-Key": "redirect-key"}
+    )
+    redirect_session.cookies.set("redirect-cookie", "redirect-secret")
+    redirect_session.params["credential"] = "redirect-query-secret"
+    redirect_adapter = Adapter(redirected_response, require_first_closed=True)
+    redirect_session.mount("https://", redirect_adapter)
+
+    GraphClient(
+        "graph-token",
+        session=graph_session,
+        download_session_factory=lambda: redirect_session,
+    ).download_file("drive-id", "remote.bin", destination)
 
     assert destination.read_bytes() == b"redirected content"
-    assert session.calls[0][2]["headers"]["Authorization"] == "Bearer graph-token"
-    assert session.calls[0][2]["allow_redirects"] is False
-    assert session.calls[1][1] == download_url
-    assert "Authorization" not in session.calls[1][2].get("headers", {})
-    assert session.calls[1][2]["allow_redirects"] is False
-    assert session.calls[1][2]["verify"] is True
-    assert session.calls[1][2]["timeout"] == HTTP_TIMEOUT
+    assert len(graph_adapter.requests) == 1
+    assert len(redirect_adapter.requests) == 1
+    redirected_request = redirect_adapter.requests[0]
+    assert redirected_request.url == download_url
+    assert "Authorization" not in redirected_request.headers
+    assert "Cookie" not in redirected_request.headers
+    assert "X-Api-Key" not in redirected_request.headers
+    assert redirect_adapter.send_kwargs[0]["verify"] is True
+    assert redirect_adapter.send_kwargs[0]["timeout"] == HTTP_TIMEOUT
+    assert redirect_adapter.send_kwargs[0]["stream"] is True
+    assert first_response.close_calls >= 1
 
 
 def test_download_rejects_non_https_redirect_before_second_request(
@@ -627,3 +826,29 @@ def test_download_removes_temporary_file_after_interrupted_stream(
     assert list(destination.parent.iterdir()) == []
     assert "token" not in str(exc_info.value)
     assert "secret" not in str(exc_info.value)
+
+
+def test_download_close_failure_does_not_mask_stream_error_or_prevent_cleanup(
+    tmp_path, recording_session
+):
+    destination = tmp_path / "nested" / "download.bin"
+
+    def interrupted_chunks():
+        yield b"partial"
+        raise requests.ConnectionError("primary transport detail")
+
+    response = StreamingResponse(
+        interrupted_chunks(), close_error=RuntimeError("adapter close secret")
+    )
+    session = recording_session(response)
+
+    with pytest.raises(GraphError, match="stream failed") as exc_info:
+        GraphClient("token", session=session).download_file(
+            "drive-id", "remote.bin", destination
+        )
+
+    assert response.close_calls == 1
+    assert not destination.exists()
+    assert list(destination.parent.iterdir()) == []
+    assert "primary transport detail" not in str(exc_info.value)
+    assert "adapter close secret" not in str(exc_info.value)

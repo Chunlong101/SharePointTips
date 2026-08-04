@@ -1,4 +1,5 @@
 import os
+import stat
 import tempfile
 import time
 from collections.abc import Callable
@@ -41,10 +42,12 @@ class GraphClient:
         access_token: str,
         session: requests.Session | None = None,
         sleep: Callable[[float], None] = time.sleep,
+        download_session_factory: Callable[[], requests.Session] = requests.Session,
     ) -> None:
         self._access_token = access_token
         self._session = session if session is not None else requests.Session()
         self._sleep = sleep
+        self._download_session_factory = download_session_factory
 
     def _request(
         self,
@@ -183,10 +186,8 @@ class GraphClient:
         encoded_destination = encode_remote_path(destination)
         source = Path(source)
         try:
-            if not source.is_file():
-                raise LocalFileError("Upload source is not a file")
-            if source.stat().st_size > MAX_SIMPLE_UPLOAD_SIZE:
-                raise LocalFileError("Upload source exceeds the 250 MiB limit")
+            with source.open("rb") as stream:
+                self._validate_upload_stream(stream)
         except LocalFileError:
             raise
         except OSError:
@@ -196,15 +197,26 @@ class GraphClient:
             raise GraphError("Remote destination already exists")
 
         url = self._item_url(drive_id, encoded_destination, encoded=True) + ":/content"
+        headers = {"Content-Type": "application/octet-stream"}
+        accepted_statuses = None
+        if not overwrite:
+            headers["If-None-Match"] = "*"
+            accepted_statuses = {409, 412}
         try:
             with source.open("rb") as stream:
+                self._validate_upload_stream(stream)
                 payload, response = self._request(
                     "PUT",
                     url,
-                    headers={"Content-Type": "application/octet-stream"},
+                    headers=headers,
                     data=stream,
                     retry=False,
+                    accepted_statuses=accepted_statuses,
                 )
+                if response.status_code in {409, 412}:
+                    raise GraphError("Remote destination already exists")
+        except LocalFileError:
+            raise
         except OSError:
             raise LocalFileError("Unable to read upload source") from None
         if not isinstance(payload, dict):
@@ -230,14 +242,20 @@ class GraphClient:
 
         temp_name: str | None = None
         response: Any = None
+        redirect_session: requests.Session | None = None
         try:
-            response = self._download_request(source_url, include_authorization=True)
+            response = self._download_request(
+                self._session, source_url, include_authorization=True
+            )
             if 300 <= response.status_code < 400:
                 location = response.headers.get("Location")
                 self._require_safe_download_redirect(location)
                 self._close_response(response)
+                response = None
+                redirect_session = self._download_session_factory()
+                self._remove_session_credentials(redirect_session)
                 response = self._download_request(
-                    location, include_authorization=False
+                    redirect_session, location, include_authorization=False
                 )
 
             if 300 <= response.status_code < 400:
@@ -262,7 +280,16 @@ class GraphClient:
                 except requests.RequestException:
                     raise GraphError("Graph download stream failed") from None
                 temp_file.flush()
-            os.replace(temp_name, destination)
+            if overwrite:
+                os.replace(temp_name, destination)
+            else:
+                try:
+                    os.link(temp_name, destination)
+                except FileExistsError:
+                    raise LocalFileError(
+                        "Download destination already exists"
+                    ) from None
+                os.unlink(temp_name)
             temp_name = None
             return destination
         except (GraphError, LocalFileError):
@@ -280,9 +307,14 @@ class GraphClient:
                     pass
                 except OSError:
                     pass
+            self._close_response(redirect_session)
 
     def _download_request(
-        self, url: str, *, include_authorization: bool
+        self,
+        session: requests.Session,
+        url: str,
+        *,
+        include_authorization: bool,
     ) -> requests.Response:
         headers = {
             "Accept": "application/octet-stream",
@@ -291,7 +323,7 @@ class GraphClient:
         if include_authorization:
             self._require_trusted_graph_url(url, "download URL")
             headers["Authorization"] = f"Bearer {self._access_token}"
-        return self._session.request(
+        return session.request(
             "GET",
             url,
             headers=headers,
@@ -300,6 +332,24 @@ class GraphClient:
             verify=True,
             allow_redirects=False,
         )
+
+    @staticmethod
+    def _validate_upload_stream(stream: Any) -> None:
+        source_stat = os.fstat(stream.fileno())
+        if not stat.S_ISREG(source_stat.st_mode):
+            raise LocalFileError("Upload source is not a file")
+        if source_stat.st_size > MAX_SIMPLE_UPLOAD_SIZE:
+            raise LocalFileError("Upload source exceeds the 250 MiB limit")
+
+    @staticmethod
+    def _remove_session_credentials(session: requests.Session) -> None:
+        session.auth = None
+        session.cert = None
+        session.trust_env = False
+        session.headers.clear()
+        session.cookies.clear()
+        session.params.clear()
+        session.proxies.clear()
 
     @staticmethod
     def _require_safe_download_redirect(url: Any) -> None:
@@ -321,7 +371,10 @@ class GraphClient:
     def _close_response(response: Any) -> None:
         close = getattr(response, "close", None)
         if callable(close):
-            close()
+            try:
+                close()
+            except Exception:
+                pass
 
     @staticmethod
     def _item_url(
