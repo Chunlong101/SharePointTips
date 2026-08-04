@@ -1,8 +1,6 @@
 import base64
 import hashlib
-from concurrent.futures import ThreadPoolExecutor
 from contextlib import AbstractContextManager
-from http.client import HTTPConnection
 from io import BytesIO
 from typing import Self
 from unittest.mock import patch
@@ -110,28 +108,40 @@ def test_callback_handler_rejects_unexpected_path_without_completing_callback() 
 
 
 def test_loopback_callback_server_ignores_wrong_path_then_accepts_callback() -> None:
-    with LoopbackCallbackServer("http://127.0.0.1:0/callback") as callback:
-        port = callback._server.server_port
-        with ThreadPoolExecutor(max_workers=1) as executor:
-            result_future = executor.submit(callback.wait, 2)
+    expected = CallbackResult("abc", "expected", None, None)
 
-            wrong_connection = HTTPConnection("127.0.0.1", port, timeout=1)
-            wrong_connection.request("GET", "/wrong?code=forged&state=forged")
-            wrong_response = wrong_connection.getresponse()
-            wrong_response.read()
-            wrong_connection.close()
+    class FakeServer:
+        def __init__(self) -> None:
+            self.timeout: float | None = None
+            self.timeouts: list[float | None] = []
+            self.request_results: list[CallbackResult | None] = [None, expected]
+            self.handled_requests = 0
+            self.closed = False
+            self.on_result = lambda result: None
 
-            valid_connection = HTTPConnection("127.0.0.1", port, timeout=1)
-            valid_connection.request("GET", "/callback?code=abc&state=expected")
-            valid_response = valid_connection.getresponse()
-            valid_response.read()
-            valid_connection.close()
+        def handle_request(self) -> None:
+            self.handled_requests += 1
+            self.timeouts.append(self.timeout)
+            result = self.request_results.pop(0)
+            if result is not None:
+                self.on_result(result)
 
-            result = result_future.result(timeout=1)
+        def server_close(self) -> None:
+            self.closed = True
 
-    assert wrong_response.status == 404
-    assert valid_response.status == 200
-    assert result == CallbackResult("abc", "expected", None, None)
+    fake_server = FakeServer()
+    with (
+        patch.object(oauth_pkce, "HTTPServer", return_value=fake_server),
+        patch.object(oauth_pkce, "monotonic", side_effect=[100.0, 100.0, 100.0]),
+    ):
+        with LoopbackCallbackServer("http://127.0.0.1:8400/callback") as callback:
+            fake_server.on_result = callback._store_result
+            result = callback.wait(timeout_seconds=2)
+
+    assert result == expected
+    assert fake_server.handled_requests == 2
+    assert fake_server.timeouts == [2.0, 2.0]
+    assert fake_server.closed is True
 
 
 def test_loopback_callback_server_raises_safe_timeout_and_closes() -> None:

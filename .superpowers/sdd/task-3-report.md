@@ -63,6 +63,125 @@ None.
 
 ---
 
+# Remaining Important Finding Fix Report
+
+## Status
+
+Replaced the real loopback listener and HTTP requests in the `LoopbackCallbackServer.wait()` regression with a deterministic fake server/request sequence. The first handled request produces no callback result (the wrong-path equivalent), the second produces a valid `CallbackResult`, and the assertions verify that `wait()` handled both requests before returning. The deterministic overall deadline/timeout test remains in place. No production code changed, and the tests use no real socket, browser, or network.
+
+## Pre-change Focused Baseline
+
+Command (run from `Python Graph Delegated Auth in 21V Gallatin/`):
+
+`.\.venv\Scripts\python.exe -m pytest tests/test_oauth_pkce.py -k "callback" -v`
+
+Exact output:
+
+```text
+============================= test session starts =============================
+platform win32 -- Python 3.12.10, pytest-8.4.2, pluggy-1.6.0 -- C:\Users\chunlonl\source\repos\SharePointTips\.worktrees\python-graph-delegated-auth-gallatin\Python Graph Delegated Auth in 21V Gallatin\.venv\Scripts\python.exe
+cachedir: .pytest_cache
+rootdir: C:\Users\chunlonl\source\repos\SharePointTips\.worktrees\python-graph-delegated-auth-gallatin\Python Graph Delegated Auth in 21V Gallatin
+collected 21 items / 11 deselected / 10 selected
+
+tests/test_oauth_pkce.py::test_callback_handler_accepts_expected_path_and_hides_sensitive_values PASSED [ 10%]
+tests/test_oauth_pkce.py::test_callback_handler_parses_sanitized_oauth_error PASSED [ 20%]
+tests/test_oauth_pkce.py::test_callback_handler_rejects_unexpected_path_without_completing_callback PASSED [ 30%]
+tests/test_oauth_pkce.py::test_loopback_callback_server_ignores_wrong_path_then_accepts_callback PASSED [ 40%]
+tests/test_oauth_pkce.py::test_loopback_callback_server_raises_safe_timeout_and_closes PASSED [ 50%]
+tests/test_oauth_pkce.py::test_authenticate_starts_callback_before_opening_gallatin_browser_url PASSED [ 60%]
+tests/test_oauth_pkce.py::test_authenticate_rejects_invalid_callback_before_exchange[result0] PASSED [ 70%]
+tests/test_oauth_pkce.py::test_authenticate_rejects_invalid_callback_before_exchange[result1] PASSED [ 80%]
+tests/test_oauth_pkce.py::test_authenticate_rejects_invalid_callback_before_exchange[result2] PASSED [ 90%]
+tests/test_oauth_pkce.py::test_authenticate_surfaces_access_denied_without_sensitive_callback_data PASSED [100%]
+
+====================== 10 passed, 11 deselected in 0.34s ======================
+```
+
+## Final Focused Verification
+
+Command (run from `Python Graph Delegated Auth in 21V Gallatin/`):
+
+`.\.venv\Scripts\python.exe -m pytest tests/test_oauth_pkce.py -k "callback" -v`
+
+Exact output:
+
+```text
+============================= test session starts =============================
+platform win32 -- Python 3.12.10, pytest-8.4.2, pluggy-1.6.0 -- C:\Users\chunlonl\source\repos\SharePointTips\.worktrees\python-graph-delegated-auth-gallatin\Python Graph Delegated Auth in 21V Gallatin\.venv\Scripts\python.exe
+cachedir: .pytest_cache
+rootdir: C:\Users\chunlonl\source\repos\SharePointTips\.worktrees\python-graph-delegated-auth-gallatin\Python Graph Delegated Auth in 21V Gallatin
+collected 21 items / 11 deselected / 10 selected
+
+tests/test_oauth_pkce.py::test_callback_handler_accepts_expected_path_and_hides_sensitive_values PASSED [ 10%]
+tests/test_oauth_pkce.py::test_callback_handler_parses_sanitized_oauth_error PASSED [ 20%]
+tests/test_oauth_pkce.py::test_callback_handler_rejects_unexpected_path_without_completing_callback PASSED [ 30%]
+tests/test_oauth_pkce.py::test_loopback_callback_server_ignores_wrong_path_then_accepts_callback PASSED [ 40%]
+tests/test_oauth_pkce.py::test_loopback_callback_server_raises_safe_timeout_and_closes PASSED [ 50%]
+tests/test_oauth_pkce.py::test_authenticate_starts_callback_before_opening_gallatin_browser_url PASSED [ 60%]
+tests/test_oauth_pkce.py::test_authenticate_rejects_invalid_callback_before_exchange[result0] PASSED [ 70%]
+tests/test_oauth_pkce.py::test_authenticate_rejects_invalid_callback_before_exchange[result1] PASSED [ 80%]
+tests/test_oauth_pkce.py::test_authenticate_rejects_invalid_callback_before_exchange[result2] PASSED [ 90%]
+tests/test_oauth_pkce.py::test_authenticate_surfaces_access_denied_without_sensitive_callback_data PASSED [100%]
+
+====================== 10 passed, 11 deselected in 0.36s ======================
+```
+
+## Final Full OAuth Verification
+
+Command (run from `Python Graph Delegated Auth in 21V Gallatin/`):
+
+`.\.venv\Scripts\python.exe -m pytest tests/test_oauth_pkce.py -v`
+
+Exact output:
+
+```text
+============================= test session starts =============================
+platform win32 -- Python 3.12.10, pytest-8.4.2, pluggy-1.6.0 -- C:\Users\chunlonl\source\repos\SharePointTips\.worktrees\python-graph-delegated-auth-gallatin\Python Graph Delegated Auth in 21V Gallatin\.venv\Scripts\python.exe
+cachedir: .pytest_cache
+rootdir: C:\Users\chunlonl\source\repos\SharePointTips\.worktrees\python-graph-delegated-auth-gallatin\Python Graph Delegated Auth in 21V Gallatin
+collected 21 items
+
+tests/test_oauth_pkce.py::test_callback_handler_accepts_expected_path_and_hides_sensitive_values PASSED [  4%]
+tests/test_oauth_pkce.py::test_callback_handler_parses_sanitized_oauth_error PASSED [  9%]
+tests/test_oauth_pkce.py::test_callback_handler_rejects_unexpected_path_without_completing_callback PASSED [ 14%]
+tests/test_oauth_pkce.py::test_loopback_callback_server_ignores_wrong_path_then_accepts_callback PASSED [ 19%]
+tests/test_oauth_pkce.py::test_loopback_callback_server_raises_safe_timeout_and_closes PASSED [ 23%]
+tests/test_oauth_pkce.py::test_authenticate_starts_callback_before_opening_gallatin_browser_url PASSED [ 28%]
+tests/test_oauth_pkce.py::test_authenticate_rejects_browser_open_failure PASSED [ 33%]
+tests/test_oauth_pkce.py::test_authenticate_rejects_invalid_callback_before_exchange[result0] PASSED [ 38%]
+tests/test_oauth_pkce.py::test_authenticate_rejects_invalid_callback_before_exchange[result1] PASSED [ 42%]
+tests/test_oauth_pkce.py::test_authenticate_rejects_invalid_callback_before_exchange[result2] PASSED [ 47%]
+tests/test_oauth_pkce.py::test_authenticate_surfaces_access_denied_without_sensitive_callback_data PASSED [ 52%]
+tests/test_oauth_pkce.py::test_authenticate_rejects_oauth_error_until_state_is_validated[None-\u767b\u5f55\u56de\u8c03\u7f3a\u5c11\u72b6\u6001\u53c2\u6570-0] PASSED [ 57%]
+tests/test_oauth_pkce.py::test_authenticate_rejects_oauth_error_until_state_is_validated[forged-state-\u767b\u5f55\u56de\u8c03\u72b6\u6001\u4e0d\u5339\u914d-1] PASSED [ 61%]
+tests/test_oauth_pkce.py::test_generate_pkce_uses_s256_base64url_without_padding PASSED [ 66%]
+tests/test_oauth_pkce.py::test_generate_state_uses_cryptographically_secure_random_value PASSED [ 71%]
+tests/test_oauth_pkce.py::test_authorization_url_contains_exact_gallatin_oauth_parameters PASSED [ 76%]
+tests/test_oauth_pkce.py::test_exchange_code_posts_exact_public_client_form_and_returns_only_token PASSED [ 80%]
+tests/test_oauth_pkce.py::test_exchange_code_sanitizes_oauth_error_json PASSED [ 85%]
+tests/test_oauth_pkce.py::test_exchange_code_translates_non_json_response PASSED [ 90%]
+tests/test_oauth_pkce.py::test_exchange_code_rejects_success_without_access_token PASSED [ 95%]
+tests/test_oauth_pkce.py::test_exchange_code_translates_transport_failure PASSED [100%]
+
+============================= 21 passed in 0.35s ==============================
+```
+
+## Files
+
+- `Python Graph Delegated Auth in 21V Gallatin/tests/test_oauth_pkce.py`
+- `.superpowers/sdd/task-3-report.md`
+
+## Commit
+
+- `test: avoid real socket in OAuth callback tests`
+
+## Concerns
+
+None.
+
+---
+
 # Important Findings Fix Report
 
 ## Status
