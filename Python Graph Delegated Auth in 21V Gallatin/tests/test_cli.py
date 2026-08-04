@@ -8,6 +8,27 @@ from src.errors import AuthError, ConfigError, GraphError, LocalFileError
 
 FAKE_TOKEN = "fake-access-token-must-never-be-printed"
 
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+REQUIRED_DOC_TEXT = [
+    "https://portal.azure.cn",
+    "login.partner.microsoftonline.cn",
+    "microsoftgraph.chinacloudapi.cn",
+    "User.Read",
+    "Sites.Read.All",
+    "Files.ReadWrite.All",
+    "http://localhost:8400/callback",
+    "AADSTS700016",
+    "AADSTS7000218",
+    "python main.py login",
+    "python main.py list",
+    "python main.py upload",
+    "python main.py download",
+    "If-None-Match: *",
+    "os.link()",
+    "os.replace()",
+    "250 * 1024 * 1024",
+]
+
 
 class FakeSession:
     def __init__(self):
@@ -15,6 +36,27 @@ class FakeSession:
 
     def close(self):
         self.closed = True
+
+
+@pytest.mark.parametrize("required_text", REQUIRED_DOC_TEXT)
+def test_documentation_contains_required_setup_and_cli_text(required_text):
+    readme = (PROJECT_ROOT / "README.md").read_text(encoding="utf-8")
+
+    assert required_text in readme
+
+
+def test_documentation_env_example_has_only_public_configuration():
+    env_example = (PROJECT_ROOT / ".env.example").read_text(encoding="utf-8")
+
+    for key in (
+        "TENANT_ID",
+        "CLIENT_ID",
+        "SHAREPOINT_SITE_URL",
+        "REDIRECT_URI",
+    ):
+        assert f"{key}=" in env_example
+    for forbidden_name in ("CLIENT_SECRET", "ACCESS_TOKEN", "PASSWORD"):
+        assert forbidden_name not in env_example.upper()
 
 
 class FakeGraphClient:
