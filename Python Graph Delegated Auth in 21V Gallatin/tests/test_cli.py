@@ -45,6 +45,36 @@ def test_documentation_contains_required_setup_and_cli_text(required_text):
     assert required_text in readme
 
 
+def test_documentation_qualifies_conditional_upload_guarantee():
+    readme = (PROJECT_ROOT / "README.md").read_text(encoding="utf-8")
+
+    for caveat in (
+        "防御性条件请求",
+        "官方简单上传文档没有明确保证",
+        "真实 Gallatin 租户验证",
+        "不构成硬性并发保证",
+        "409/412 的映射仅在服务遵守条件头时适用",
+    ):
+        assert caveat in readme
+
+    assert "不会静默覆盖并发胜者" not in readme
+
+
+def test_documentation_explains_redirect_download_proxy_boundary():
+    readme = (PROJECT_ROOT / "README.md").read_text(encoding="utf-8")
+
+    for caveat in (
+        "全新的凭据隔离 session",
+        "trust_env=False",
+        "不会继承环境代理、cookie 或 auth",
+        "直接 HTTPS 连接",
+        "强制代理环境",
+        "经过单独安全评审的显式代理支持",
+        "保持凭据隔离",
+    ):
+        assert caveat in readme
+
+
 def test_documentation_env_example_has_only_public_configuration():
     env_example = (PROJECT_ROOT / ".env.example").read_text(encoding="utf-8")
 

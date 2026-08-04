@@ -202,7 +202,7 @@ python main.py download --source "Demo/hello.txt" --destination ".\downloads\hel
 
 下载会自动创建本地父目录。
 
-## 8. 输出字段和覆盖并发语义
+## 8. 输出字段和覆盖语义
 
 `list` 首行及每项均为制表符分隔：
 
@@ -216,9 +216,9 @@ python main.py download --source "Demo/hello.txt" --destination ".\downloads\hel
 
 成功上传和下载分别输出目标路径。Graph 错误只暴露经过约束的 HTTP status、Graph code 和 request-id，便于排错而不显示响应正文。
 
-覆盖保护包含用户确认的并发安全行为：
+覆盖保护采用存在性预检和防御性条件请求。上传条件头的限制如下：
 
-- **上传不带 `--overwrite`**：先检查远程目标，并在唯一一次、不会自动重试的 PUT 上发送 `If-None-Match: *`。即使另一个进程在检查后抢先创建文件，Graph 的 409/412 也会转换为“目标已存在”，不会静默覆盖并发胜者。
+- **上传不带 `--overwrite`**：先检查远程目标，并在唯一一次、不会自动重试的 PUT 上发送 `If-None-Match: *`。这是防御性条件请求；Microsoft Graph 官方简单上传文档没有明确保证此 Gallatin 端点支持该条件头。必须先进行真实 Gallatin 租户验证；在完成验证前，预检加条件头不构成硬性并发保证。409/412 的映射仅在服务遵守条件头时适用：此时，另一个进程在预检后抢先创建文件会使 PUT 返回 409/412，并由 Demo 转换为“目标已存在”而不覆盖并发胜者；如果服务忽略该条件头，仍可能发生覆盖。
 - **上传带 `--overwrite`**：跳过存在性预检和条件头，明确允许 Graph 替换远程目标；调用者接受并发写入的最后完成者结果。
 - **下载不带 `--overwrite`**：先流式写入目标同目录临时文件，完整成功后通过 `os.link()` 原子地提交新目标。若另一个进程抢先创建目标，并发胜者会保留，本次临时文件会清理并返回本地文件错误。目标文件系统必须支持同卷 hard link；不支持时会安全失败，而不会退化为覆盖。
 - **下载带 `--overwrite`**：完整下载到同目录临时文件后才调用 `os.replace()` 原子替换目标；下载中断不会留下部分目标。该开关明确授权替换在提交时存在的文件。
@@ -339,7 +339,9 @@ Get-NetTCPConnection -LocalPort 8400 -ErrorAction SilentlyContinue
 
 ### 11.11 TLS、代理和下载
 
-所有请求都启用 TLS 证书验证并设置连接/读取超时。不要通过修改代码关闭 `verify`。下载最多跟随一次 Graph 返回的绝对 HTTPS 预认证重定向，并使用已清除凭据的新 session；Graph bearer token 不会发送到下载主机。代理必须信任并允许 Gallatin Graph 及服务选择的 HTTPS 下载主机。
+所有请求都启用 TLS 证书验证并设置连接/读取超时。不要通过修改代码关闭 `verify`。下载最多跟随一次 Graph 返回的绝对 HTTPS 预认证重定向。重定向下载故意使用全新的凭据隔离 session，设置 `trust_env=False`；它不会继承环境代理、cookie 或 auth，也不会继承原 Graph session 的代理、cookies、auth、证书和默认请求参数。Graph bearer token 不会发送到下载主机。
+
+因此，运行环境必须能够直接 HTTPS 连接到服务选择的下载主机。仅在代理设备上允许或加入该主机并不足以解决连接问题，因为此重定向 session 不会读取环境代理配置。如果组织网络是强制代理环境，本 Demo 当前无法完成重定向下载；必须先增加经过单独安全评审的显式代理支持，并保持凭据隔离，避免把 Graph bearer token、cookies 或其他认证信息发送给下载主机或不应接收它们的代理目标。
 
 ## 12. 安全说明
 
