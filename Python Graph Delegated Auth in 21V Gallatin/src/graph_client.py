@@ -28,11 +28,11 @@ def encode_remote_path(path: str, allow_empty: bool = False) -> str:
     if path == "" and allow_empty:
         return ""
     if not isinstance(path, str) or not path or path.startswith("/"):
-        raise GraphError("Invalid remote path")
+        raise GraphError("远程路径无效：请使用非空的相对路径")
 
     segments = path.split("/")
     if any(segment in {"", ".", ".."} for segment in segments):
-        raise GraphError("Invalid remote path")
+        raise GraphError("远程路径无效：不能包含空路径段、. 或 ..")
     return "/".join(quote(segment, safe="") for segment in segments)
 
 
@@ -84,13 +84,17 @@ class GraphClient:
                 if retry_number < maximum_retries:
                     self._sleep(self._backoff_delay(retry_number))
                     continue
-                raise GraphError("Graph request failed after bounded retries") from None
+                raise GraphError(
+                    "Graph 请求在有界重试后仍失败；请检查网络后重试"
+                ) from None
 
             if (
                 response.status_code in _RETRYABLE_STATUS_CODES
                 and retry_number < maximum_retries
             ):
-                self._sleep(self._retry_delay(response, retry_number))
+                delay = self._retry_delay(response, retry_number)
+                self._close_response(response)
+                self._sleep(delay)
                 continue
 
             if 300 <= response.status_code < 400:
@@ -113,7 +117,7 @@ class GraphClient:
                 raise self._response_error(response, payload=payload)
             return payload, response
 
-        raise GraphError("Graph request failed after bounded retries")
+        raise GraphError("Graph 请求在有界重试后仍失败；请检查网络后重试")
 
     def get_current_user(self) -> dict[str, Any]:
         payload, response = self._request(
@@ -163,7 +167,7 @@ class GraphClient:
             if candidate is None:
                 next_url = ""
             elif not isinstance(candidate, str):
-                raise GraphError("Invalid Graph pagination link")
+                raise GraphError("Graph 分页链接无效；已停止继续请求")
             else:
                 self._require_trusted_graph_url(candidate, "pagination link")
                 next_url = candidate
@@ -191,10 +195,10 @@ class GraphClient:
         except LocalFileError:
             raise
         except OSError:
-            raise LocalFileError("Unable to inspect upload source") from None
+            raise LocalFileError("无法检查上传源文件；请确认文件存在且可读取") from None
 
         if not overwrite and self.remote_item_exists(drive_id, destination):
-            raise GraphError("Remote destination already exists")
+            raise GraphError("远程目标已存在；如需覆盖请显式使用 --overwrite")
 
         url = self._item_url(drive_id, encoded_destination, encoded=True) + ":/content"
         headers = {"Content-Type": "application/octet-stream"}
@@ -214,11 +218,11 @@ class GraphClient:
                     accepted_statuses=accepted_statuses,
                 )
                 if response.status_code in {409, 412}:
-                    raise GraphError("Remote destination already exists")
+                    raise self._response_error(response, payload=payload)
         except LocalFileError:
             raise
         except OSError:
-            raise LocalFileError("Unable to read upload source") from None
+            raise LocalFileError("无法读取上传源文件；请检查文件权限") from None
         if not isinstance(payload, dict):
             raise self._response_error(response, code="invalid_response")
         return payload
@@ -233,18 +237,18 @@ class GraphClient:
         source_url = self._item_url(drive_id, source) + ":/content"
         destination = Path(destination)
         if destination.exists() and not overwrite:
-            raise LocalFileError("Download destination already exists")
+            raise LocalFileError("本地下载目标已存在；如需覆盖请显式使用 --overwrite")
 
         try:
             destination.parent.mkdir(parents=True, exist_ok=True)
         except OSError:
-            raise LocalFileError("Unable to create download destination") from None
+            raise LocalFileError("无法创建本地下载目录；请检查路径和权限") from None
 
         temp_name: str | None = None
         response: Any = None
         redirect_session: requests.Session | None = None
         try:
-            response = self._download_request(
+            response = self._download_request_with_retries(
                 self._session, source_url, include_authorization=True
             )
             if 300 <= response.status_code < 400:
@@ -254,7 +258,7 @@ class GraphClient:
                 response = None
                 redirect_session = self._download_session_factory()
                 self._remove_session_credentials(redirect_session)
-                response = self._download_request(
+                response = self._download_request_with_retries(
                     redirect_session, location, include_authorization=False
                 )
 
@@ -278,7 +282,9 @@ class GraphClient:
                         if chunk:
                             temp_file.write(chunk)
                 except requests.RequestException:
-                    raise GraphError("Graph download stream failed") from None
+                    raise GraphError(
+                        "Graph 下载流中断；未提交不完整的本地文件，请重新运行命令"
+                    ) from None
                 temp_file.flush()
             if overwrite:
                 os.replace(temp_name, destination)
@@ -287,7 +293,7 @@ class GraphClient:
                     os.link(temp_name, destination)
                 except FileExistsError:
                     raise LocalFileError(
-                        "Download destination already exists"
+                        "本地下载目标已存在；如需覆盖请显式使用 --overwrite"
                     ) from None
                 os.unlink(temp_name)
             temp_name = None
@@ -295,9 +301,9 @@ class GraphClient:
         except (GraphError, LocalFileError):
             raise
         except requests.RequestException:
-            raise GraphError("Graph download request failed") from None
+            raise GraphError("Graph 下载请求失败；请检查网络后重试") from None
         except OSError:
-            raise LocalFileError("Local download operation failed") from None
+            raise LocalFileError("本地下载写入失败；请检查磁盘空间和文件权限") from None
         finally:
             self._close_response(response)
             if temp_name is not None:
@@ -333,13 +339,47 @@ class GraphClient:
             allow_redirects=False,
         )
 
+    def _download_request_with_retries(
+        self,
+        session: requests.Session,
+        url: str,
+        *,
+        include_authorization: bool,
+    ) -> requests.Response:
+        for retry_number in range(MAX_RETRIES + 1):
+            try:
+                response = self._download_request(
+                    session,
+                    url,
+                    include_authorization=include_authorization,
+                )
+            except requests.RequestException:
+                if retry_number < MAX_RETRIES:
+                    self._sleep(self._backoff_delay(retry_number))
+                    continue
+                raise GraphError(
+                    "Graph 下载请求在有界重试后仍失败；请检查网络后重试"
+                ) from None
+
+            if (
+                response.status_code in _RETRYABLE_STATUS_CODES
+                and retry_number < MAX_RETRIES
+            ):
+                delay = self._retry_delay(response, retry_number)
+                self._close_response(response)
+                self._sleep(delay)
+                continue
+            return response
+
+        raise GraphError("Graph 下载请求在有界重试后仍失败；请检查网络后重试")
+
     @staticmethod
     def _validate_upload_stream(stream: Any) -> None:
         source_stat = os.fstat(stream.fileno())
         if not stat.S_ISREG(source_stat.st_mode):
-            raise LocalFileError("Upload source is not a file")
+            raise LocalFileError("上传源文件不是普通文件")
         if source_stat.st_size > MAX_SIMPLE_UPLOAD_SIZE:
-            raise LocalFileError("Upload source exceeds the 250 MiB limit")
+            raise LocalFileError("上传源文件超过 250 MiB 上限")
 
     @staticmethod
     def _remove_session_credentials(session: requests.Session) -> None:
@@ -357,7 +397,7 @@ class GraphClient:
             parsed = urlsplit(url)
             port = parsed.port
         except (TypeError, ValueError) as exc:
-            raise GraphError("Invalid download redirect") from exc
+            raise GraphError("下载重定向无效；已停止请求") from exc
         if not (
             parsed.scheme == "https"
             and parsed.hostname
@@ -365,7 +405,7 @@ class GraphClient:
             and parsed.password is None
             and port in {None, 443}
         ):
-            raise GraphError("Invalid download redirect")
+            raise GraphError("下载重定向无效；仅允许绝对 HTTPS 地址")
 
     @staticmethod
     def _close_response(response: Any) -> None:
@@ -398,7 +438,7 @@ class GraphClient:
             parsed = urlsplit(url)
             port = parsed.port
         except (TypeError, ValueError) as exc:
-            raise GraphError(f"Invalid Graph {label}") from exc
+            raise GraphError(f"Graph {label} 无效；已停止请求") from exc
         trusted = (
             parsed.scheme == "https"
             and parsed.hostname == GRAPH_HOST
@@ -408,7 +448,9 @@ class GraphClient:
             and parsed.password is None
         )
         if not trusted:
-            raise GraphError(f"Invalid Graph {label}")
+            if label == "pagination link":
+                raise GraphError("Graph 分页链接无效；仅允许 Gallatin Graph HTTPS 主机")
+            raise GraphError(f"Graph {label} 无效；仅允许 Gallatin Graph HTTPS 主机")
 
     @staticmethod
     def _backoff_delay(retry_number: int) -> float:
@@ -432,7 +474,11 @@ class GraphClient:
         code: str | None = None,
     ) -> GraphError:
         graph_code = code or "unknown_error"
-        request_id = response.headers.get("request-id") or "unknown"
+        request_id = (
+            response.headers.get("request-id")
+            or response.headers.get("client-request-id")
+            or "unknown"
+        )
         if isinstance(payload, dict):
             error = payload.get("error")
             if isinstance(error, dict):
@@ -440,7 +486,7 @@ class GraphClient:
                 if isinstance(candidate_code, str) and candidate_code:
                     graph_code = candidate_code
                 inner_error = error.get("innerError") or error.get("innererror")
-                if isinstance(inner_error, dict):
+                if request_id == "unknown" and isinstance(inner_error, dict):
                     candidate_request_id = (
                         inner_error.get("request-id")
                         or inner_error.get("requestId")
@@ -450,13 +496,29 @@ class GraphClient:
 
         safe_code = self._safe_metadata(graph_code, "unknown_error")
         safe_request_id = self._safe_metadata(request_id, "unknown")
+        guidance = self._status_guidance(response.status_code)
         message = (
-            f"Graph response status {response.status_code} "
-            f"code {safe_code} request-id {safe_request_id}"
+            f"Graph 请求失败：HTTP {response.status_code}；"
+            f"code {safe_code}；request-id {safe_request_id}。{guidance}"
         )
         if self._access_token:
             message = message.replace(self._access_token, "[redacted]")
         return GraphError(message)
+
+    @staticmethod
+    def _status_guidance(status_code: int) -> str:
+        return {
+            401: "请重新登录，并确认应用和令牌属于 Gallatin 租户",
+            403: "请确认委托权限已获同意，且当前用户有目标站点权限",
+            404: "请检查站点 URL、默认文档库和远程路径是否正确",
+            409: "请检查目标是否已存在，或使用 --overwrite 明确允许覆盖",
+            412: "远程目标可能已存在；如需覆盖请显式使用 --overwrite",
+            429: "请求受到限流；程序已完成有界重试，请稍后再试",
+            500: "Graph 服务暂时异常；程序已完成有界重试，请稍后再试",
+            502: "Graph 网关暂时异常；程序已完成有界重试，请稍后再试",
+            503: "Graph 服务暂不可用；程序已完成有界重试，请稍后再试",
+            504: "Graph 网关超时；程序已完成有界重试，请稍后再试",
+        }.get(status_code, "请根据诊断信息检查配置，或稍后重试")
 
     @staticmethod
     def _safe_metadata(value: str, fallback: str) -> str:

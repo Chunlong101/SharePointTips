@@ -6,7 +6,7 @@ import pytest
 import requests
 
 import src.graph_client as graph_client_module
-from src.config import Settings
+from src.config import Settings, load_settings
 from src.errors import GraphError, LocalFileError
 from src.graph_client import (
     GRAPH_BASE_URL,
@@ -30,7 +30,7 @@ def test_encode_remote_path_encodes_each_segment_without_encoding_slashes():
     ["/absolute", "a//b", ".", "..", "a/../b", ""],
 )
 def test_encode_remote_path_rejects_unsafe_or_empty_file_paths(path):
-    with pytest.raises(GraphError, match="remote path"):
+    with pytest.raises(GraphError, match="远程路径无效"):
         encode_remote_path(path)
 
 
@@ -104,7 +104,7 @@ def test_graph_json_transport_does_not_follow_cross_host_redirects():
 
     message = str(exc_info.value)
     assert len(adapter.requests) == 1
-    assert "status 302" in message
+    assert "HTTP 302" in message
     assert "unexpected_redirect" in message
     assert "graph.microsoft.com" not in message
     assert "secret" not in message
@@ -149,6 +149,39 @@ def test_resolve_default_drive_preserves_graph_colon_and_encodes_unicode_site_pa
         "/sites/%E4%B8%AD%E6%96%87%20Demo"
     )
     assert session.calls[1][1] == f"{GRAPH_BASE_URL}/sites/site-id/drive"
+
+
+@pytest.mark.parametrize(
+    ("site_path", "expected_graph_path"),
+    [
+        ("Demo%20Site", "Demo%20Site"),
+        ("%E6%BC%94%E7%A4%BA%20Site", "%E6%BC%94%E7%A4%BA%20Site"),
+    ],
+)
+def test_resolve_default_drive_encodes_normalized_site_path_once(
+    tmp_path, site_path, expected_graph_path, fake_response, recording_session
+):
+    settings = load_settings(
+        tmp_path / "missing.env",
+        {
+            "TENANT_ID": "11111111-1111-1111-1111-111111111111",
+            "CLIENT_ID": "22222222-2222-2222-2222-222222222222",
+            "SHAREPOINT_SITE_URL": (
+                f"https://contoso.sharepoint.cn/sites/{site_path}"
+            ),
+            "REDIRECT_URI": "http://localhost:8400/callback",
+        },
+    )
+    session = recording_session(
+        fake_response(payload={"id": "site-id"}),
+        fake_response(payload={"id": "drive-id"}),
+    )
+
+    GraphClient("token", session=session).resolve_default_drive(settings)
+
+    assert session.calls[0][1] == (
+        f"{GRAPH_BASE_URL}/sites/contoso.sharepoint.cn:/sites/{expected_graph_path}"
+    )
 
 
 def test_list_children_uses_distinct_root_and_encoded_folder_urls(
@@ -201,7 +234,7 @@ def test_list_children_rejects_untrusted_or_non_absolute_next_links(
         fake_response(payload={"value": [], "@odata.nextLink": next_link})
     )
 
-    with pytest.raises(GraphError, match="pagination"):
+    with pytest.raises(GraphError, match="分页链接"):
         GraphClient("token", session=session).list_children("drive-id")
 
     assert len(session.calls) == 1
@@ -252,7 +285,7 @@ def test_retryable_http_failures_are_bounded(
     ]
     session = recording_session(*responses)
 
-    with pytest.raises(GraphError, match=f"status {status}"):
+    with pytest.raises(GraphError, match=f"HTTP {status}"):
         GraphClient("token", session=session, sleep=lambda _delay: None).get_current_user()
 
     assert len(session.calls) == MAX_RETRIES + 1
@@ -271,9 +304,17 @@ def test_transport_failures_are_retried_but_bounded(recording_session):
     assert "network detail" not in str(exc_info.value)
 
 
-@pytest.mark.parametrize("status", [401, 403, 404])
+@pytest.mark.parametrize(
+    ("status", "guidance"),
+    [
+        (401, "请重新登录，并确认应用和令牌属于 Gallatin 租户"),
+        (403, "请确认委托权限已获同意，且当前用户有目标站点权限"),
+        (404, "请检查站点 URL、默认文档库和远程路径是否正确"),
+        (409, "请检查目标是否已存在，或使用 --overwrite 明确允许覆盖"),
+    ],
+)
 def test_graph_http_errors_are_sanitized_and_include_diagnostics(
-    status, fake_response, recording_session
+    status, guidance, fake_response, recording_session
 ):
     session = recording_session(
         fake_response(
@@ -292,11 +333,36 @@ def test_graph_http_errors_are_sanitized_and_include_diagnostics(
         GraphClient("token", session=session).get_current_user()
 
     message = str(exc_info.value)
-    assert f"status {status}" in message
+    assert f"HTTP {status}" in message
     assert "accessDenied" in message
     assert "request-123" in message
+    assert guidance in message
     assert "token" not in message
     assert "secret-body" not in message
+
+
+def test_graph_diagnostic_uses_response_client_request_id_before_inner_fallback(
+    fake_response, recording_session
+):
+    session = recording_session(
+        fake_response(
+            status_code=403,
+            payload={
+                "error": {
+                    "code": "accessDenied",
+                    "innerError": {"request-id": "inner-request-id"},
+                }
+            },
+            headers={"client-request-id": "response-client-request-id"},
+        )
+    )
+
+    with pytest.raises(GraphError) as caught:
+        GraphClient("token", session=session).get_current_user()
+
+    message = str(caught.value)
+    assert "response-client-request-id" in message
+    assert "inner-request-id" not in message
 
 
 def test_malformed_json_response_raises_sanitized_graph_error(
@@ -314,7 +380,7 @@ def test_malformed_json_response_raises_sanitized_graph_error(
         GraphClient("token", session=session).get_current_user()
 
     message = str(exc_info.value)
-    assert "status 200" in message
+    assert "HTTP 200" in message
     assert "invalid_response" in message
     assert "request-json" in message
     assert "token" not in message
@@ -393,7 +459,7 @@ def test_upload_rejects_missing_or_non_file_source_before_network(
         source.mkdir()
     session = recording_session()
 
-    with pytest.raises(LocalFileError, match="source"):
+    with pytest.raises(LocalFileError, match="上传源文件"):
         GraphClient("token", session=session).upload_file(
             "drive-id", source, "target.bin"
         )
@@ -471,7 +537,7 @@ def test_upload_rejects_invalid_destination_before_network(
     source.write_bytes(b"content")
     session = recording_session()
 
-    with pytest.raises(GraphError, match="remote path"):
+    with pytest.raises(GraphError, match="远程路径无效"):
         GraphClient("token", session=session).upload_file(
             "drive-id", source, destination
         )
@@ -486,7 +552,7 @@ def test_upload_refuses_existing_remote_target_without_overwrite(
     source.write_bytes(b"content")
     session = recording_session(fake_response(payload={"id": "existing"}))
 
-    with pytest.raises(GraphError, match="exists"):
+    with pytest.raises(GraphError, match="已存在"):
         GraphClient("token", session=session).upload_file(
             "drive-id", source, "target.bin"
         )
@@ -557,7 +623,7 @@ def test_upload_maps_conditional_put_race_to_existing_target_error(
         ),
     )
 
-    with pytest.raises(GraphError, match="already exists"):
+    with pytest.raises(GraphError, match="已存在"):
         GraphClient("token", session=session).upload_file(
             "drive-id", source, "target.bin"
         )
@@ -609,6 +675,134 @@ class StreamingResponse:
             raise self._close_error
 
 
+def test_download_initial_get_retries_safely_before_body_consumption(
+    tmp_path, fake_response, recording_session
+):
+    throttled = fake_response(
+        status_code=429,
+        payload={"error": {"code": "throttled"}},
+        headers={"Retry-After": "999"},
+    )
+    unavailable = fake_response(
+        status_code=503,
+        payload={"error": {"code": "unavailable"}},
+    )
+    success = StreamingResponse([b"downloaded"])
+    session = recording_session(
+        requests.ConnectionError("transport secret"),
+        throttled,
+        unavailable,
+        success,
+    )
+    sleeps = []
+
+    destination = GraphClient(
+        "token", session=session, sleep=sleeps.append
+    ).download_file("drive-id", "remote.bin", tmp_path / "download.bin")
+
+    assert destination.read_bytes() == b"downloaded"
+    assert len(session.calls) == MAX_RETRIES + 1
+    assert sleeps == [1.0, 30.0, 4.0]
+    assert throttled.close_calls == 1
+    assert unavailable.close_calls == 1
+    assert success.close_calls == 1
+
+
+def test_download_redirect_get_retries_without_credentials_or_refollowing_redirects(
+    tmp_path, fake_response, recording_session
+):
+    download_url = "https://download.example.cn/preauthenticated"
+    initial = fake_response(status_code=302, headers={"Location": download_url})
+    graph_session = recording_session(initial)
+    unavailable = fake_response(
+        status_code=502,
+        payload={"error": {"code": "unavailable"}},
+    )
+    redirected = StreamingResponse([b"redirected"])
+    redirect_session = recording_session(
+        requests.ConnectionError("redirect transport secret"),
+        unavailable,
+        redirected,
+    )
+    redirect_session.auth = ("user", "password")
+    redirect_session.cert = "secret-cert"
+    redirect_session.trust_env = True
+    redirect_session.headers = {"Authorization": "Bearer inherited"}
+    redirect_session.cookies = {}
+    redirect_session.params = {}
+    redirect_session.proxies = {}
+    sleeps = []
+
+    GraphClient(
+        "token",
+        session=graph_session,
+        sleep=sleeps.append,
+        download_session_factory=lambda: redirect_session,
+    ).download_file("drive-id", "remote.bin", tmp_path / "download.bin")
+
+    assert sleeps == [1.0, 2.0]
+    assert len(graph_session.calls) == 1
+    assert len(redirect_session.calls) == 3
+    assert initial.close_calls == 1
+    assert unavailable.close_calls == 1
+    for _method, _url, kwargs in redirect_session.calls:
+        assert "Authorization" not in kwargs["headers"]
+
+
+def test_download_follows_at_most_one_redirect(
+    tmp_path, fake_response, recording_session
+):
+    initial = fake_response(
+        status_code=302,
+        headers={"Location": "https://download.example.cn/first"},
+    )
+    second_redirect = fake_response(
+        status_code=307,
+        headers={"Location": "https://other.example.cn/second-secret"},
+    )
+    graph_session = recording_session(initial)
+    redirect_session = recording_session(second_redirect)
+    redirect_session.auth = None
+    redirect_session.cert = None
+    redirect_session.trust_env = False
+    redirect_session.headers = {}
+    redirect_session.cookies = {}
+    redirect_session.params = {}
+    redirect_session.proxies = {}
+
+    with pytest.raises(GraphError) as caught:
+        GraphClient(
+            "token",
+            session=graph_session,
+            download_session_factory=lambda: redirect_session,
+        ).download_file("drive-id", "remote.bin", tmp_path / "download.bin")
+
+    assert len(graph_session.calls) == 1
+    assert len(redirect_session.calls) == 1
+    assert initial.close_calls == 1
+    assert second_redirect.close_calls == 1
+    assert "second-secret" not in str(caught.value)
+
+
+def test_download_does_not_retry_after_stream_consumption_begins(
+    tmp_path, recording_session
+):
+    def interrupted_chunks():
+        yield b"partial"
+        raise requests.ConnectionError("stream secret")
+
+    session = recording_session(StreamingResponse(interrupted_chunks()))
+    sleeps = []
+
+    with pytest.raises(GraphError, match="下载流中断"):
+        GraphClient("token", session=session, sleep=sleeps.append).download_file(
+            "drive-id", "remote.bin", tmp_path / "download.bin"
+        )
+
+    assert len(session.calls) == 1
+    assert sleeps == []
+
+
 def test_download_rejects_existing_target_without_overwrite_before_network(
     tmp_path, recording_session
 ):
@@ -616,7 +810,7 @@ def test_download_rejects_existing_target_without_overwrite_before_network(
     destination.write_bytes(b"original")
     session = recording_session()
 
-    with pytest.raises(LocalFileError, match="exists"):
+    with pytest.raises(LocalFileError, match="已存在"):
         GraphClient("token", session=session).download_file(
             "drive-id", "remote.bin", destination
         )
@@ -697,7 +891,7 @@ def test_download_no_overwrite_preserves_destination_created_during_commit(
 
     monkeypatch.setattr(os, "link", racing_link)
 
-    with pytest.raises(LocalFileError, match="already exists") as exc_info:
+    with pytest.raises(LocalFileError, match="已存在") as exc_info:
         GraphClient("token", session=session).download_file(
             "drive-id", "remote.bin", destination
         )
@@ -798,7 +992,7 @@ def test_download_rejects_non_https_redirect_before_second_request(
         )
     )
 
-    with pytest.raises(GraphError, match="redirect"):
+    with pytest.raises(GraphError, match="重定向"):
         GraphClient("token", session=session).download_file(
             "drive-id", "remote.bin", tmp_path / "download.bin"
         )
@@ -842,7 +1036,7 @@ def test_download_close_failure_does_not_mask_stream_error_or_prevent_cleanup(
     )
     session = recording_session(response)
 
-    with pytest.raises(GraphError, match="stream failed") as exc_info:
+    with pytest.raises(GraphError, match="下载流中断") as exc_info:
         GraphClient("token", session=session).download_file(
             "drive-id", "remote.bin", destination
         )

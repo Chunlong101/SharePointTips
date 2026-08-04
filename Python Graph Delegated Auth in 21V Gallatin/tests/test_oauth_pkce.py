@@ -82,6 +82,10 @@ def test_callback_handler_accepts_expected_path_and_hides_sensitive_values() -> 
     assert b"expected" not in body
     assert b"secret" not in body
     assert b"private" not in body
+    assert body.decode("utf-8").endswith(
+        "<body><p>已收到登录响应，请返回终端查看结果</p></body></html>"
+    )
+    assert "成功" not in body.decode("utf-8")
 
 
 def test_callback_handler_parses_sanitized_oauth_error() -> None:
@@ -94,6 +98,8 @@ def test_callback_handler_parses_sanitized_oauth_error() -> None:
     assert b"access_denied" not in body
     assert b"Denied" not in body
     assert b"expected" not in body
+    assert "已收到登录响应，请返回终端查看结果" in body.decode("utf-8")
+    assert "成功" not in body.decode("utf-8")
 
 
 def test_callback_handler_rejects_unexpected_path_without_completing_callback() -> None:
@@ -105,6 +111,24 @@ def test_callback_handler_rejects_unexpected_path_without_completing_callback() 
     assert status == 404
     assert b"abc" not in body
     assert b"expected" not in body
+    assert "登录回调路径无效" in body.decode("utf-8")
+
+
+def test_loopback_callback_server_translates_bind_failure_without_leaking_details() -> None:
+    with (
+        patch.object(
+            oauth_pkce,
+            "HTTPServer",
+            side_effect=OSError("8400 secret bind detail"),
+        ),
+        pytest.raises(AuthError) as caught,
+    ):
+        LoopbackCallbackServer("http://127.0.0.1:8400/callback")
+
+    assert str(caught.value) == "无法监听登录回调端口；请确认端口未被占用"
+    assert caught.value.exit_code == 20
+    assert "8400" not in str(caught.value)
+    assert "secret" not in str(caught.value)
 
 
 def test_loopback_callback_server_ignores_wrong_path_then_accepts_callback() -> None:
@@ -231,6 +255,35 @@ def test_authenticate_rejects_browser_open_failure(settings: Settings) -> None:
             callback_factory=lambda redirect_uri: callback,
         )
 
+    assert events == ["callback-enter", "callback-exit"]
+    exchange.assert_not_called()
+
+
+def test_authenticate_translates_browser_exception_without_leaking_details(
+    settings: Settings,
+) -> None:
+    events: list[str] = []
+    callback = FakeCallback(CallbackResult(None, None, None, None), events)
+
+    def failing_browser(_url: str) -> bool:
+        raise RuntimeError("browser secret detail")
+
+    with (
+        patch.object(oauth_pkce, "generate_pkce", return_value=PkcePair("verifier", "challenge")),
+        patch.object(oauth_pkce, "generate_state", return_value="expected-state"),
+        patch.object(oauth_pkce, "exchange_code") as exchange,
+        pytest.raises(AuthError) as caught,
+    ):
+        authenticate(
+            settings,
+            requests.Session(),
+            browser_open=failing_browser,
+            callback_factory=lambda redirect_uri: callback,
+        )
+
+    assert str(caught.value) == "无法打开系统浏览器；请检查默认浏览器设置"
+    assert caught.value.exit_code == 20
+    assert "secret" not in str(caught.value)
     assert events == ["callback-enter", "callback-exit"]
     exchange.assert_not_called()
 
@@ -430,10 +483,43 @@ def test_exchange_code_posts_exact_public_client_form_and_returns_only_token(
             "code_verifier": "pkce-verifier",
         },
         timeout=HTTP_TIMEOUT,
+        allow_redirects=False,
     )
     request_body = responses.calls[0].request.body
     assert request_body is not None
     assert "client_secret" not in request_body
+
+
+def test_exchange_code_rejects_redirect_without_replaying_code_or_verifier(
+    settings: Settings,
+) -> None:
+    class RedirectResponse:
+        status_code = 307
+        ok = False
+
+        @staticmethod
+        def json() -> dict[str, str]:
+            return {"access_token": "redirect-secret-token"}
+
+    class RecordingTokenSession:
+        def __init__(self) -> None:
+            self.calls: list[tuple[str, dict[str, object]]] = []
+
+        def post(self, url: str, **kwargs: object) -> RedirectResponse:
+            self.calls.append((url, kwargs))
+            return RedirectResponse()
+
+    session = RecordingTokenSession()
+
+    with pytest.raises(AuthError) as caught:
+        exchange_code(settings, "authorization-code", "pkce-verifier", session)
+
+    assert len(session.calls) == 1
+    assert session.calls[0][1]["allow_redirects"] is False
+    assert "authorization-code" not in str(caught.value)
+    assert "pkce-verifier" not in str(caught.value)
+    assert "redirect-secret-token" not in str(caught.value)
+    assert str(caught.value) == "令牌端点返回了不允许的重定向；请检查 Gallatin 端点配置"
 
 
 @responses.activate

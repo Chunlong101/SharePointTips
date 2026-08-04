@@ -46,7 +46,7 @@ def _build_callback_handler(
         def do_GET(self) -> None:
             parsed = urlsplit(self.path)
             if parsed.path != expected_path:
-                self._send_html(404, "Callback path not found.")
+                self._send_html(404, "登录回调路径无效")
                 return
 
             query = parse_qs(parsed.query)
@@ -58,7 +58,7 @@ def _build_callback_handler(
                     error_description=_first_query_value(query, "error_description"),
                 )
             )
-            self._send_html(200, "Authentication completed. You may close this window.")
+            self._send_html(200, "已收到登录响应，请返回终端查看结果")
 
         def _send_html(self, status: int, message: str) -> None:
             body = (
@@ -92,7 +92,12 @@ class LoopbackCallbackServer(AbstractContextManager["LoopbackCallbackServer"]):
 
         self._result: CallbackResult | None = None
         handler_type = _build_callback_handler(parsed.path, self._store_result)
-        self._server = HTTPServer((host, port), handler_type)
+        try:
+            self._server = HTTPServer((host, port), handler_type)
+        except OSError:
+            raise AuthError(
+                "无法监听登录回调端口；请确认端口未被占用"
+            ) from None
 
     def _store_result(self, result: CallbackResult) -> None:
         self._result = result
@@ -152,21 +157,33 @@ def exchange_code(
         "code_verifier": verifier,
     }
     try:
-        response = session.post(settings.token_endpoint, data=data, timeout=HTTP_TIMEOUT)
-    except requests.RequestException as exc:
-        raise AuthError("Token request failed") from exc
+        response = session.post(
+            settings.token_endpoint,
+            data=data,
+            timeout=HTTP_TIMEOUT,
+            allow_redirects=False,
+        )
+    except requests.RequestException:
+        raise AuthError("令牌请求失败；请检查网络连接和 Gallatin 登录端点") from None
+
+    if 300 <= response.status_code < 400:
+        raise AuthError(
+            "令牌端点返回了不允许的重定向；请检查 Gallatin 端点配置"
+        )
 
     try:
         payload = response.json()
-    except ValueError as exc:
-        raise AuthError("Token endpoint returned an invalid response") from exc
+    except ValueError:
+        raise AuthError("令牌端点返回了无法解析的响应；请稍后重试") from None
 
     if not response.ok:
-        raise AuthError("Token endpoint rejected the authorization code")
+        raise AuthError(
+            "令牌端点拒绝了授权码；请重新登录并检查应用注册配置"
+        )
 
     access_token = payload.get("access_token") if isinstance(payload, dict) else None
     if not isinstance(access_token, str) or not access_token:
-        raise AuthError("Token endpoint response did not contain an access token")
+        raise AuthError("令牌响应缺少 access_token；请检查租户和应用权限配置")
     return access_token
 
 
@@ -180,8 +197,14 @@ def authenticate(
     state = generate_state()
     with callback_factory(settings.redirect_uri) as callback:
         url = build_authorization_url(settings, state, pkce.challenge)
-        if not browser_open(url):
-            raise AuthError("无法打开系统浏览器")
+        try:
+            browser_started = browser_open(url)
+        except Exception:
+            raise AuthError(
+                "无法打开系统浏览器；请检查默认浏览器设置"
+            ) from None
+        if not browser_started:
+            raise AuthError("无法打开系统浏览器；请检查默认浏览器设置")
         result = callback.wait(timeout_seconds=180)
 
     if not result.state:

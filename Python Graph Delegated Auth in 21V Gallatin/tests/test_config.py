@@ -111,6 +111,62 @@ def test_environment_overrides_dotenv_and_site_trailing_slash_is_removed(
     assert settings.site_path == "/sites/演示 Site"
 
 
+@pytest.mark.parametrize(
+    ("encoded_path", "decoded_path"),
+    [
+        ("/sites/Demo%20Site", "/sites/Demo Site"),
+        ("/sites/%E6%BC%94%E7%A4%BA%20Site", "/sites/演示 Site"),
+        ("/sites/Demo%2520Site", "/sites/Demo%20Site"),
+    ],
+)
+def test_site_path_is_percent_decoded_exactly_once(
+    tmp_path: Path, encoded_path: str, decoded_path: str
+) -> None:
+    settings = load_settings(
+        tmp_path / "missing.env",
+        {
+            **VALID_ENV,
+            "SHAREPOINT_SITE_URL": f"https://contoso.sharepoint.cn{encoded_path}",
+        },
+    )
+
+    assert settings.site_path == decoded_path
+    assert settings.sharepoint_site_url == (
+        f"https://contoso.sharepoint.cn{decoded_path}"
+    )
+
+
+@pytest.mark.parametrize(
+    "site_url",
+    [
+        "https://contoso.sharepoint.cn/sites/Demo%2FSite",
+        "https://contoso.sharepoint.cn/sites/Demo%2fSite",
+        "https://contoso.sharepoint.cn/sites/Demo%",
+        "https://contoso.sharepoint.cn/sites/Demo%2",
+        "https://contoso.sharepoint.cn/sites/Demo%GG",
+        "https://contoso.sharepoint.cn/sites/%FF",
+    ],
+)
+def test_site_url_rejects_ambiguous_or_malformed_percent_encoding(
+    tmp_path: Path, site_url: str
+) -> None:
+    with pytest.raises(ConfigError, match="站点 URL"):
+        load_settings(
+            tmp_path / "missing.env",
+            {**VALID_ENV, "SHAREPOINT_SITE_URL": site_url},
+        )
+
+
+def test_missing_configuration_message_is_chinese_and_actionable(tmp_path: Path) -> None:
+    environ = dict(VALID_ENV)
+    environ.pop("TENANT_ID")
+
+    with pytest.raises(ConfigError) as caught:
+        load_settings(tmp_path / "missing.env", environ)
+
+    assert str(caught.value) == "缺少必填配置 TENANT_ID；请检查 .env 或环境变量"
+
+
 @pytest.mark.parametrize("key", ["TENANT_ID", "CLIENT_ID"])
 def test_invalid_uuid_mentions_key(tmp_path: Path, key: str) -> None:
     environ = {**VALID_ENV, key: "not-a-uuid"}

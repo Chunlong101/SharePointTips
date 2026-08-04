@@ -1,8 +1,9 @@
 import os
+import re
 from collections.abc import Mapping
 from dataclasses import dataclass
 from pathlib import Path
-from urllib.parse import urlsplit
+from urllib.parse import unquote_to_bytes, urlsplit, urlunsplit
 from uuid import UUID
 
 from dotenv import dotenv_values
@@ -59,7 +60,7 @@ def load_settings(
     for key in _REQUIRED_KEYS:
         value = values.get(key)
         if value is None or not value.strip():
-            raise ConfigError(f"Missing or empty required setting: {key}")
+            raise ConfigError(f"缺少必填配置 {key}；请检查 .env 或环境变量")
         required[key] = value.strip()
 
     _validate_uuid(required["TENANT_ID"], "TENANT_ID")
@@ -80,13 +81,13 @@ def _validate_uuid(value: str, key: str) -> None:
     try:
         UUID(value)
     except (ValueError, AttributeError) as exc:
-        raise ConfigError(f"{key} must be a valid UUID") from exc
+        raise ConfigError(f"配置 {key} 必须是有效的 UUID") from exc
 
 
 def _validate_and_normalize_site_url(value: str) -> str:
     error_message = (
-        "SHAREPOINT_SITE_URL must be an HTTPS URL on a lowercase sharepoint.cn host "
-        "without a query or fragment"
+        "SharePoint 站点 URL 无效：SHAREPOINT_SITE_URL 必须使用 HTTPS、"
+        "小写 sharepoint.cn 主机，且不能包含 query 或 fragment"
     )
     try:
         parsed = urlsplit(value)
@@ -109,7 +110,28 @@ def _validate_and_normalize_site_url(value: str) -> str:
     )
     if not valid:
         raise ConfigError(error_message)
-    return value.removesuffix("/")
+
+    raw_path = parsed.path
+    if re.search(r"%(?![0-9A-Fa-f]{2})", raw_path):
+        raise ConfigError("SharePoint 站点 URL 包含无效的百分号编码")
+    if re.search(r"%2f", raw_path, flags=re.IGNORECASE):
+        raise ConfigError(
+            "SharePoint 站点 URL 的路径段不能包含编码斜杠 %2F；请使用真实层级路径"
+        )
+    try:
+        decoded_path = unquote_to_bytes(raw_path).decode("utf-8")
+    except UnicodeDecodeError as exc:
+        raise ConfigError("SharePoint 站点 URL 包含无效的 UTF-8 百分号编码") from exc
+
+    return urlunsplit(
+        (
+            parsed.scheme,
+            parsed.netloc,
+            decoded_path.removesuffix("/"),
+            "",
+            "",
+        )
+    )
 
 
 def _validate_redirect_uri(value: str) -> str:
@@ -118,8 +140,8 @@ def _validate_redirect_uri(value: str) -> str:
         port = parsed.port
     except ValueError as exc:
         raise ConfigError(
-            "REDIRECT_URI must be an HTTP loopback URI with an explicit port and "
-            "non-root callback path"
+            "登录回调配置 REDIRECT_URI 无效：必须是带显式端口和非根路径的 "
+            "HTTP loopback URI"
         ) from exc
 
     valid = (
@@ -134,7 +156,7 @@ def _validate_redirect_uri(value: str) -> str:
     )
     if not valid:
         raise ConfigError(
-            "REDIRECT_URI must be an HTTP loopback URI with an explicit port and "
-            "non-root callback path, without a query or fragment"
+            "登录回调配置 REDIRECT_URI 无效：必须使用 localhost 或 127.0.0.1，"
+            "包含显式端口和非根路径，且不能包含 query 或 fragment"
         )
     return value

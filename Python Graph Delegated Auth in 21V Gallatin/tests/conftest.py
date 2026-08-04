@@ -12,11 +12,15 @@ class FakeResponse:
         self._payload = payload
         self.headers = headers or {}
         self._json_error = json_error
+        self.close_calls = 0
 
     def json(self):
         if self._json_error is not None:
             raise self._json_error
         return self._payload
+
+    def close(self):
+        self.close_calls += 1
 
 
 class RecordingSession:

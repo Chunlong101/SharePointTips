@@ -134,7 +134,8 @@ REDIRECT_URI=http://localhost:8400/callback
 配置约束：
 
 - `TENANT_ID`、`CLIENT_ID` 必须是 GUID；
-- `SHAREPOINT_SITE_URL` 必须是 HTTPS `.sharepoint.cn` URL，主机名必须小写，不允许 query 或 fragment；末尾 `/` 会被移除；
+- `SHAREPOINT_SITE_URL` 必须是 HTTPS `.sharepoint.cn` URL，主机名必须小写，不允许 query 或 fragment；末尾 `/` 会被移除；路径中的百分号编码只解码一次，再由 Graph 客户端逐段编码，因此 `Demo%20Site` 和编码后的中文不会被双重编码；
+- 路径段中的编码斜杠 `%2F` 会被拒绝，避免解码后意外改变站点层级；畸形百分号或非 UTF-8 编码也会作为配置错误拒绝；
 - `REDIRECT_URI` 必须是带显式端口和非根路径的 HTTP loopback URI，仅支持 `localhost` 或 `127.0.0.1`，不允许 query 或 fragment；
 - 应用注册 URI 与 `.env` 必须逐字符一致；若改端口或路径，两处必须一起修改；
 - 从包含 `main.py` 的项目目录运行命令，以便默认读取该目录的 `.env`。
@@ -215,6 +216,8 @@ python main.py download --source "Demo/hello.txt" --destination ".\downloads\hel
 | Web URL | 浏览器 URL；缺失时显示 `-` |
 
 成功上传和下载分别输出目标路径。Graph 错误只暴露经过约束的 HTTP status、Graph code 和 request-id，便于排错而不显示响应正文。
+
+Graph `401`、`403`、`404` 和 `409` 会附带可执行的中文建议，同时保留 HTTP status、Graph code 与 request-id（响应只有 `client-request-id` 时也会用于诊断）。
 
 覆盖保护采用存在性预检和防御性条件请求。上传条件头的限制如下：
 
@@ -317,7 +320,7 @@ PowerShell 可在命令后用 `$LASTEXITCODE` 查看退出码。
 
 ### 11.7 localhost 端口被占用或回调超时
 
-程序在打开浏览器前绑定端口；占用时通常返回退出码 `1` 的安全通用错误。关闭占用 `8400` 的进程，或在应用 public client URI 与 `.env` 中同时改用另一个未占用端口。登录必须在 180 秒内完成；防火墙或代理不应拦截本机 loopback。
+程序在打开浏览器前绑定端口。端口绑定和浏览器启动异常均返回退出码 `20`，并显示不含底层异常细节的中文身份验证错误。关闭占用 `8400` 的进程，或在应用 public client URI 与 `.env` 中同时改用另一个未占用端口。登录必须在 180 秒内完成；防火墙或代理不应拦截本机 loopback。
 
 可用以下命令查找端口占用：
 
@@ -337,6 +340,8 @@ Get-NetTCPConnection -LocalPort 8400 -ErrorAction SilentlyContinue
 
 普通 Graph JSON 请求会尊重有效的 `Retry-After`，采用有界退避，最多重试 3 次且单次等待最多 30 秒。仍失败时降低调用频率，等待服务恢复后重新运行命令。上传 PUT 不自动重试，以避免请求已部分发送后的不确定重复写入。
 
+下载的初始下载 GET 以及最多一次重定向后的无凭据 GET，也会在响应正文消费前对网络异常、`429`、`500`、`502`、`503` 和 `504` 做相同的有界安全重试；每次重试前关闭旧响应。重定向 GET 始终不携带 Graph 凭据，也不会继续跟随新的重定向。响应正文开始消费后不会重试，流中断时会删除临时文件，避免重复请求或留下不完整目标。
+
 ### 11.11 TLS、代理和下载
 
 所有请求都启用 TLS 证书验证并设置连接/读取超时。不要通过修改代码关闭 `verify`。下载最多跟随一次 Graph 返回的绝对 HTTPS 预认证重定向。重定向下载故意使用全新的凭据隔离 session，设置 `trust_env=False`；它不会继承环境代理、cookie 或 auth，也不会继承原 Graph session 的代理、cookies、auth、证书和默认请求参数。Graph bearer token 不会发送到下载主机。
@@ -346,6 +351,7 @@ Get-NetTCPConnection -LocalPort 8400 -ErrorAction SilentlyContinue
 ## 12. 安全说明
 
 - 永远不打印或持久化 access token、authorization code、PKCE verifier 或完整 token response；
+- 令牌兑换不会跟随 HTTP 重定向；任何 `3xx` 都会转换为经过清理的身份验证错误，避免重放 authorization code 和 PKCE verifier；
 - 不使用 refresh token，也不请求 `offline_access`；每条命令重新登录并在退出时丢弃 token；
 - 不创建、读取或要求客户端密码；`.env` 只包含租户/客户端公共 ID 和 URL；
 - 不把 bearer token 发送给非 Gallatin Graph 主机；预认证下载重定向使用无凭据 session；
