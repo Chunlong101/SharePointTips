@@ -6,6 +6,7 @@ from collections.abc import Callable
 from contextlib import AbstractContextManager
 from dataclasses import dataclass
 from http.server import BaseHTTPRequestHandler, HTTPServer
+from time import monotonic
 from typing import ContextManager
 from urllib.parse import parse_qs, urlencode, urlsplit
 
@@ -97,10 +98,13 @@ class LoopbackCallbackServer(AbstractContextManager["LoopbackCallbackServer"]):
         self._result = result
 
     def wait(self, timeout_seconds: float) -> CallbackResult:
-        self._server.timeout = timeout_seconds
-        self._server.handle_request()
-        if self._result is None:
-            raise AuthError("等待登录回调超时")
+        deadline = monotonic() + timeout_seconds
+        while self._result is None:
+            remaining = deadline - monotonic()
+            if remaining <= 0:
+                raise AuthError("等待登录回调超时")
+            self._server.timeout = remaining
+            self._server.handle_request()
         return self._result
 
     def __exit__(self, *args: object) -> None:
@@ -180,6 +184,10 @@ def authenticate(
             raise AuthError("无法打开系统浏览器")
         result = callback.wait(timeout_seconds=180)
 
+    if not result.state:
+        raise AuthError("登录回调缺少状态参数")
+    if not secrets.compare_digest(result.state, state):
+        raise AuthError("登录回调状态不匹配")
     if result.error:
         message = (
             "登录授权失败: access_denied"
@@ -187,8 +195,6 @@ def authenticate(
             else "登录授权失败"
         )
         raise AuthError(message)
-    if not result.code or not result.state:
+    if not result.code:
         raise AuthError("登录回调缺少必要参数")
-    if not secrets.compare_digest(result.state, state):
-        raise AuthError("登录回调状态不匹配")
     return exchange_code(settings, result.code, pkce.verifier, session)

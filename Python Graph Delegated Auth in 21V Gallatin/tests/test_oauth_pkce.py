@@ -1,6 +1,8 @@
 import base64
 import hashlib
+from concurrent.futures import ThreadPoolExecutor
 from contextlib import AbstractContextManager
+from http.client import HTTPConnection
 from io import BytesIO
 from typing import Self
 from unittest.mock import patch
@@ -107,33 +109,29 @@ def test_callback_handler_rejects_unexpected_path_without_completing_callback() 
     assert b"expected" not in body
 
 
-def test_loopback_callback_server_handles_one_request_and_always_closes() -> None:
-    fake_server = type(
-        "FakeServer",
-        (),
-        {
-            "timeout": None,
-            "handle_request": lambda self: self.RequestHandlerClass.on_result(
-                CallbackResult("abc", "expected", None, None)
-            ),
-            "server_close": lambda self: setattr(self, "closed", True),
-        },
-    )()
-    fake_server.closed = False
+def test_loopback_callback_server_ignores_wrong_path_then_accepts_callback() -> None:
+    with LoopbackCallbackServer("http://127.0.0.1:0/callback") as callback:
+        port = callback._server.server_port
+        with ThreadPoolExecutor(max_workers=1) as executor:
+            result_future = executor.submit(callback.wait, 2)
 
-    def create_server(address: tuple[str, int], handler_type: type) -> object:
-        fake_server.RequestHandlerClass = handler_type
-        return fake_server
+            wrong_connection = HTTPConnection("127.0.0.1", port, timeout=1)
+            wrong_connection.request("GET", "/wrong?code=forged&state=forged")
+            wrong_response = wrong_connection.getresponse()
+            wrong_response.read()
+            wrong_connection.close()
 
-    with patch.object(oauth_pkce, "HTTPServer", side_effect=create_server) as http_server:
-        with LoopbackCallbackServer("http://localhost:8400/callback") as callback:
-            result = callback.wait(timeout_seconds=12.5)
+            valid_connection = HTTPConnection("127.0.0.1", port, timeout=1)
+            valid_connection.request("GET", "/callback?code=abc&state=expected")
+            valid_response = valid_connection.getresponse()
+            valid_response.read()
+            valid_connection.close()
 
+            result = result_future.result(timeout=1)
+
+    assert wrong_response.status == 404
+    assert valid_response.status == 200
     assert result == CallbackResult("abc", "expected", None, None)
-    http_server.assert_called_once()
-    assert http_server.call_args.args[0] == ("localhost", 8400)
-    assert fake_server.timeout == 12.5
-    assert fake_server.closed is True
 
 
 def test_loopback_callback_server_raises_safe_timeout_and_closes() -> None:
@@ -148,12 +146,21 @@ def test_loopback_callback_server_raises_safe_timeout_and_closes() -> None:
     )()
     fake_server.closed = False
 
-    with patch.object(oauth_pkce, "HTTPServer", return_value=fake_server):
+    with (
+        patch.object(oauth_pkce, "HTTPServer", return_value=fake_server),
+        patch.object(
+            oauth_pkce,
+            "monotonic",
+            side_effect=[100.0, 100.0, 101.0],
+            create=True,
+        ) as monotonic,
+    ):
         with pytest.raises(AuthError, match="等待登录回调超时"):
             with LoopbackCallbackServer("http://127.0.0.1:8400/callback") as callback:
                 callback.wait(timeout_seconds=1)
 
     assert fake_server.timeout == 1
+    assert monotonic.call_count == 3
     assert fake_server.closed is True
 
 
@@ -245,7 +252,7 @@ def test_authenticate_rejects_invalid_callback_before_exchange(
             callback_factory=lambda redirect_uri: callback,
         )
 
-    if result.code is not None and result.state is not None:
+    if result.state is not None:
         compare.assert_called_once_with(result.state, "expected-state")
     else:
         compare.assert_not_called()
@@ -276,6 +283,51 @@ def test_authenticate_surfaces_access_denied_without_sensitive_callback_data(
     assert "access_denied" in str(caught.value)
     assert "authorization-code" not in str(caught.value)
     assert "Denied" not in str(caught.value)
+    exchange.assert_not_called()
+
+
+@pytest.mark.parametrize(
+    ("callback_state", "expected_message", "compare_calls"),
+    [
+        (None, "登录回调缺少状态参数", 0),
+        ("forged-state", "登录回调状态不匹配", 1),
+    ],
+)
+def test_authenticate_rejects_oauth_error_until_state_is_validated(
+    settings: Settings,
+    callback_state: str | None,
+    expected_message: str,
+    compare_calls: int,
+) -> None:
+    callback = FakeCallback(
+        CallbackResult(
+            "authorization-code",
+            callback_state,
+            "access_denied",
+            "private error description",
+        ),
+        [],
+    )
+
+    with (
+        patch.object(oauth_pkce, "generate_pkce", return_value=PkcePair("verifier", "challenge")),
+        patch.object(oauth_pkce, "generate_state", return_value="expected-state"),
+        patch.object(oauth_pkce.secrets, "compare_digest", wraps=oauth_pkce.secrets.compare_digest) as compare,
+        patch.object(oauth_pkce, "exchange_code") as exchange,
+        pytest.raises(AuthError) as caught,
+    ):
+        authenticate(
+            settings,
+            requests.Session(),
+            browser_open=lambda _: True,
+            callback_factory=lambda redirect_uri: callback,
+        )
+
+    assert str(caught.value) == expected_message
+    assert "access_denied" not in str(caught.value)
+    assert "authorization-code" not in str(caught.value)
+    assert "private error description" not in str(caught.value)
+    assert compare.call_count == compare_calls
     exchange.assert_not_called()
 
 
