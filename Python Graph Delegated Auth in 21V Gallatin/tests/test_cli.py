@@ -1,3 +1,4 @@
+import io
 import os
 from pathlib import Path
 import subprocess
@@ -319,6 +320,60 @@ def test_malformed_arguments_use_argparse_exit_code_2():
         cli.build_parser().parse_args(["upload", "--source", "local.txt"])
 
     assert error.value.code == 2
+
+
+def test_direct_main_does_not_reconfigure_injected_streams(monkeypatch):
+    class RecordingStream(io.StringIO):
+        def __init__(self):
+            super().__init__()
+            self.reconfigure_calls = []
+
+        def reconfigure(self, **kwargs):
+            self.reconfigure_calls.append(kwargs)
+
+    stdout = RecordingStream()
+    stderr = RecordingStream()
+    monkeypatch.setattr(cli.sys, "stdout", stdout)
+    monkeypatch.setattr(cli.sys, "stderr", stderr)
+    monkeypatch.setattr(cli.sys, "argv", ["main.py", "--help"])
+
+    with pytest.raises(SystemExit) as error:
+        cli.main()
+
+    assert error.value.code == 0
+    assert stdout.reconfigure_calls == []
+    assert stderr.reconfigure_calls == []
+
+
+def test_configure_utf8_output_uses_strict_errors(monkeypatch):
+    class RecordingStream:
+        def __init__(self):
+            self.reconfigure_calls = []
+
+        def reconfigure(self, **kwargs):
+            self.reconfigure_calls.append(kwargs)
+
+    stdout = RecordingStream()
+    stderr = RecordingStream()
+    monkeypatch.setattr(cli.sys, "stdout", stdout)
+    monkeypatch.setattr(cli.sys, "stderr", stderr)
+
+    cli._configure_utf8_output()
+
+    expected = [{"encoding": "utf-8", "errors": "strict"}]
+    assert stdout.reconfigure_calls == expected
+    assert stderr.reconfigure_calls == expected
+
+
+def test_configure_utf8_output_propagates_reconfigure_failure(monkeypatch):
+    class FailingStream:
+        def reconfigure(self, **_kwargs):
+            raise OSError("stream reconfigure failed")
+
+    monkeypatch.setattr(cli.sys, "stdout", FailingStream())
+
+    with pytest.raises(OSError, match="stream reconfigure failed"):
+        cli._configure_utf8_output()
 
 
 def test_piped_help_is_utf8_with_non_chinese_parent_encoding():

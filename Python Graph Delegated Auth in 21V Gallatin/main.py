@@ -127,14 +127,10 @@ def _configure_utf8_output() -> None:
     for stream in (sys.stdout, sys.stderr):
         reconfigure = getattr(stream, "reconfigure", None)
         if callable(reconfigure):
-            try:
-                reconfigure(encoding="utf-8", errors="replace")
-            except Exception:
-                pass
+            reconfigure(encoding="utf-8", errors="strict")
 
 
 def main() -> int:
-    _configure_utf8_output()
     parser = build_parser()
     try:
         return run(parser.parse_args())
@@ -150,4 +146,5 @@ def main() -> int:
 
 
 if __name__ == "__main__":
+    _configure_utf8_output()
     raise SystemExit(main())
