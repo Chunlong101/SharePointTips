@@ -1,4 +1,7 @@
+import os
 from pathlib import Path
+import subprocess
+import sys
 
 import pytest
 
@@ -316,6 +319,27 @@ def test_malformed_arguments_use_argparse_exit_code_2():
         cli.build_parser().parse_args(["upload", "--source", "local.txt"])
 
     assert error.value.code == 2
+
+
+def test_piped_help_is_utf8_with_non_chinese_parent_encoding():
+    environment = os.environ.copy()
+    environment["PYTHONIOENCODING"] = "cp1252:strict"
+
+    result = subprocess.run(
+        [sys.executable, str(PROJECT_ROOT / "main.py"), "--help"],
+        cwd=PROJECT_ROOT,
+        env=environment,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        check=False,
+    )
+
+    assert result.returncode == 0, result.stderr.decode("utf-8", errors="replace")
+    output = result.stdout.decode("utf-8")
+    assert "通过世纪互联" in output
+    for command in ("login", "list", "upload", "download"):
+        assert command in output
+    assert result.stderr == b""
 
 
 def test_help_exits_without_loading_configuration(monkeypatch, capsys):

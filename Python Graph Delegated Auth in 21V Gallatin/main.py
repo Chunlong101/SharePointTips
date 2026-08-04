@@ -123,7 +123,18 @@ def _optional_value(value: Any) -> Any:
     return "-" if value is None else value
 
 
+def _configure_utf8_output() -> None:
+    for stream in (sys.stdout, sys.stderr):
+        reconfigure = getattr(stream, "reconfigure", None)
+        if callable(reconfigure):
+            try:
+                reconfigure(encoding="utf-8", errors="replace")
+            except Exception:
+                pass
+
+
 def main() -> int:
+    _configure_utf8_output()
     parser = build_parser()
     try:
         return run(parser.parse_args())
