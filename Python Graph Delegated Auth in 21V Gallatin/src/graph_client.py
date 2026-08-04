@@ -1,5 +1,8 @@
+import os
+import tempfile
 import time
 from collections.abc import Callable
+from pathlib import Path
 from typing import Any
 from urllib.parse import quote, urlsplit
 from uuid import uuid4
@@ -7,7 +10,7 @@ from uuid import uuid4
 import requests
 
 from .config import Settings
-from .errors import GraphError
+from .errors import GraphError, LocalFileError
 
 
 GRAPH_BASE_URL = "https://microsoftgraph.chinacloudapi.cn/v1.0"
@@ -15,6 +18,7 @@ GRAPH_HOST = "microsoftgraph.chinacloudapi.cn"
 HTTP_TIMEOUT = (10, 60)
 MAX_RETRIES = 3
 MAX_RETRY_AFTER = 30
+MAX_SIMPLE_UPLOAD_SIZE = 250 * 1024 * 1024
 
 _RETRYABLE_STATUS_CODES = {429, 500, 502, 503, 504}
 
@@ -42,33 +46,46 @@ class GraphClient:
         self._session = session if session is not None else requests.Session()
         self._sleep = sleep
 
-    def _request(self, method: str, url: str) -> tuple[Any, requests.Response]:
+    def _request(
+        self,
+        method: str,
+        url: str,
+        *,
+        headers: dict[str, str] | None = None,
+        data: Any = None,
+        retry: bool = True,
+        accepted_statuses: set[int] | None = None,
+    ) -> tuple[Any, requests.Response]:
         self._require_trusted_graph_url(url, "request URL")
 
-        for retry_number in range(MAX_RETRIES + 1):
-            headers = {
+        maximum_retries = MAX_RETRIES if retry else 0
+        for retry_number in range(maximum_retries + 1):
+            request_headers = {
                 "Authorization": f"Bearer {self._access_token}",
                 "Accept": "application/json",
                 "client-request-id": str(uuid4()),
             }
+            if headers:
+                request_headers.update(headers)
             try:
                 response = self._session.request(
                     method,
                     url,
-                    headers=headers,
+                    headers=request_headers,
+                    data=data,
                     timeout=HTTP_TIMEOUT,
                     verify=True,
                     allow_redirects=False,
                 )
             except requests.RequestException:
-                if retry_number < MAX_RETRIES:
+                if retry_number < maximum_retries:
                     self._sleep(self._backoff_delay(retry_number))
                     continue
                 raise GraphError("Graph request failed after bounded retries") from None
 
             if (
                 response.status_code in _RETRYABLE_STATUS_CODES
-                and retry_number < MAX_RETRIES
+                and retry_number < maximum_retries
             ):
                 self._sleep(self._retry_delay(response, retry_number))
                 continue
@@ -85,7 +102,11 @@ class GraphClient:
                     response, code="invalid_response"
                 ) from None
 
-            if not 200 <= response.status_code < 300:
+            status_accepted = (
+                accepted_statuses is not None
+                and response.status_code in accepted_statuses
+            )
+            if not 200 <= response.status_code < 300 and not status_accepted:
                 raise self._response_error(response, payload=payload)
             return payload, response
 
@@ -144,6 +165,171 @@ class GraphClient:
                 self._require_trusted_graph_url(candidate, "pagination link")
                 next_url = candidate
         return items
+
+    def remote_item_exists(self, drive_id: str, remote_path: str) -> bool:
+        url = self._item_url(drive_id, remote_path)
+        _payload, response = self._request(
+            "GET", url, accepted_statuses={404}
+        )
+        return response.status_code != 404
+
+    def upload_file(
+        self,
+        drive_id: str,
+        source: Path,
+        destination: str,
+        overwrite: bool = False,
+    ) -> dict[str, Any]:
+        encoded_destination = encode_remote_path(destination)
+        source = Path(source)
+        try:
+            if not source.is_file():
+                raise LocalFileError("Upload source is not a file")
+            if source.stat().st_size > MAX_SIMPLE_UPLOAD_SIZE:
+                raise LocalFileError("Upload source exceeds the 250 MiB limit")
+        except LocalFileError:
+            raise
+        except OSError:
+            raise LocalFileError("Unable to inspect upload source") from None
+
+        if not overwrite and self.remote_item_exists(drive_id, destination):
+            raise GraphError("Remote destination already exists")
+
+        url = self._item_url(drive_id, encoded_destination, encoded=True) + ":/content"
+        try:
+            with source.open("rb") as stream:
+                payload, response = self._request(
+                    "PUT",
+                    url,
+                    headers={"Content-Type": "application/octet-stream"},
+                    data=stream,
+                    retry=False,
+                )
+        except OSError:
+            raise LocalFileError("Unable to read upload source") from None
+        if not isinstance(payload, dict):
+            raise self._response_error(response, code="invalid_response")
+        return payload
+
+    def download_file(
+        self,
+        drive_id: str,
+        source: str,
+        destination: Path,
+        overwrite: bool = False,
+    ) -> Path:
+        source_url = self._item_url(drive_id, source) + ":/content"
+        destination = Path(destination)
+        if destination.exists() and not overwrite:
+            raise LocalFileError("Download destination already exists")
+
+        try:
+            destination.parent.mkdir(parents=True, exist_ok=True)
+        except OSError:
+            raise LocalFileError("Unable to create download destination") from None
+
+        temp_name: str | None = None
+        response: Any = None
+        try:
+            response = self._download_request(source_url, include_authorization=True)
+            if 300 <= response.status_code < 400:
+                location = response.headers.get("Location")
+                self._require_safe_download_redirect(location)
+                self._close_response(response)
+                response = self._download_request(
+                    location, include_authorization=False
+                )
+
+            if 300 <= response.status_code < 400:
+                raise self._response_error(response, code="unexpected_redirect")
+            if not 200 <= response.status_code < 300:
+                try:
+                    payload = response.json()
+                except (ValueError, TypeError):
+                    raise self._response_error(
+                        response, code="invalid_response"
+                    ) from None
+                raise self._response_error(response, payload=payload)
+
+            with tempfile.NamedTemporaryFile(
+                mode="wb", delete=False, dir=destination.parent
+            ) as temp_file:
+                temp_name = temp_file.name
+                try:
+                    for chunk in response.iter_content(64 * 1024):
+                        if chunk:
+                            temp_file.write(chunk)
+                except requests.RequestException:
+                    raise GraphError("Graph download stream failed") from None
+                temp_file.flush()
+            os.replace(temp_name, destination)
+            temp_name = None
+            return destination
+        except (GraphError, LocalFileError):
+            raise
+        except requests.RequestException:
+            raise GraphError("Graph download request failed") from None
+        except OSError:
+            raise LocalFileError("Local download operation failed") from None
+        finally:
+            self._close_response(response)
+            if temp_name is not None:
+                try:
+                    os.unlink(temp_name)
+                except FileNotFoundError:
+                    pass
+                except OSError:
+                    pass
+
+    def _download_request(
+        self, url: str, *, include_authorization: bool
+    ) -> requests.Response:
+        headers = {
+            "Accept": "application/octet-stream",
+            "client-request-id": str(uuid4()),
+        }
+        if include_authorization:
+            self._require_trusted_graph_url(url, "download URL")
+            headers["Authorization"] = f"Bearer {self._access_token}"
+        return self._session.request(
+            "GET",
+            url,
+            headers=headers,
+            stream=True,
+            timeout=HTTP_TIMEOUT,
+            verify=True,
+            allow_redirects=False,
+        )
+
+    @staticmethod
+    def _require_safe_download_redirect(url: Any) -> None:
+        try:
+            parsed = urlsplit(url)
+            port = parsed.port
+        except (TypeError, ValueError) as exc:
+            raise GraphError("Invalid download redirect") from exc
+        if not (
+            parsed.scheme == "https"
+            and parsed.hostname
+            and parsed.username is None
+            and parsed.password is None
+            and port in {None, 443}
+        ):
+            raise GraphError("Invalid download redirect")
+
+    @staticmethod
+    def _close_response(response: Any) -> None:
+        close = getattr(response, "close", None)
+        if callable(close):
+            close()
+
+    @staticmethod
+    def _item_url(
+        drive_id: str, remote_path: str, *, encoded: bool = False
+    ) -> str:
+        encoded_drive_id = quote(drive_id, safe="")
+        path = remote_path if encoded else encode_remote_path(remote_path)
+        return f"{GRAPH_BASE_URL}/drives/{encoded_drive_id}/root:/{path}"
 
     def _required_id(self, payload: Any, response: requests.Response) -> str:
         if not isinstance(payload, dict):
