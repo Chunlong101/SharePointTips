@@ -157,6 +157,26 @@ def test_site_url_rejects_ambiguous_or_malformed_percent_encoding(
         )
 
 
+@pytest.mark.parametrize(
+    "encoded_delimiter",
+    ["%3F", "%3f", "%23"],
+)
+def test_site_url_rejects_encoded_query_or_fragment_delimiter(
+    tmp_path: Path, encoded_delimiter: str
+) -> None:
+    with pytest.raises(ConfigError, match="编码的 URL 分隔符"):
+        load_settings(
+            tmp_path / "missing.env",
+            {
+                **VALID_ENV,
+                "SHAREPOINT_SITE_URL": (
+                    "https://contoso.sharepoint.cn/sites/Demo"
+                    f"{encoded_delimiter}truncated"
+                ),
+            },
+        )
+
+
 def test_missing_configuration_message_is_chinese_and_actionable(tmp_path: Path) -> None:
     environ = dict(VALID_ENV)
     environ.pop("TENANT_ID")

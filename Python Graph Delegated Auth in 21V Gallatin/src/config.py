@@ -122,6 +122,10 @@ def _validate_and_normalize_site_url(value: str) -> str:
         decoded_path = unquote_to_bytes(raw_path).decode("utf-8")
     except UnicodeDecodeError as exc:
         raise ConfigError("SharePoint 站点 URL 包含无效的 UTF-8 百分号编码") from exc
+    if "?" in decoded_path or "#" in decoded_path:
+        raise ConfigError(
+            "SharePoint 站点 URL 的路径段不能包含编码的 URL 分隔符 ? 或 #"
+        )
 
     return urlunsplit(
         (
