@@ -1,0 +1,24 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "SPE 业务授权诊断";
+}
+<div class="hero-panel">
+    <div class="eyebrow">21VIANET · SHAREPOINT EMBEDDED</div>
+    <h1>业务授权诊断台</h1>
+    <p>验证 Tenant、Entra Group、来源位置和业务角色，再对比 delegated 与 app-only 的 SPE 安全边界。</p>
+</div>
+
+@if (!(User.Identity?.IsAuthenticated ?? false))
+{
+    <div class="card card-body mt-4"><h2 class="h5">尚未登录</h2><p>使用世纪互联 Entra 测试用户登录后开始。</p><a class="btn btn-primary align-self-start" href="/MicrosoftIdentity/Account/SignIn">登录</a></div>
+}
+else
+{
+    <div class="row g-4 mt-1">
+        <div class="col-lg-5"><div class="card card-body h-100"><h2 class="h5">已验证身份</h2><dl class="signal-list"><dt>用户</dt><dd>@User.Identity!.Name</dd><dt>Tenant ID</dt><dd><code>@Model.TenantId</code></dd><dt>Object ID</dt><dd><code>@Model.ObjectId</code></dd><dt>Token Groups</dt><dd>@Model.Groups.Count</dd><dt>Group Overage</dt><dd>@Model.HasGroupOverage</dd></dl></div></div>
+        <div class="col-lg-7"><div class="card card-body h-100"><h2 class="h5">本机位置模拟</h2><p class="text-muted">仅在 Development、显式启用且请求来自 localhost 时生效。Production 会忽略该参数。</p><div class="d-flex flex-wrap gap-2"><a class="btn btn-success" asp-page="/Files/Index" asp-route-testLocation="CN">模拟大陆并访问</a><a class="btn btn-outline-danger" asp-page="/Files/Index" asp-route-testLocation="US">模拟境外并验证拒绝</a><a class="btn btn-outline-warning" asp-page="/AppOnly/Index" asp-route-testLocation="CN">App-only 对照</a></div></div></div>
+    </div>
+}
+
+<div class="boundary-note mt-4"><strong>边界：</strong>业务判断不是 Conditional Access。Delegated 模式仍由 SPE 检查用户 Container 权限；app-only 模式不会。</div>

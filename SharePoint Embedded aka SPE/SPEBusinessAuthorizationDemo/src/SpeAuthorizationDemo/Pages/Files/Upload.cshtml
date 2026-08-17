@@ -1,0 +1,14 @@
+@page
+@model SpeAuthorizationDemo.Pages.Files.UploadModel
+@{
+    ViewData["Title"] = "上传测试文件";
+}
+<h1>上传测试文件</h1>
+<p class="text-muted">仅 Writer 或 DemoAdmin 可上传；上限 @Model.MaximumBytes.ToString("N0") bytes。</p>
+<form method="post" enctype="multipart/form-data" class="card card-body mt-4">
+    <input asp-for="TestLocation" type="hidden" />
+    <label asp-for="Upload" class="form-label">文件</label>
+    <input asp-for="Upload" class="form-control" />
+    <span asp-validation-for="Upload" class="text-danger"></span>
+    <div class="mt-3"><button class="btn btn-primary" type="submit">上传到 SPEContainerTest</button></div>
+</form>
