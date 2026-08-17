@@ -1,0 +1,12 @@
+@page
+@model SpeAuthorizationDemo.Pages.AccessDeniedModel
+@{
+    ViewData["Title"] = "访问被拒绝";
+}
+<div class="access-denied">
+    <div class="display-1">403</div>
+    <h1>业务授权拒绝了本次访问</h1>
+    <p>原因代码：<code>@Model.Reason</code></p>
+    <p class="text-muted">请检查 Tenant、允许组、业务角色、来源公网 IP/国家以及 Container 用户权限。</p>
+    <a class="btn btn-outline-primary" asp-page="/Index">返回诊断主页</a>
+</div>
