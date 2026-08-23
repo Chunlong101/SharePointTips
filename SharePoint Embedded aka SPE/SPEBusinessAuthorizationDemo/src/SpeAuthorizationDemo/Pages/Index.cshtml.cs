@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Identity.Web;
 using SpeAuthorizationDemo.Authorization;
 using SpeAuthorizationDemo.Graph;
 
@@ -64,6 +65,13 @@ public sealed class IndexModel(
         {
             ContainerAllowed = false;
             ContainerReasonCode = SpeGraphErrorMapper.ToReasonCode(exception);
+        }
+        catch (MicrosoftIdentityWebChallengeUserException exception)
+            when (exception.MsalUiRequiredException.ErrorCode == "user_null")
+        {
+            return Challenge(
+                new AuthenticationProperties { RedirectUri = "/" },
+                OpenIdConnectDefaults.AuthenticationScheme);
         }
 
         return Page();

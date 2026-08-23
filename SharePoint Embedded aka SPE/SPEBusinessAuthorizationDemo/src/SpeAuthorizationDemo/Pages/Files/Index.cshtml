@@ -14,6 +14,10 @@
 {
     <div class="alert alert-success">业务角色：<strong>@Model.Decision.Role</strong>；授权结果：@Model.Decision.ReasonCode</div>
 }
+@if (!string.IsNullOrWhiteSpace(Model.StatusMessage))
+{
+    <div class="alert alert-info">@Model.StatusMessage</div>
+}
 <table class="table table-hover align-middle">
     <thead><tr><th>名称</th><th>大小</th><th></th></tr></thead>
     <tbody>
@@ -22,7 +26,18 @@
         <tr>
             <td>@item.Name</td>
             <td>@item.Size.ToString("N0") bytes</td>
-            <td class="text-end"><a class="btn btn-sm btn-outline-secondary" asp-page="/Files/Download" asp-route-id="@item.Id" asp-route-testLocation="@Model.TestLocation">下载</a></td>
+            <td class="text-end">
+                <div class="d-inline-flex gap-2">
+                    <a class="btn btn-sm btn-outline-secondary" asp-page="/Files/Download" asp-route-id="@item.Id" asp-route-testLocation="@Model.TestLocation">下载</a>
+                    @if (Model.CanDelete && !item.IsFolder)
+                    {
+                        <form method="post" asp-page-handler="Delete" asp-route-testLocation="@Model.TestLocation" class="d-inline" onsubmit="return confirm('确定将此文件移入回收站吗？');">
+                            <input type="hidden" name="itemId" value="@item.Id" />
+                            <button type="submit" class="btn btn-sm btn-outline-danger">删除</button>
+                        </form>
+                    }
+                </div>
+            </td>
         </tr>
     }
     </tbody>
