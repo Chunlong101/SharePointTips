@@ -11,6 +11,7 @@ public interface ISpeGraphClient
     Task<IReadOnlyList<SpeDriveItem>> ListRootAsync(CancellationToken cancellationToken);
     Task<SpeDownload> DownloadAsync(string itemId, CancellationToken cancellationToken);
     Task<SpeDriveItem> UploadSmallFileAsync(string fileName, Stream content, long length, CancellationToken cancellationToken);
+    Task DeleteFileAsync(string itemId, CancellationToken cancellationToken);
 }
 
 public sealed class SpeGraphClient(
@@ -80,6 +81,31 @@ public sealed class SpeGraphClient(
         return ParseItem(document.RootElement);
     }
 
+    public async Task DeleteFileAsync(string itemId, CancellationToken cancellationToken)
+    {
+        if (string.IsNullOrWhiteSpace(itemId))
+            throw new ArgumentException("Item ID is required.", nameof(itemId));
+
+        var itemPath = $"items/{Uri.EscapeDataString(itemId)}";
+        using var metadataResponse = await SendReadWithRetryAsync(
+            () => CreateRequestAsync(HttpMethod.Get, itemPath, cancellationToken),
+            HttpCompletionOption.ResponseContentRead,
+            cancellationToken);
+        await EnsureSuccessAsync(metadataResponse, cancellationToken);
+        await using var metadataStream = await metadataResponse.Content.ReadAsStreamAsync(cancellationToken);
+        using var metadata = await JsonDocument.ParseAsync(metadataStream, cancellationToken: cancellationToken);
+        if (metadata.RootElement.TryGetProperty("folder", out _))
+            throw new SpeFolderDeleteNotAllowedException();
+        if (!metadata.RootElement.TryGetProperty("eTag", out var eTagElement) ||
+            string.IsNullOrWhiteSpace(eTagElement.GetString()))
+            throw new SpeDeletePreconditionException();
+
+        using var deleteRequest = await CreateRequestAsync(HttpMethod.Delete, itemPath, cancellationToken);
+        deleteRequest.Headers.IfMatch.Add(EntityTagHeaderValue.Parse(eTagElement.GetString()!));
+        using var deleteResponse = await httpClient.SendAsync(deleteRequest, cancellationToken);
+        await EnsureSuccessAsync(deleteResponse, cancellationToken);
+    }
+
     private async Task<HttpRequestMessage> CreateRequestAsync(HttpMethod method, string relativePath, CancellationToken cancellationToken)
     {
         var containerId = Uri.EscapeDataString(spe.ContainerId);
@@ -114,7 +140,8 @@ public sealed class SpeGraphClient(
         item.GetProperty("id").GetString() ?? "",
         item.GetProperty("name").GetString() ?? "",
         item.TryGetProperty("size", out var size) ? size.GetInt64() : 0,
-        item.TryGetProperty("webUrl", out var webUrl) ? webUrl.GetString() : null);
+        item.TryGetProperty("webUrl", out var webUrl) ? webUrl.GetString() : null,
+        item.TryGetProperty("folder", out _));
 
     private static async Task EnsureSuccessAsync(HttpResponseMessage response, CancellationToken cancellationToken)
     {

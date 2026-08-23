@@ -19,6 +19,9 @@ public sealed class AuthorizationEngineTests
     [InlineData(BusinessRole.Reader, BusinessOperation.DownloadFile, true)]
     [InlineData(BusinessRole.Reader, BusinessOperation.UploadFile, false)]
     [InlineData(BusinessRole.Writer, BusinessOperation.UploadFile, true)]
+    [InlineData(BusinessRole.Reader, BusinessOperation.DeleteFile, false)]
+    [InlineData(BusinessRole.Writer, BusinessOperation.DeleteFile, true)]
+    [InlineData(BusinessRole.DemoAdmin, BusinessOperation.DeleteFile, true)]
     [InlineData(BusinessRole.Writer, BusinessOperation.RunAppOnlyComparison, false)]
     [InlineData(BusinessRole.DemoAdmin, BusinessOperation.RunAppOnlyComparison, true)]
     public void Decide_EnforcesRoleOperationMatrix(
