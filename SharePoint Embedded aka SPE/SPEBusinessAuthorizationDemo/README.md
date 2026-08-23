@@ -793,15 +793,3 @@ dotnet test .\SPEBusinessAuthorizationDemo.sln `
 | `not_tested` | 业务层失败，因此没有调用 SPE |
 | `container_permission_denied` | 业务层通过，但用户没有 Container delegated 权限 |
 | `reauthentication_required` | App 重启后 Token Cache 失效，需要重新登录 |
-
----
-
-# 6. 安全与清理
-
-- 不在日志或页面中显示 Token、Secret、密码或文件名；
-- Production 必须关闭 `EnableDevelopmentOverride`；
-- App Service Access Restrictions 的默认行为必须为 Deny；
-- SCM Basic Publishing Credentials 只在 ZIP 部署窗口临时启用，完成后立即关闭；
-- 测试 Secret 使用后应立即轮换或删除；
-- 动态公网 IP 变化时，应同步更新平台层与应用层 CIDR；
-- 测试结束后可删除测试用户、Group、Container 权限及 `writer-test.txt`。
