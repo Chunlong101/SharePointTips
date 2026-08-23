@@ -146,5 +146,8 @@ public sealed class IndexModelTests
             Stream content,
             long length,
             CancellationToken cancellationToken) => throw new NotSupportedException();
+
+        public Task DeleteFileAsync(string itemId, CancellationToken cancellationToken) =>
+            throw new NotSupportedException();
     }
 }

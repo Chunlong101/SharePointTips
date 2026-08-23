@@ -6,7 +6,7 @@ using SpeAuthorizationDemo.Location;
 namespace SpeAuthorizationDemo.Authorization;
 
 public enum BusinessRole { None = 0, Reader = 1, Writer = 2, DemoAdmin = 3 }
-public enum BusinessOperation { ListFiles, DownloadFile, UploadFile, RunAppOnlyComparison }
+public enum BusinessOperation { ListFiles, DownloadFile, UploadFile, DeleteFile, RunAppOnlyComparison }
 
 public sealed record AuthorizationDecision(
     bool IsAllowed,
@@ -42,7 +42,7 @@ public sealed class AuthorizationEngine
         var allowed = operation switch
         {
             BusinessOperation.ListFiles or BusinessOperation.DownloadFile => role >= BusinessRole.Reader,
-            BusinessOperation.UploadFile => role >= BusinessRole.Writer,
+            BusinessOperation.UploadFile or BusinessOperation.DeleteFile => role >= BusinessRole.Writer,
             BusinessOperation.RunAppOnlyComparison => role >= BusinessRole.DemoAdmin,
             _ => false
         };

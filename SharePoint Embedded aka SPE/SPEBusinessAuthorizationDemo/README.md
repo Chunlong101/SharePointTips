@@ -761,7 +761,21 @@ Container: container_permission_denied
 
 > 当前规则使用 `/32`，只代表指定公网出口，不代表“中国内地全部 IP”。如需“所有内地允许、香港拒绝”，应配置并维护 GeoLite2 Country 数据库，允许 `CN`、拒绝 `HK`；固定办公/VPN 出口 CIDR 更可靠。
 
-## 4.7 自动测试
+## 4.7 Writer / DemoAdmin 删除文件
+
+1. 使用 Writer 或 DemoAdmin 业务角色进入 **Delegated 文件**页；
+2. 文件行显示红色“删除”按钮，Reader 不显示该按钮；
+3. 点击删除并在浏览器确认框中确认；
+4. 后端重新执行 `DeleteFile` 业务授权；
+5. 后端重新读取当前根目录，只接受列表内的文件 ID，拒绝任意或过期 ID；
+6. 后端读取最新项目元数据，文件夹会被拒绝；
+7. DELETE 携带当前 `eTag` 的 `If-Match` 条件；检查后文件若发生变化，Graph 会拒绝删除；
+8. 文件通过 Microsoft Graph DELETE 移入 Container 回收站；
+9. 成功后返回列表并显示“文件已移入回收站”。
+
+即使 Reader 手工构造 POST，后端也会返回 `operation_not_allowed`。DemoAdmin 的业务角色允许删除，但仍必须具备 Container 原生 delegated 权限；否则返回 `container_permission_denied`。本 Demo 不提供永久删除。
+
+## 4.8 自动测试
 
 ```powershell
 dotnet build .\SPEBusinessAuthorizationDemo.sln `
@@ -775,7 +789,7 @@ dotnet test .\SPEBusinessAuthorizationDemo.sln `
 当前结果：
 
 ```text
-54 tests passed
+66 tests passed
 0 tests failed
 ```
 
@@ -790,6 +804,9 @@ dotnet test .\SPEBusinessAuthorizationDemo.sln `
 | `group_not_allowed` | 用户不属于 Reader/Writer/Admin Group |
 | `location_not_allowed` | 公网 IP 未命中应用层白名单 |
 | `operation_not_allowed` | 业务角色不允许当前操作 |
+| `folder_delete_not_allowed` | 删除目标是文件夹，本 Demo 只允许删除文件 |
+| `delete_target_not_allowed` | 删除目标不在当前根目录列表中，或 ID 已过期 |
+| `delete_precondition_failed` | 无法取得用于并发保护的文件 `eTag` |
 | `not_tested` | 业务层失败，因此没有调用 SPE |
 | `container_permission_denied` | 业务层通过，但用户没有 Container delegated 权限 |
 | `reauthentication_required` | App 重启后 Token Cache 失效，需要重新登录 |
