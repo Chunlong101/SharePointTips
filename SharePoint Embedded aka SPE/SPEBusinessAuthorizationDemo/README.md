@@ -739,6 +739,8 @@ Container: container_permission_denied
 
 这证明业务 Group 权限不能替代 SPE Container 原生权限。
 
+当前只有 `DemoAdmin` 能执行 `RunAppOnlyComparison`。
+
 ## 4.6 IP 白名单内外验证
 
 ### 白名单内
