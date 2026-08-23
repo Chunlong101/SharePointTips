@@ -529,7 +529,7 @@ request.Content = JsonContent.Create(new
 });
 ```
 
-若 App Service 重启导致内存 Token Cache 清空，应用返回 `reauthentication_required` 并自动重新触发 OIDC 登录，不把它误报为 Group 无权限。
+若 App Service 重启导致内存 Token Cache 清空，无论是在 Group fallback 还是后续 Container delegated token 获取阶段，应用都会自动重新触发 OIDC 登录，不显示通用错误页，也不把它误报为 Group 无权限。
 
 ## 3.4 业务授权
 
@@ -789,7 +789,7 @@ dotnet test .\SPEBusinessAuthorizationDemo.sln `
 当前结果：
 
 ```text
-66 tests passed
+70 tests passed
 0 tests failed
 ```
 
