@@ -94,30 +94,28 @@ dotnet run --project .\src\SpeAuthorizationDemo\SpeAuthorizationDemo.csproj `
 
 ## 测试步骤
 
-1. Reader 登录，选择“模拟大陆并访问”，验证列表、下载和上传限制。
-2. Writer 登录，选择“模拟大陆并访问”，验证上传。
-3. Reader 或 Writer 选择“模拟境外并验证拒绝”。
-4. Outside 登录并模拟大陆，验证组外用户被拒绝。
-5. DemoAdmin 登录并打开“App-only 对照”。
+1. 用户登录后在主页点击“验证 Container 访问权限”。
+2. 主页先执行 Tenant、Group/角色和后台 IP 白名单等业务检查。
+3. 业务层通过后，以当前用户 delegated 身份尝试读取 Container 根目录。
+4. 页面分别显示“业务层”和“SPE Container”的通过/拒绝状态。
+5. 验证成功时只显示根目录项目数量，不显示文件名。
 
-`US` 测试不是实际美国公网，而是 Development 环境下通过 `testLocation=US` 模拟位置判断。该参数仅在 `Development + localhost + EnableDevelopmentOverride=true` 时生效，Production 会忽略它。
+业务层失败时不会调用 SPE，Container 状态显示“未验证”。原文件列表、上传、下载和 App-only 页面继续保留在导航中。
 
 ## 测试结果
 
 | 场景 | 结果 |
 |---|---|
-| Reader + CN：列表/下载 | 允许 |
-| Reader + CN：上传 | 拒绝：`operation_not_allowed` |
-| Reader/Writer + US | 拒绝：`location_not_allowed` |
-| Writer + CN：上传 | 成功，上传 `writer-test.txt`（63 bytes） |
-| Outside + CN | 拒绝：`group_not_allowed` |
-| DemoAdmin + CN：app-only | 成功，应用身份读取 3 个根目录项目 |
+| Reader/Writer 从白名单 IP 验证 | 业务层通过，Container 可访问，显示文件数量 |
+| Outside 验证 | 业务层拒绝，Container 未验证 |
+| DemoAdmin 无 Container 用户权限 | 业务层通过，Container 无权限 |
+| 非白名单 IP | App Service 或业务层拒绝 |
 
-自动验证：**45 项测试通过，0 失败**；PowerShell 脚本安全检查通过。
+自动验证：**53 项测试通过，0 失败**；PowerShell 脚本安全检查通过。
 
 ## 测试截图
 
-管理员身份和位置模拟入口：
+原始管理员身份诊断截图（历史测试证据）：
 
 ![管理员身份与位置模拟入口](docs/images/admin-identity-summary.png)
 
