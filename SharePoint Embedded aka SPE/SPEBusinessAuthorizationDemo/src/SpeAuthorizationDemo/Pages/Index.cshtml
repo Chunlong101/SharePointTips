@@ -1,0 +1,79 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "SPE 业务授权诊断";
+}
+<div class="hero-panel">
+    <div class="eyebrow">21VIANET · SHAREPOINT EMBEDDED</div>
+    <h1>Container 访问权限验证</h1>
+    <p>验证当前用户是否同时通过业务授权，并具有读取 SharePoint Embedded Container 文件的 delegated 权限。</p>
+</div>
+
+@if (!(User.Identity?.IsAuthenticated ?? false))
+{
+    <div class="card card-body mt-4">
+        <h2 class="h5">尚未登录</h2>
+        <p>请先使用世纪互联 Entra 用户登录，然后验证 Container 访问权限。</p>
+        <a class="btn btn-primary align-self-start" href="/MicrosoftIdentity/Account/SignIn">登录并验证</a>
+    </div>
+}
+else
+{
+    <div class="card card-body mt-4 access-check-card">
+        <div class="d-flex flex-wrap justify-content-between align-items-center gap-3">
+            <div>
+                <div class="text-muted small">当前用户</div>
+                <div class="fw-semibold">@User.Identity!.Name</div>
+            </div>
+            <form method="post" asp-page-handler="Validate">
+                <button class="btn btn-primary btn-lg" type="submit">验证 Container 访问权限</button>
+            </form>
+        </div>
+    </div>
+
+    @if (Model.HasValidationResult)
+    {
+        <div class="validation-result @(Model.FinalAllowed ? "validation-allowed" : "validation-denied") mt-4">
+            <div class="result-icon">@(Model.FinalAllowed ? "✓" : "×")</div>
+            <div>
+                <h2 class="h4 mb-1">@(Model.FinalAllowed ? "当前用户可以访问 Container" : "当前用户不能访问 Container")</h2>
+                @if (Model.FinalAllowed)
+                {
+                    <p class="mb-0">已成功读取根目录，共 @Model.FileCount 个项目。</p>
+                }
+                else
+                {
+                    <p class="mb-0">请展开详细信息查看被拒绝的层级。</p>
+                }
+            </div>
+        </div>
+
+        <div class="row g-3 mt-1">
+            <div class="col-md-6">
+                <div class="status-card">
+                    <span class="status-dot @(Model.BusinessAllowed ? "status-pass" : "status-fail")"></span>
+                    <div><div class="text-muted small">业务层</div><strong>@(Model.BusinessAllowed ? "通过" : "拒绝")</strong></div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="status-card">
+                    <span class="status-dot @(!Model.ContainerChecked ? "status-pending" : Model.ContainerAllowed ? "status-pass" : "status-fail")"></span>
+                    <div><div class="text-muted small">SPE Container</div><strong>@(!Model.ContainerChecked ? "未验证" : Model.ContainerAllowed ? "可访问" : "无权限")</strong></div>
+                </div>
+            </div>
+        </div>
+
+        <details class="card card-body mt-3">
+            <summary class="fw-semibold">详细信息</summary>
+            <dl class="signal-list mt-3 mb-0">
+                <dt>业务角色</dt><dd>@Model.Role</dd>
+                <dt>业务层原因</dt><dd><code>@Model.BusinessReasonCode</code></dd>
+                <dt>Container 原因</dt><dd><code>@Model.ContainerReasonCode</code></dd>
+                <dt>Tenant ID</dt><dd><code>@Model.TenantId</code></dd>
+                <dt>Object ID</dt><dd><code>@Model.ObjectId</code></dd>
+            </dl>
+        </details>
+    }
+}
+
+<div class="boundary-note mt-4"><strong>验证范围：</strong>主页先执行现有业务授权；仅在业务层通过后，才以当前用户 delegated 身份读取 Container。文件名不会显示在主页。</div>

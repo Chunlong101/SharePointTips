@@ -1,0 +1,11 @@
+@page
+@model SpeAuthorizationDemo.Pages.AppOnly.IndexModel
+@{
+    ViewData["Title"] = "App-only 安全边界对照";
+}
+<div class="alert alert-warning">
+    <h1 class="h4">App-only 安全边界对照</h1>
+    <p class="mb-0">此请求由应用身份访问 SPE。SPE 不会检查当前用户的 Container 角色；业务代码是用户准入的主要防线。页面仅向 DemoAdmin 开放。</p>
+</div>
+<p>应用身份成功读取 @Model.Items.Count 个根目录项目。任何访问令牌均未返回浏览器。</p>
+<ul class="list-group">@foreach (var item in Model.Items) { <li class="list-group-item d-flex justify-content-between"><span>@item.Name</span><span>@item.Size.ToString("N0") bytes</span></li> }</ul>

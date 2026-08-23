@@ -1,0 +1,6 @@
+# Local tenant-specific configuration and secrets
+src/SpeAuthorizationDemo/appsettings.Local.json
+**/*.mmdb
+
+# Local build and test artifacts
+artifacts/

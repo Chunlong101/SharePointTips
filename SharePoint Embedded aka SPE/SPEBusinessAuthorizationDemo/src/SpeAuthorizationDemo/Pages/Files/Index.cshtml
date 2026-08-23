@@ -1,0 +1,30 @@
+@page
+@model SpeAuthorizationDemo.Pages.Files.IndexModel
+@{
+    ViewData["Title"] = "Delegated 文件访问";
+}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h1>Delegated 文件访问</h1>
+        <p class="text-muted mb-0">SPE 使用当前登录用户身份，并继续检查用户的 Container 权限。</p>
+    </div>
+    <a class="btn btn-primary" asp-page="/Files/Upload" asp-route-testLocation="@Model.TestLocation">上传测试文件</a>
+</div>
+@if (Model.Decision is not null)
+{
+    <div class="alert alert-success">业务角色：<strong>@Model.Decision.Role</strong>；授权结果：@Model.Decision.ReasonCode</div>
+}
+<table class="table table-hover align-middle">
+    <thead><tr><th>名称</th><th>大小</th><th></th></tr></thead>
+    <tbody>
+    @foreach (var item in Model.Items)
+    {
+        <tr>
+            <td>@item.Name</td>
+            <td>@item.Size.ToString("N0") bytes</td>
+            <td class="text-end"><a class="btn btn-sm btn-outline-secondary" asp-page="/Files/Download" asp-route-id="@item.Id" asp-route-testLocation="@Model.TestLocation">下载</a></td>
+        </tr>
+    }
+    </tbody>
+</table>
+@if (Model.Items.Count == 0) { <div class="empty-state">Container 根目录当前没有文件。</div> }
