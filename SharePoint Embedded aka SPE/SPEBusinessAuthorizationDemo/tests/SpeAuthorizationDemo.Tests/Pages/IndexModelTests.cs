@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Identity.Client;
+using Microsoft.Identity.Web;
 using SpeAuthorizationDemo.Authorization;
 using SpeAuthorizationDemo.Graph;
 using SpeAuthorizationDemo.Models;
@@ -94,6 +96,46 @@ public sealed class IndexModelTests
         Assert.Equal(0, graph.ListCalls);
     }
 
+    [Fact]
+    public async Task Validate_DelegatedTokenCacheMissing_ChallengesOpenIdConnect()
+    {
+        var graph = new FakeGraphClient
+        {
+            Failure = new MicrosoftIdentityWebChallengeUserException(
+                new MsalUiRequiredException("user_null", "No cached account."),
+                ["https://microsoftgraph.chinacloudapi.cn/FileStorageContainer.Selected"],
+                null)
+        };
+        var model = CreateModel(
+            new AuthorizationDecision(true, BusinessRole.Reader, BusinessOperation.ListFiles, "allowed"),
+            graph);
+
+        var result = await model.OnPostValidateAsync(CancellationToken.None);
+
+        var challenge = Assert.IsType<ChallengeResult>(result);
+        Assert.Contains(OpenIdConnectDefaults.AuthenticationScheme, challenge.AuthenticationSchemes);
+        Assert.Equal("/", challenge.Properties?.RedirectUri);
+        Assert.Equal(1, graph.ListCalls);
+    }
+
+    [Fact]
+    public async Task Validate_ConditionalAccessChallenge_IsPreserved()
+    {
+        var expected = new MicrosoftIdentityWebChallengeUserException(
+            new MsalUiRequiredException("claims_challenge", "Additional claims are required."),
+            ["https://microsoftgraph.chinacloudapi.cn/FileStorageContainer.Selected"],
+            null);
+        var graph = new FakeGraphClient { Failure = expected };
+        var model = CreateModel(
+            new AuthorizationDecision(true, BusinessRole.Reader, BusinessOperation.ListFiles, "allowed"),
+            graph);
+
+        var actual = await Assert.ThrowsAsync<MicrosoftIdentityWebChallengeUserException>(() =>
+            model.OnPostValidateAsync(CancellationToken.None));
+
+        Assert.Same(expected, actual);
+    }
+
     private static IndexModel CreateModel(AuthorizationDecision decision, FakeGraphClient graph)
     {
         var context = new DefaultHttpContext
@@ -128,7 +170,7 @@ public sealed class IndexModelTests
     private sealed class FakeGraphClient : ISpeGraphClient
     {
         public IReadOnlyList<SpeDriveItem> Items { get; init; } = [];
-        public SpeGraphException? Failure { get; init; }
+        public Exception? Failure { get; init; }
         public int ListCalls { get; private set; }
 
         public Task<IReadOnlyList<SpeDriveItem>> ListRootAsync(CancellationToken cancellationToken)
