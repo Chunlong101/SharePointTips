@@ -15,7 +15,14 @@ public sealed class DownloadModel(
     {
         var decision = await authorization.AuthorizeAsync(User, HttpContext, BusinessOperation.DownloadFile, cancellationToken);
         if (!decision.IsAllowed) return RedirectToPage("/AccessDenied", new { reason = decision.ReasonCode });
-        var download = await clients.CreateDelegated().DownloadAsync(id, cancellationToken);
-        return File(download.Content, download.ContentType, download.FileName);
+        try
+        {
+            var download = await clients.CreateDelegated().DownloadAsync(id, cancellationToken);
+            return File(download.Content, download.ContentType, download.FileName);
+        }
+        catch (SpeGraphException exception)
+        {
+            return RedirectToPage("/AccessDenied", new { reason = SpeGraphErrorMapper.ToReasonCode(exception) });
+        }
     }
 }

@@ -35,7 +35,14 @@ public sealed class UploadModel(
         }
 
         await using var stream = Upload.OpenReadStream();
-        await clients.CreateDelegated().UploadSmallFileAsync(Upload.FileName, stream, Upload.Length, cancellationToken);
+        try
+        {
+            await clients.CreateDelegated().UploadSmallFileAsync(Upload.FileName, stream, Upload.Length, cancellationToken);
+        }
+        catch (SpeGraphException exception)
+        {
+            return RedirectToPage("/AccessDenied", new { reason = SpeGraphErrorMapper.ToReasonCode(exception) });
+        }
         return RedirectToPage("/Files/Index", new { testLocation = TestLocation });
     }
 }
