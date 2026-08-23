@@ -471,7 +471,7 @@ flowchart TD
     G -- 否 --> X3[业务层拒绝: location_not_allowed]
     G -- 是 --> H[业务层通过]
     H --> I[获取当前用户 delegated Graph Token]
-    I --> J[GET /drives/{ContainerId}/root/children]
+    I --> J[调用 Graph 列出 Container 根目录]
     J -- 200 --> K[Container 可访问并显示项目数量]
     J -- 403 --> X4[Container 无权限: container_permission_denied]
     J -- Token Cache 失效 --> L[重新触发 OIDC 登录]
