@@ -20,7 +20,14 @@ public sealed class IndexModel(
     {
         Decision = await authorization.AuthorizeAsync(User, HttpContext, BusinessOperation.ListFiles, cancellationToken);
         if (!Decision.IsAllowed) return RedirectToPage("/AccessDenied", new { reason = Decision.ReasonCode });
-        Items = await clients.CreateDelegated().ListRootAsync(cancellationToken);
+        try
+        {
+            Items = await clients.CreateDelegated().ListRootAsync(cancellationToken);
+        }
+        catch (SpeGraphException exception)
+        {
+            return RedirectToPage("/AccessDenied", new { reason = SpeGraphErrorMapper.ToReasonCode(exception) });
+        }
         return Page();
     }
 }
