@@ -33,7 +33,7 @@
 
 - Windows + PowerShell 7；
 - [.NET SDK 9](https://dotnet.microsoft.com/download/dotnet/9.0)；
-- 可以登录 `hello21v` 世纪互联 Tenant；
+- 在代码中替换环境变量使之可以登录世纪互联Tenant；
 - App Registration 已完成下列配置。
 
 ## 1.2 App Registration 配置
