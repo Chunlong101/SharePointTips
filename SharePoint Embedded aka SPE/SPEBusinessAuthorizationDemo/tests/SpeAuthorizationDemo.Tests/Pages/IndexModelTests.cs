@@ -1,6 +1,9 @@
 using System.Net;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using SpeAuthorizationDemo.Authorization;
 using SpeAuthorizationDemo.Graph;
@@ -73,6 +76,22 @@ public sealed class IndexModelTests
         Assert.False(model.ContainerAllowed);
         Assert.False(model.FinalAllowed);
         Assert.Equal("container_permission_denied", model.ContainerReasonCode);
+    }
+
+    [Fact]
+    public async Task Validate_ReauthenticationRequired_ChallengesOpenIdConnect()
+    {
+        var graph = new FakeGraphClient();
+        var model = CreateModel(
+            new AuthorizationDecision(false, BusinessRole.None, BusinessOperation.ListFiles, "reauthentication_required"),
+            graph);
+
+        var result = await model.OnPostValidateAsync(CancellationToken.None);
+
+        var challenge = Assert.IsType<ChallengeResult>(result);
+        Assert.Contains(OpenIdConnectDefaults.AuthenticationScheme, challenge.AuthenticationSchemes);
+        Assert.Equal("/", challenge.Properties?.RedirectUri);
+        Assert.Equal(0, graph.ListCalls);
     }
 
     private static IndexModel CreateModel(AuthorizationDecision decision, FakeGraphClient graph)

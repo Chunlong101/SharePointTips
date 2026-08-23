@@ -1,4 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using SpeAuthorizationDemo.Authorization;
 using SpeAuthorizationDemo.Graph;
@@ -41,6 +43,12 @@ public sealed class IndexModel(
         BusinessAllowed = decision.IsAllowed;
         BusinessReasonCode = decision.ReasonCode;
         Role = decision.Role;
+        if (BusinessReasonCode == "reauthentication_required")
+        {
+            return Challenge(
+                new AuthenticationProperties { RedirectUri = "/" },
+                OpenIdConnectDefaults.AuthenticationScheme);
+        }
         if (!BusinessAllowed)
             return Page();
 

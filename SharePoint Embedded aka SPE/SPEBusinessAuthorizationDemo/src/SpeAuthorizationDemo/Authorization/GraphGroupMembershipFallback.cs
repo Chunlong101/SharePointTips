@@ -42,6 +42,14 @@ public sealed class GraphGroupMembershipFallback(
                 .ToHashSet();
             return GroupResolutionResult.Success(groups);
         }
+        catch (MicrosoftIdentityWebChallengeUserException exception)
+        {
+            logger.LogInformation(
+                "Delegated token reauthentication is required for user {ObjectId}: {ExceptionType}.",
+                identity.ObjectId,
+                exception.GetType().Name);
+            return GroupResolutionResult.Failure("reauthentication_required");
+        }
         catch (Exception exception) when (exception is not OperationCanceledException)
         {
             logger.LogWarning("Group membership fallback failed for user {ObjectId}: {ExceptionType}.",
