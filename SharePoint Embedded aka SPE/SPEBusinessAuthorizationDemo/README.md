@@ -25,6 +25,8 @@
 
 > 本项目用于测试和演示。Client Secret、密码、Token、真实本地配置和 GeoIP 数据库不得提交到 Git。
 
+<img width="948" height="722" alt="image" src="https://github.com/user-attachments/assets/66b643f2-da41-414c-9cf0-1e84fc2cccc5" />
+
 ---
 
 # 1. 如何在本机运行 Demo
