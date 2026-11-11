@@ -1,6 +1,6 @@
 <#
 .SYNOPSIS
-Finds incident-matching folders; optionally recycles folders that are still empty.
+Finds incident-matching folders; optionally recycles trees containing no files.
 .DESCRIPTION
 Requires PnP.PowerShell 3.x, an Entra application client ID configured for PnP
 interactive delegated sign-in, and a site collection administrator account.
@@ -25,16 +25,22 @@ TimeZoneInfo ID supported by the computer running this script.
 
 All list items are paged in indexed ID order; filters are evaluated locally.
 This avoids an unindexed Author/date CAML filter on large libraries.
-Only metadata-matching folders with ZERO immediate children are eligible.
-Parents containing even empty subfolders are skipped. A later preview can
-find parents that became empty; this run never cascades through such parents.
+Only metadata-matching folders whose ENTIRE subtree contains ZERO files are
+eligible. Empty subfolders at any depth are allowed, even if their own creator
+or dates do not match. Recycling a selected root recycles ALL its descendants.
+Only the outermost eligible matching roots are selected; matching descendants
+are reported as SkippedCoveredByAncestor and are not recycled independently.
 
 Preview CSV is written completely before any deletion. -Delete enables
 ShouldProcess confirmation; -WhatIf still prevents recycling. Each selected
 folder is re-read AFTER confirmation, compared with its preview snapshot,
-and checked for immediate children immediately before recycling.
+and recursively checked for files immediately before recycling.
+Candidates.csv uses FileFreeTreeAtScan (not immediate-child emptiness) and
+RecycleScope = FolderAndAllDescendants. CoveredByAncestor identifies folders
+included in an outer candidate; they remain covered even if that root is
+declined or skipped during deletion.
 
-IMPORTANT: SharePoint does not provide an atomic "recycle only if empty"
+IMPORTANT: SharePoint does not provide an atomic "recycle only if file-free"
 operation here. Stop sync clients and other writes to the affected locations
 and coordinate a maintenance window BEFORE deletion. A concurrent upload
 between the final check and Recycle could otherwise be recycled with its parent.
@@ -124,22 +130,36 @@ function Test-CaseSnapshot {
     return $true
 }
 
-function Test-CaseEmpty {
-    param([Parameter(Mandatory)][AllowNull()][AllowEmptyCollection()][object[]]$Children)
-    if ($null -eq $Children) { throw 'Child enumeration is unknown; refusing to treat it as empty.' }
-    return $Children.Count -eq 0
+function Test-CaseFileFreeItems {
+    param([Parameter(Mandatory)][AllowNull()][AllowEmptyCollection()][object[]]$Items)
+    if ($null -eq $Items) { throw 'Descendant enumeration is unknown; refusing to treat the tree as file-free.' }
+    foreach ($item in $Items) {
+        if ($null -eq $item -or -not $item.FieldValues.ContainsKey('FSObjType') -or
+            $null -eq $item.FieldValues.FSObjType) {
+            throw 'Unknown descendant item type; refusing to recycle the tree.'
+        }
+        $type = [int]$item.FieldValues.FSObjType
+        if ($type -eq 0) { return $false }
+        if ($type -ne 1) { throw 'Unknown descendant item type; refusing to recycle the tree.' }
+    }
+    return $true
 }
 
-function Get-CaseChildren {
+function Test-CaseFolderTreeFileFree {
     param($List, [string]$FolderPath, $Connection)
     $query = [Microsoft.SharePoint.Client.CamlQuery]::new()
     $query.FolderServerRelativePath = [Microsoft.SharePoint.Client.ResourcePath]::FromDecodedUrl($FolderPath)
-    # Default scope is immediate children, including files and folders.
-    $query.ViewXml = "<View><ViewFields><FieldRef Name='ID'/></ViewFields><RowLimit>1</RowLimit></View>"
-    $items = $List.GetItems($query)
-    $Connection.Context.Load($items)
-    Invoke-PnPQuery -Connection $Connection
-    foreach ($item in $items) { Write-Output $item }
+    # Page all descendants in ID order; a server-side type filter can hit list thresholds.
+    $query.ViewXml = "<View Scope='RecursiveAll'><Query><OrderBy><FieldRef Name='ID' Ascending='TRUE'/></OrderBy></Query><ViewFields><FieldRef Name='ID'/><FieldRef Name='FSObjType'/></ViewFields><RowLimit Paged='TRUE'>2000</RowLimit></View>"
+    do {
+        $items = $List.GetItems($query)
+        if ($null -eq $items) { throw 'Descendant enumeration is unknown; refusing to treat the tree as file-free.' }
+        $Connection.Context.Load($items)
+        Invoke-PnPQuery -Connection $Connection
+        if (-not (Test-CaseFileFreeItems -Items $items)) { return $false }
+        $query.ListItemCollectionPosition = $items.ListItemCollectionPosition
+    } while ($null -ne $query.ListItemCollectionPosition)
+    return $true
 }
 
 function Write-CaseCsvRow {
@@ -244,6 +264,7 @@ Write-Host "Mode: $(if ($Delete) { 'DELETE requested (confirmation/WhatIf applie
 Write-Warning 'Confirm the screenshot timezone. Site regional time is the default, not necessarily the viewer personal timezone.'
 
 $candidates = [System.Collections.Generic.List[object]]::new()
+$previewRows = [System.Collections.Generic.List[object]]::new()
 $webs = @(Get-PnPSubWeb -Recurse -IncludeRootWeb -Connection $connection)
 $fieldNames = @('ID', 'FSObjType', 'FileLeafRef', 'FileRef', 'UniqueId', 'Created',
                 'Modified', 'Author', 'Editor', 'ItemChildCount', 'FolderChildCount')
@@ -272,8 +293,7 @@ foreach ($web in $webs) {
                 $fields = $item.FieldValues
                 if (-not (Test-CaseFolderMatch -Fields $fields -Criteria $criteria)) { continue }
                 $matched++
-                $children = @(Get-CaseChildren -List $list -FolderPath $fields.FileRef -Connection $connection)
-                $empty = Test-CaseEmpty -Children $children
+                $fileFree = Test-CaseFolderTreeFileFree -List $list -FolderPath $fields.FileRef -Connection $connection
                 $snapshot = New-CaseSnapshot $fields
                 $editor = $fields.Editor
                 $row = [pscustomobject][ordered]@{
@@ -295,13 +315,15 @@ foreach ($web in $webs) {
                     ModifiedDayFilter = $ModifiedDate.ToString('yyyy-MM-dd')
                     ReportedFileChildCount = $fields.ItemChildCount
                     ReportedFolderChildCount = $fields.FolderChildCount
-                    EmptyAtScan = $empty
-                    Status = $(if ($empty) { 'PreviewEmpty' } else { 'SkippedNonEmpty' })
+                    FileFreeTreeAtScan = $fileFree
+                    RecycleScope = 'FolderAndAllDescendants'
+                    CoveredByAncestor = ''
+                    Status = $(if ($fileFree) { 'PreviewFileFreeTree' } else { 'SkippedContainsFiles' })
                 }
-                Write-CaseCsvRow -Row $row -Path $previewPath
-                if ($empty) {
+                $previewRows.Add($row)
+                if ($fileFree) {
                     $candidates.Add([pscustomobject]@{
-                        List = $list; ItemId = $item.Id; Snapshot = $snapshot; Criteria = $criteria
+                        List = $list; ItemId = $item.Id; Snapshot = $snapshot; Criteria = $criteria; Report = $row
                     })
                 }
             }
@@ -309,15 +331,33 @@ foreach ($web in $webs) {
         } while ($null -ne $query.ListItemCollectionPosition)
     }
 }
-Write-Host "Scan complete. Libraries: $scannedLibraries; metadata matches: $matched; empty candidates: $($candidates.Count)."
+$selectedRoots = [System.Collections.Generic.List[object]]::new()
+foreach ($candidate in ($candidates | Sort-Object { $_.Snapshot.FileRef.Length })) {
+    $ancestor = $selectedRoots | Where-Object {
+        $_.List.Id -eq $candidate.List.Id -and
+        $candidate.Snapshot.FileRef.StartsWith(
+            $_.Snapshot.FileRef.TrimEnd('/') + '/', [StringComparison]::OrdinalIgnoreCase)
+    } | Select-Object -First 1
+    if ($null -ne $ancestor) {
+        $candidate.Report.Status = 'SkippedCoveredByAncestor'
+        $candidate.Report.CoveredByAncestor = $ancestor.Snapshot.FileRef
+    }
+    else {
+        $selectedRoots.Add($candidate)
+    }
+}
+foreach ($row in $previewRows) {
+    Write-CaseCsvRow -Row $row -Path $previewPath
+}
+Write-Host "Scan complete. Libraries: $scannedLibraries; metadata matches: $matched; file-free matches: $($candidates.Count); selected root trees: $($selectedRoots.Count)."
 Write-Host "Reports: $ReportDirectory"
 if ($matched -eq 0) {
     Write-Warning 'No matching folders. No Candidates.csv was created. Verify the author, dates, timezone, and web scope.'
 }
-if (-not $Delete -or $candidates.Count -eq 0) { return }
+if (-not $Delete -or $selectedRoots.Count -eq 0) { return }
 
-Write-Warning 'BEFORE proceeding: coordinate a maintenance window and stop sync/other writes. Empty-check and recycle are not atomic.'
-foreach ($candidate in $candidates) {
+Write-Warning 'BEFORE proceeding: stop sync/other writes during a maintenance window. Each selected root and ALL its descendant folders will be recycled, including nonmatching descendants. File-check and recycle are not atomic.'
+foreach ($candidate in $selectedRoots) {
     $path = $candidate.Snapshot.FileRef
     $action = [pscustomobject][ordered]@{
         TimeUtc = [datetime]::UtcNow.ToString('o')
@@ -325,11 +365,12 @@ foreach ($candidate in $candidates) {
         ItemId = $candidate.ItemId
         UniqueId = $candidate.Snapshot.UniqueId
         ServerRelativeUrl = $path
+        RecycleScope = 'FolderAndAllDescendants'
         Status = ''
         RecycleBinId = ''
         Error = ''
     }
-    if (-not $PSCmdlet.ShouldProcess($path, 'Recycle incident-matching empty folder')) {
+    if (-not $PSCmdlet.ShouldProcess($path, 'Recycle matching folder and ALL descendant folders in its file-free tree')) {
         $action.Status = 'NotExecuted'
         Write-CaseCsvRow -Row $action -Path $actionsPath
         continue
@@ -344,9 +385,8 @@ foreach ($candidate in $candidates) {
             $action.Status = 'SkippedMetadataChanged'
         }
         else {
-            $children = @(Get-CaseChildren -List $candidate.List -FolderPath $path -Connection $connection)
-            if (-not (Test-CaseEmpty -Children $children)) {
-                $action.Status = 'SkippedNowNonEmpty'
+            if (-not (Test-CaseFolderTreeFileFree -List $candidate.List -FolderPath $path -Connection $connection)) {
+                $action.Status = 'SkippedNowContainsFiles'
             }
             else {
                 $action.Status = 'AttemptingRecycle'
