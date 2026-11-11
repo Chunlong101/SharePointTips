@@ -94,10 +94,24 @@ Describe 'RemoveUnwantedContent offline helpers' {
         }
     }
 
-    It 'accepts only known empty child collections' {
-        Test-CaseEmpty -Children @() | Should Be $true
-        Test-CaseEmpty -Children @([pscustomobject]@{ Id = 1 }) | Should Be $false
-        { Test-CaseEmpty -Children $null } | Should Throw 'Child enumeration is unknown'
+    It 'accepts empty collections and collections containing only folders' {
+        Test-CaseFileFreeItems -Items @() | Should Be $true
+        $folder = [pscustomobject]@{ FieldValues = @{ FSObjType = 1 } }
+        Test-CaseFileFreeItems -Items @($folder, $folder) | Should Be $true
+    }
+
+    It 'rejects any file in a descendant page' {
+        $folder = [pscustomobject]@{ FieldValues = @{ FSObjType = 1 } }
+        $file = [pscustomobject]@{ FieldValues = @{ FSObjType = 0 } }
+        Test-CaseFileFreeItems -Items @($folder, $file) | Should Be $false
+    }
+
+    It 'refuses unknown descendant enumeration or item types' {
+        { Test-CaseFileFreeItems -Items $null } | Should Throw 'Descendant enumeration is unknown'
+        foreach ($values in @(@{}, @{ FSObjType = $null }, @{ FSObjType = 2 })) {
+            $unknown = [pscustomobject]@{ FieldValues = $values }
+            { Test-CaseFileFreeItems -Items @($unknown) } | Should Throw 'Unknown descendant item type'
+        }
     }
 
     It 'computes UTC day boundaries without a SharePoint connection' {
@@ -150,6 +164,24 @@ Describe 'RemoveUnwantedContent offline execution guards' {
         throw 'Unmocked Invoke-PnPQuery call'
     }
 
+    function New-TestTreeItem {
+        param([int]$Id, [string]$Path, [int]$Type = 1, [int]$AuthorId = 7)
+        $values = $itemFields.Clone()
+        $values.ID = $Id
+        $values.FileRef = $Path
+        $values.UniqueId = [guid]::NewGuid()
+        $values.FSObjType = $Type
+        $values.Author = [pscustomobject]@{ LookupId = $AuthorId; LookupValue = 'Test User' }
+        $testItem = [pscustomobject]@{ Id = $Id; FieldValues = $values }
+        $testItem | Add-Member ScriptMethod Recycle {
+            $state.Recycles++
+            $state.RecycledIds.Add($this.Id)
+            if ($state.FailRecycle) { throw 'Simulated recycle failure' }
+            return [pscustomobject]@{ Value = [guid]'00000000-0000-0000-0000-000000000003' }
+        }
+        return $testItem
+    }
+
     BeforeEach {
         $runParameters = @{
             SarahLogin = 'test@example.com'
@@ -166,8 +198,13 @@ Describe 'RemoveUnwantedContent offline execution guards' {
             NonEmptyAtDelete = $false
             MetadataChanged = $false
             FailChildren = $false
+            FailChildrenAtDelete = $false
+            FailSecondPage = $false
             FailRecycle = $false
             IsAdmin = $true
+            Items = [System.Collections.Generic.List[object]]::new()
+            RecycledIds = [System.Collections.Generic.List[int]]::new()
+            TreeQueries = [System.Collections.Generic.List[object]]::new()
         }
         $itemFields = @{
             ID = 1; FSObjType = 1; FileLeafRef = 'Empty'
@@ -179,12 +216,8 @@ Describe 'RemoveUnwantedContent offline execution guards' {
             Modified = ([datetimeoffset]'2023-10-16T12:00:00Z').UtcDateTime
             ItemChildCount = 0; FolderChildCount = 0
         }
-        $item = [pscustomobject]@{ Id = 1; FieldValues = $itemFields }
-        $item | Add-Member ScriptMethod Recycle {
-            $state.Recycles++
-            if ($state.FailRecycle) { throw 'Simulated recycle failure' }
-            return [pscustomobject]@{ Value = [guid]'00000000-0000-0000-0000-000000000003' }
-        }
+        $item = New-TestTreeItem -Id 1 -Path $itemFields.FileRef
+        $state.Items.Add($item)
         $list = [pscustomobject]@{
             Id = [guid]'00000000-0000-0000-0000-000000000004'
             Title = 'Docs'; BaseType = 1; Hidden = $false
@@ -192,24 +225,53 @@ Describe 'RemoveUnwantedContent offline execution guards' {
         $list | Add-Member ScriptMethod GetItems {
             param($query)
             $collection = [System.Collections.Generic.List[object]]::new()
+            $position = $null
             if ($null -ne $query.FolderServerRelativePath) {
-                if ($state.FailChildren) { throw 'Simulated child enumeration failure' }
+                if ($state.FailChildren -or ($state.Reads -gt 0 -and $state.FailChildrenAtDelete)) {
+                    throw 'Simulated child enumeration failure'
+                }
+                $view = [xml]$query.ViewXml
+                $recursive = $view.DocumentElement.GetAttribute('Scope') -eq 'RecursiveAll'
+                $prefix = $query.FolderServerRelativePath.DecodedUrl.TrimEnd('/') + '/'
+                $descendants = @($state.Items | Where-Object {
+                    $path = $_.FieldValues.FileRef
+                    $path.StartsWith($prefix, [StringComparison]::OrdinalIgnoreCase) -and
+                        ($recursive -or -not $path.Substring($prefix.Length).Contains('/'))
+                })
                 if (($state.Reads -eq 0 -and $state.NonEmptyAtScan) -or
                     ($state.Reads -gt 0 -and $state.NonEmptyAtDelete)) {
-                    $collection.Add([pscustomobject]@{ Id = 2 })
+                    $descendants += [pscustomobject]@{
+                        Id = 9999; FieldValues = @{ FSObjType = 0; FileRef = $prefix + 'new.txt' }
+                    }
+                }
+                $start = 0
+                if ($null -ne $query.ListItemCollectionPosition) {
+                    if ($state.FailSecondPage) { throw 'Simulated next-page failure' }
+                    $start = [int]([regex]::Match($query.ListItemCollectionPosition.PagingInfo, 'p_ID=(\d+)').Groups[1].Value)
+                }
+                $limit = [int]$view.SelectSingleNode('/View/RowLimit').InnerText
+                $state.TreeQueries.Add([pscustomobject]@{ Scope = $view.DocumentElement.GetAttribute('Scope'); Start = $start })
+                $end = [Math]::Min($start + $limit, $descendants.Count)
+                for ($index = $start; $index -lt $end; $index++) {
+                    $collection.Add($descendants[$index])
+                }
+                if ($end -lt $descendants.Count) {
+                    $position = [Microsoft.SharePoint.Client.ListItemCollectionPosition]::new()
+                    $position.PagingInfo = "Paged=TRUE&p_ID=$end"
                 }
             }
             else {
-                $collection.Add($item)
+                foreach ($entry in $state.Items) { $collection.Add($entry) }
             }
-            Add-Member -InputObject $collection -MemberType NoteProperty -Name ListItemCollectionPosition -Value $null
+            Add-Member -InputObject $collection -MemberType NoteProperty -Name ListItemCollectionPosition -Value $position
             return ,$collection
         }
         $list | Add-Member ScriptMethod GetItemById {
             param($id)
             $state.Reads++
-            if ($state.MetadataChanged) { $item.FieldValues.FileRef = '/sites/test/Docs/Moved' }
-            return $item
+            $freshItem = $state.Items | Where-Object Id -eq $id
+            if ($state.MetadataChanged) { $freshItem.FieldValues.FileRef = '/sites/test/Docs/Moved' }
+            return $freshItem
         }
         $context = [pscustomobject]@{
             Web = [pscustomobject]@{ CurrentUser = [pscustomobject]@{ IsSiteAdmin = $true } }
@@ -243,7 +305,7 @@ Describe 'RemoveUnwantedContent offline execution guards' {
         $state.Recycles | Should Be 0
         $state.Reads | Should Be 0
         (Import-Csv (Join-Path $runParameters.ReportDirectory 'Candidates.csv')).Status |
-            Should Be 'PreviewEmpty'
+            Should Be 'PreviewFileFreeTree'
         Test-Path (Join-Path $runParameters.ReportDirectory 'Actions.csv') | Should Be $false
     }
 
@@ -290,15 +352,15 @@ Describe 'RemoveUnwantedContent offline execution guards' {
         $state.Recycles | Should Be 0
         $state.Reads | Should Be 0
         (Import-Csv (Join-Path $runParameters.ReportDirectory 'Candidates.csv')).Status |
-            Should Be 'SkippedNonEmpty'
+            Should Be 'SkippedContainsFiles'
     }
 
-    It 'skips folders that gain children after preview' {
+    It 'skips trees that gain files after preview' {
         $state.NonEmptyAtDelete = $true
         & $scriptPath @runParameters -Delete
         $state.Recycles | Should Be 0
         (Import-Csv (Join-Path $runParameters.ReportDirectory 'Actions.csv')).Status |
-            Should Be 'SkippedNowNonEmpty'
+            Should Be 'SkippedNowContainsFiles'
     }
 
     It 'skips folders whose metadata changes after preview' {
@@ -329,5 +391,130 @@ Describe 'RemoveUnwantedContent offline execution guards' {
         { & $scriptPath @runParameters -Delete } | Should Throw 'Sign in as a site collection administrator'
         Assert-MockCalled Get-PnPSubWeb -Times 0 -Exactly -Scope It
         $state.Recycles | Should Be 0
+    }
+
+    It 'recycles a matching root together with nested nonmatching empty folders' {
+        $state.Items.Add((New-TestTreeItem -Id 2 -Path '/sites/test/Docs/Empty/B' -AuthorId 8))
+        $state.Items.Add((New-TestTreeItem -Id 3 -Path '/sites/test/Docs/Empty/B/C' -AuthorId 9))
+        & $scriptPath @runParameters -Delete
+        $state.Recycles | Should Be 1
+        $state.RecycledIds[0] | Should Be 1
+        $rows = @(Import-Csv (Join-Path $runParameters.ReportDirectory 'Candidates.csv'))
+        $rows.Count | Should Be 1
+        $rows[0].FileFreeTreeAtScan | Should Be 'True'
+        $rows[0].RecycleScope | Should Be 'FolderAndAllDescendants'
+        $state.TreeQueries.Count | Should Be 2
+        foreach ($query in $state.TreeQueries) { $query.Scope | Should Be 'RecursiveAll' }
+    }
+
+    It 'never recycles a tree containing a file at any depth' {
+        $state.Items.Add((New-TestTreeItem -Id 2 -Path '/sites/test/Docs/Empty/B' -AuthorId 8))
+        $state.Items.Add((New-TestTreeItem -Id 3 -Path '/sites/test/Docs/Empty/B/C' -AuthorId 8))
+        $state.Items.Add((New-TestTreeItem -Id 4 -Path '/sites/test/Docs/Empty/B/C/file.txt' -Type 0))
+        & $scriptPath @runParameters -Delete
+        $state.Recycles | Should Be 0
+        (Import-Csv (Join-Path $runParameters.ReportDirectory 'Candidates.csv')).Status |
+            Should Be 'SkippedContainsFiles'
+    }
+
+    It 'rechecks deep descendants for new files after confirmation' {
+        $state.Items.Add((New-TestTreeItem -Id 2 -Path '/sites/test/Docs/Empty/B' -AuthorId 8))
+        $state.Items.Add((New-TestTreeItem -Id 3 -Path '/sites/test/Docs/Empty/B/C' -AuthorId 8))
+        $list | Add-Member ScriptMethod GetItemById {
+            param($id)
+            $state.Reads++
+            $state.Items.Add((New-TestTreeItem -Id 4 -Path '/sites/test/Docs/Empty/B/C/new.txt' -Type 0))
+            return $state.Items | Where-Object Id -eq $id
+        } -Force
+        & $scriptPath @runParameters -Delete
+        $state.Recycles | Should Be 0
+        (Import-Csv (Join-Path $runParameters.ReportDirectory 'Actions.csv')).Status |
+            Should Be 'SkippedNowContainsFiles'
+    }
+
+    It 'selects only the outermost matching root regardless of scan order' {
+        $child = New-TestTreeItem -Id 2 -Path '/sites/test/Docs/Empty/B'
+        $state.Items.Insert(0, $child)
+        & $scriptPath @runParameters -Delete
+        $state.Recycles | Should Be 1
+        $state.RecycledIds[0] | Should Be 1
+        $rows = @(Import-Csv (Join-Path $runParameters.ReportDirectory 'Candidates.csv'))
+        $childRow = $rows | Where-Object ItemId -eq 2
+        $childRow.Status | Should Be 'SkippedCoveredByAncestor'
+        $childRow.CoveredByAncestor | Should Be '/sites/test/Docs/Empty'
+        $actions = @(Import-Csv (Join-Path $runParameters.ReportDirectory 'Actions.csv'))
+        $actions.Count | Should Be 2
+    }
+
+    It 'keeps path-prefix siblings as separate roots' {
+        $state.Items.Add((New-TestTreeItem -Id 2 -Path '/sites/test/Docs/Empty2'))
+        & $scriptPath @runParameters -Delete
+        $state.Recycles | Should Be 2
+    }
+
+    It 'previews tree scope and ancestor coverage without recycling' {
+        $state.Items.Add((New-TestTreeItem -Id 2 -Path '/sites/test/Docs/Empty/B'))
+        & $scriptPath @runParameters
+        $state.Recycles | Should Be 0
+        $rows = @(Import-Csv (Join-Path $runParameters.ReportDirectory 'Candidates.csv'))
+        ($rows | Where-Object ItemId -eq 1).Status | Should Be 'PreviewFileFreeTree'
+        ($rows | Where-Object ItemId -eq 2).Status | Should Be 'SkippedCoveredByAncestor'
+    }
+
+    It 'simulates only the outer root when an entire empty tree is selected' {
+        $state.Items.Add((New-TestTreeItem -Id 2 -Path '/sites/test/Docs/Empty/B'))
+        & $scriptPath @runParameters -Delete -WhatIf
+        $state.Recycles | Should Be 0
+        $state.Reads | Should Be 0
+        $actions = @(Import-Csv (Join-Path $runParameters.ReportDirectory 'Actions.csv'))
+        $actions.Count | Should Be 1
+        $actions[0].ItemId | Should Be '1'
+        $actions[0].Status | Should Be 'NotExecuted'
+        $actions[0].RecycleScope | Should Be 'FolderAndAllDescendants'
+    }
+
+    It 'does not include a nonmatching ancestor when its matching child is selected' {
+        $item.FieldValues.Author.LookupId = 8
+        $state.Items.Add((New-TestTreeItem -Id 2 -Path '/sites/test/Docs/Empty/B'))
+        & $scriptPath @runParameters -Delete
+        $state.Recycles | Should Be 1
+        $state.RecycledIds[0] | Should Be 2
+    }
+
+    It 'finds a file beyond the first descendant page' {
+        for ($id = 2; $id -le 2001; $id++) {
+            $state.Items.Add((New-TestTreeItem -Id $id -Path "/sites/test/Docs/Empty/B$id" -AuthorId 8))
+        }
+        $state.Items.Add((New-TestTreeItem -Id 2002 -Path '/sites/test/Docs/Empty/last.txt' -Type 0))
+        & $scriptPath @runParameters -Delete
+        $state.Recycles | Should Be 0
+        $state.TreeQueries.Count | Should Be 2
+        $state.TreeQueries[1].Start | Should Be 2000
+    }
+
+    It 'accepts a file-free tree spanning multiple descendant pages' {
+        for ($id = 2; $id -le 2002; $id++) {
+            $state.Items.Add((New-TestTreeItem -Id $id -Path "/sites/test/Docs/Empty/B$id" -AuthorId 8))
+        }
+        & $scriptPath @runParameters -Delete
+        $state.Recycles | Should Be 1
+        $state.TreeQueries.Count | Should Be 4
+    }
+
+    It 'stops if any descendant page cannot be read' {
+        for ($id = 2; $id -le 2002; $id++) {
+            $state.Items.Add((New-TestTreeItem -Id $id -Path "/sites/test/Docs/Empty/B$id" -AuthorId 8))
+        }
+        $state.FailSecondPage = $true
+        { & $scriptPath @runParameters -Delete } | Should Throw 'Simulated next-page failure'
+        $state.Recycles | Should Be 0
+    }
+
+    It 'records an error and does not recycle if the final tree check fails' {
+        $state.FailChildrenAtDelete = $true
+        { & $scriptPath @runParameters -Delete } | Should Throw 'Simulated child enumeration failure'
+        $state.Recycles | Should Be 0
+        (Import-Csv (Join-Path $runParameters.ReportDirectory 'Actions.csv')).Status |
+            Should Be 'FailedOrOutcomeUnknown'
     }
 }
