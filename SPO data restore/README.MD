@@ -4,9 +4,12 @@ This document offers various methods and steps for recovering files and data tha
 
 ## Cloud Data Recovery
 
-1. **Confirm Last Visibility Time of File in Cloud**: If the last visible time of the file/folder in the cloud exceeds 14 days, attempt to recover it from the relevant SharePoint site's recycle bin. If the file is not in the recycle bin, it might indicate that the file was never in the cloud or has been permanently deleted. (If the data is stored in OneDrive, end-users can try using the OneDrive Restore feature themselves. For more information and instructions, please refer to the following link: https://support.microsoft.com/en-us/office/restore-your-onedrive-fa231298-759d-41cf-bcd0-25ac53eb8a15 and https://support.microsoft.com/en-us/office/restore-your-onedrive-5a3dc200-3537-49b6-9f51-09cd74bc962a)
+1. **Confirm Last Visibility Time of File in Cloud**: Confirm when the file/folder was last visible in the cloud. For individually deleted items, check the relevant SharePoint site's recycle bin regardless of whether more than 14 days have passed. If the file is not in the recycle bin, it might indicate that the file was never in the cloud or has been permanently deleted. Self-service restore is available for both OneDrive and SharePoint document libraries:
+   - **OneDrive**: End-users can try [Restore your OneDrive](https://support.microsoft.com/en-us/office/restore-your-onedrive-fa231298-759d-41cf-bcd0-25ac53eb8a15).
+   - **SharePoint document libraries**: For widespread deletion, overwriting, corruption, or malware infection, a site admin can open the affected library in the modern experience and select **Settings > Restore this library** to undo file and folder activities within the last **30 days**. This option is not limited to losses within 14 days. See [Restore a shared library](https://support.microsoft.com/en-us/sharepoint/documents-and-library/restore-a-shared-library).
+   - **Scope and limitations of library restore**: Review the activity list and coordinate with library users before proceeding, because restoring undoes all activities after the selected restore point, not just changes to the missing file. Library restore relies on version history and the recycle bin; previous versions cannot be restored if version history was disabled, and files permanently removed from the site collection recycle bin cannot be recovered this way. An entirely deleted library must be recovered from the recycle bin instead.
 
-2. **Data Recovery within 14 Days**: If the file was lost less than 14 days ago, Microsoft backend services can help recover data from this period. For instance, the entire site can be restored to the state it was in on a specific previous date. Note that this will result in the loss of new data added after that date.
+2. **Data Recovery within 14 Days**: If the file was lost less than 14 days ago, Microsoft backend services can also help recover data from this period. For instance, the entire site can be restored to the state it was in on a specific previous date. Note that this will result in the loss of new data added after that date.
 
 3. **Recycle Bin File Retention Period**: The recycle bin can save deleted files for up to 93 days, after which they are automatically permanently deleted.
 
@@ -44,9 +47,12 @@ Please note, the success rate of file recovery depends on several factors, such 
 
 ## 云端数据恢复
 
-1. **确认文件在云端的最后可见时间**：如果文件/文件夹在云端最后一次可见的时间超过14天，可以尝试在相关SharePoint站点的回收站中查找并恢复。如果回收站中找不到，可能意味着文件未曾出现在云端，或者被永久删除。（如果数据是在OneDrive里面，那么可以让终端用户自行尝试OneDrive的Restore功能：https://support.microsoft.com/en-us/office/restore-your-onedrive-fa231298-759d-41cf-bcd0-25ac53eb8a15 and https://support.microsoft.com/en-us/office/restore-your-onedrive-5a3dc200-3537-49b6-9f51-09cd74bc962a）
+1. **确认文件在云端的最后可见时间**：确认文件/文件夹在云端最后一次可见的时间。对于单个被删除的项目，无论是否已超过14天，都可以先在相关SharePoint站点的回收站中查找并恢复。如果回收站中找不到，可能意味着文件未曾出现在云端，或者被永久删除。OneDrive和SharePoint文档库均提供自助还原功能：
+   - **OneDrive**：终端用户可以自行尝试[还原OneDrive（Restore your OneDrive）](https://support.microsoft.com/en-us/office/restore-your-onedrive-fa231298-759d-41cf-bcd0-25ac53eb8a15)。
+   - **SharePoint文档库**：如果大量文件被删除、覆盖、损坏或受到恶意软件感染，站点管理员可以在现代体验中打开受影响的文档库，选择 **设置 > 还原此库（Settings > Restore this library）**，撤销过去 **30天** 内的文件和文件夹操作。此功能不限于14天内的数据丢失场景，具体步骤参见[还原共享库（Restore a shared library）](https://support.microsoft.com/en-us/sharepoint/documents-and-library/restore-a-shared-library)。
+   - **文档库还原的影响与限制**：执行前应检查活动列表并与文档库用户确认，因为还原会撤销所选还原时间点之后的所有操作，而不只是丢失文件的变更。文档库还原依赖版本历史记录和回收站；如果之前未开启版本历史记录，则无法还原到先前版本；已从网站集回收站永久删除的文件也无法通过此功能恢复。如果整个文档库已被删除，应改从回收站恢复。
 
-2. **14天内数据恢复**：如果文件丢失时间小于14天，可以通过微软后台恢复这段时间内的数据。例如，可以将整个站点恢复到之前某个特定日期的状态。注意，这样做会导致该日期之后的新数据丢失。
+2. **14天内数据恢复**：如果文件丢失时间小于14天，还可以通过微软后台恢复这段时间内的数据。例如，可以将整个站点恢复到之前某个特定日期的状态。注意，这样做会导致该日期之后的新数据丢失。
 
 3. **回收站文件保存期限**：回收站可以保存被删除文件最长93天，之后文件将被自动永久删除。
 
